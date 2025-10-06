@@ -85,7 +85,6 @@ export default function LoginPage({ onLoginSuccess }: LoginPageProps) {
 
                 <div className="mt-8 text-xs text-gray-500 space-y-1">
                     <p><strong>Comptes de test :</strong></p>
-                    <p>Super Admin: superadmin / super123</p>
                     <p>Admin: admin / admin123</p>
                     <p>Utilisateur: user / user123</p>
                 </div>
