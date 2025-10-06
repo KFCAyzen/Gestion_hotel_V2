@@ -586,17 +586,17 @@ export default function ReservationPage() {
     };
 
     return (
-        <div className="p-8">
-            <h1 className="text-3xl font-bold mb-6" style={{color: '#7D3837'}}>Réservations</h1>
-            <div className="mb-4 flex gap-4 items-center">
+        <div className="p-4 sm:p-6 lg:p-8">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Réservations</h1>
+            <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
                 <button 
                     onClick={handleAddReservation}
                     style={{backgroundColor: '#7D3837'}} 
-                    className="text-yellow-300 px-4 py-2 rounded hover:bg-opacity-80"
+                    className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
                 >
                     Nouvelle Réservation
                 </button>
-                <div className="flex gap-4 flex-1 max-w-2xl">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 flex-1 max-w-2xl">
                     <input
                         type="text"
                         placeholder="Rechercher par ID réservation..."
@@ -635,13 +635,13 @@ export default function ReservationPage() {
             </div>
             
             {showForm && (
-                <div className="bg-yellow-50 border rounded p-4 mb-4" style={{borderColor: '#7D3837'}}>
-                    <h3 className="font-bold mb-6 text-xl" style={{color: '#7D3837'}}>Nouvelle Réservation</h3>
+                <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
+                    <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouvelle Réservation</h3>
                     
                     {/* Informations de base */}
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Informations de base</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Informations de base</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                             <input 
                                 placeholder="Nom du client *" 
                                 value={formData.clientName}
@@ -711,9 +711,9 @@ export default function ReservationPage() {
                     </div>
                     
                     {/* Informations optionnelles */}
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Informations complémentaires (optionnel)</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Informations complémentaires (optionnel)</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                             <input 
                                 placeholder="Nationalité" 
                                 value={formData.nationality}
@@ -763,20 +763,20 @@ export default function ReservationPage() {
                     </div>
                     
                     {/* Réservation */}
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Détails de la réservation</h4>
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Détails de la réservation</h4>
                         {formData.checkIn && formData.checkOut && availableRooms.length === 0 && (
                             <div className="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg">
                                 <div className="flex items-center gap-2">
-                                    <svg className="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 15.5c-.77.833.192 2.5 1.732 2.5z" />
                                     </svg>
-                                    <span className="text-orange-800 font-medium">Aucune chambre disponible pour ces dates</span>
+                                    <span className="text-orange-800 font-medium text-sm sm:text-base">Aucune chambre disponible pour ces dates</span>
                                 </div>
-                                <p className="text-orange-700 text-sm mt-1">Veuillez choisir d'autres dates ou vérifier les chambres occupées.</p>
+                                <p className="text-orange-700 text-xs sm:text-sm mt-1">Veuillez choisir d'autres dates ou vérifier les chambres occupées.</p>
                             </div>
                         )}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                             <div className="relative">
                                 <input 
                                     placeholder="Numéro de chambre *" 
@@ -876,11 +876,11 @@ export default function ReservationPage() {
                             </div>
                         </div>
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-6 flex flex-col sm:flex-row gap-3">
                         <button 
                             onClick={handleSaveReservation}
                             style={{backgroundColor: '#7D3837'}} 
-                            className="text-yellow-300 px-4 py-2 rounded mr-2 hover:opacity-80 transition-opacity"
+                            className="text-yellow-300 px-6 py-3 rounded hover:opacity-80 transition-opacity font-medium"
                         >
                             Enregistrer
                         </button>
@@ -890,7 +890,7 @@ export default function ReservationPage() {
                                 setFormData({ clientName: '', phonePrefix: '+237', clientPhone: '', clientEmail: '', address: '', occupation: '', nationality: '', birthPlace: '', residenceCountry: '', idNumber: '', idIssueDate: '', idIssuePlace: '', idExpiryDate: '', gender: '', arrivalMode: 'A pied', plateNumber: '', departureMode: '', comingFrom: '', goingTo: '', stayType: 'Nuitée', mealPlan: 'RB', signature: '', roomNumber: '', checkIn: '', checkOut: '', duration: '', totalPrice: '' });
                                 setShowRoomSuggestions(false);
                             }} 
-                            className="px-4 py-2 rounded border hover:bg-yellow-100 transition-colors" 
+                            className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 
                             style={{borderColor: '#7D3837', color: '#7D3837'}}
                         >
                             Annuler
@@ -900,16 +900,16 @@ export default function ReservationPage() {
             )}
             
             <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-                <div className="p-6 border-b border-slate-200">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-semibold text-slate-800">Liste des Réservations</h2>
+                <div className="p-4 sm:p-6 border-b border-slate-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <h2 className="text-lg sm:text-xl font-semibold text-slate-800">Liste des Réservations</h2>
                         <div className="flex items-center gap-3">
-                            <span className="text-sm text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+                            <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full">
                                 {reservations.length} réservation(s)
                             </span>
                             <button 
                                 onClick={loadReservations}
-                                className="px-4 py-2 text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
+                                className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
                             >
                                 Actualiser
                             </button>
@@ -917,63 +917,63 @@ export default function ReservationPage() {
                     </div>
                 </div>
                 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                     {reservations.length === 0 ? (
-                        <div className="text-center py-12">
-                            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="text-center py-8 sm:py-12">
+                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0V6a2 2 0 012-2h2a2 2 0 012 2v1m-6 0h6m-6 0l-.5 9a2 2 0 002 2h3a2 2 0 002-2L15 7m-6 0h6" />
                                 </svg>
                             </div>
-                            <p className="text-slate-500 text-lg font-medium">Aucune réservation pour le moment</p>
+                            <p className="text-slate-500 text-base sm:text-lg font-medium">Aucune réservation pour le moment</p>
                             <p className="text-slate-400 text-sm mt-1">Les réservations apparaîtront ici après leur création</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                             {reservations.map((reservation, index) => (
-                                <div key={`reservation-${reservation.id}-${index}`} className="bg-gradient-to-br from-white to-slate-50 p-6 rounded-xl border border-slate-200 hover:shadow-lg transition-all duration-200 hover:border-slate-300">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{backgroundColor: '#fff590'}}>
-                                            <svg className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div key={`reservation-${reservation.id}-${index}`} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 hover:shadow-lg transition-all duration-200 hover:border-slate-300">
+                                    <div className="flex items-start justify-between mb-3 sm:mb-4">
+                                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center" style={{backgroundColor: '#fff590'}}>
+                                            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0V6a2 2 0 012-2h2a2 2 0 012 2v1m-6 0h6m-6 0l-.5 9a2 2 0 002 2h3a2 2 0 002-2L15 7m-6 0h6" />
                                             </svg>
                                         </div>
-                                        <span className="text-xs font-medium px-2.5 py-0.5 rounded-full" style={{backgroundColor: '#fff590', color: '#7D3837'}}>
+                                        <span className="text-xs font-medium px-2 sm:px-2.5 py-0.5 rounded-full" style={{backgroundColor: '#fff590', color: '#7D3837'}}>
                                             Chambre {reservation.roomNumber}
                                         </span>
                                     </div>
                                     
-                                    <h3 className="font-semibold text-slate-800 text-lg mb-4">{reservation.clientName}</h3>
+                                    <h3 className="font-semibold text-slate-800 text-base sm:text-lg mb-3 sm:mb-4">{reservation.clientName}</h3>
                                     
-                                    <div className="space-y-3">
+                                    <div className="space-y-2 sm:space-y-3">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2">
-                                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg className="w-3 h-3 sm:w-4 sm:h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4m-6 0V6a2 2 0 012-2h2a2 2 0 012 2v1m-6 0h6" />
                                                 </svg>
-                                                <span className="text-sm text-slate-600">Arrivée</span>
+                                                <span className="text-xs sm:text-sm text-slate-600">Arrivée</span>
                                             </div>
-                                            <span className="text-sm font-medium text-slate-800">{reservation.checkIn}</span>
+                                            <span className="text-xs sm:text-sm font-medium text-slate-800">{reservation.checkIn}</span>
                                         </div>
                                         
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2">
-                                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg className="w-3 h-3 sm:w-4 sm:h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                                 </svg>
-                                                <span className="text-sm text-slate-600">Départ</span>
+                                                <span className="text-xs sm:text-sm text-slate-600">Départ</span>
                                             </div>
-                                            <span className="text-sm font-medium text-slate-800">{reservation.checkOut}</span>
+                                            <span className="text-xs sm:text-sm font-medium text-slate-800">{reservation.checkOut}</span>
                                         </div>
                                         
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2">
-                                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg className="w-3 h-3 sm:w-4 sm:h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
-                                                <span className="text-sm text-slate-600">Durée</span>
+                                                <span className="text-xs sm:text-sm text-slate-600">Durée</span>
                                             </div>
-                                            <span className="text-sm font-medium text-slate-800">
+                                            <span className="text-xs sm:text-sm font-medium text-slate-800">
                                                 {reservation.duration || 
                                                     (reservation.checkIn && reservation.checkOut ? 
                                                         Math.ceil((new Date(reservation.checkOut).getTime() - new Date(reservation.checkIn).getTime()) / (1000 * 60 * 60 * 24)) 
@@ -984,22 +984,22 @@ export default function ReservationPage() {
                                         </div>
                                         
                                         {reservation.totalPrice && (
-                                            <div className="pt-3 border-t border-slate-200">
+                                            <div className="pt-2 sm:pt-3 border-t border-slate-200">
                                                 <div className="flex items-center justify-between">
-                                                    <span className="text-sm text-slate-600">Prix total</span>
-                                                    <span className="text-lg font-bold" style={{color: '#7D3837'}}>{formatPrice(reservation.totalPrice)}</span>
+                                                    <span className="text-xs sm:text-sm text-slate-600">Prix total</span>
+                                                    <span className="text-base sm:text-lg font-bold" style={{color: '#7D3837'}}>{formatPrice(reservation.totalPrice)}</span>
                                                 </div>
                                             </div>
                                         )}
                                         
-                                        <div className="pt-4 border-t border-slate-200 mt-4">
-                                            <div className="flex gap-2">
+                                        <div className="pt-3 sm:pt-4 border-t border-slate-200 mt-3 sm:mt-4">
+                                            <div className="flex flex-col sm:flex-row gap-2">
                                                 <button
                                                     onClick={() => {
                                                         handlePrint(reservation);
                                                         addLog('Impression réservation', 'reservations', `Fiche imprimée: ${reservation.clientName}`);
                                                     }}
-                                                    className="flex-1 px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors"
+                                                    className="flex-1 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white rounded-lg transition-colors"
                                                     style={{backgroundColor: '#7D3837'}}
                                                 >
                                                     Imprimer la fiche
@@ -1018,10 +1018,10 @@ export default function ReservationPage() {
                                                                 showNotification('Réservation supprimée et chambre libérée avec succès', 'success');
                                                             }
                                                         }}
-                                                        className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
+                                                        className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors flex items-center justify-center"
                                                         title="Supprimer la réservation"
                                                     >
-                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
                                                     </button>

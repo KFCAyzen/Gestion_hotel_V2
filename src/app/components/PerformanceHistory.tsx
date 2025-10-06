@@ -305,13 +305,13 @@ export default function PerformanceHistory() {
     };
 
     return (
-        <div className="p-8">
-            <div className="flex items-center justify-between mb-6">
-                <h1 className="text-3xl font-bold" style={{color: '#7D3837'}}>Historique des Performances</h1>
-                <div className="flex gap-3">
+        <div className="p-4 sm:p-6 lg:p-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 sm:mb-6">
+                <h1 className="text-2xl sm:text-3xl font-bold" style={{color: '#7D3837'}}>Historique des Performances</h1>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                     <button
                         onClick={handlePrint}
-                        className="px-4 py-2 text-white rounded-lg hover:opacity-80 transition-opacity"
+                        className="px-3 sm:px-4 py-2 text-white rounded-lg hover:opacity-80 transition-opacity text-sm sm:text-base font-medium"
                         style={{backgroundColor: '#7D3837'}}
                     >
                         Imprimer
@@ -319,7 +319,7 @@ export default function PerformanceHistory() {
                     {(user?.role === 'admin' || user?.role === 'super_admin') && (
                         <button
                             onClick={handleDownloadWord}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+                            className="px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium"
                         >
                             Télécharger Word
                         </button>
@@ -328,11 +328,11 @@ export default function PerformanceHistory() {
             </div>
 
             {(user?.role === 'admin' || user?.role === 'super_admin') && (
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-6">
                     <select
                         value={selectedUser}
                         onChange={(e) => setSelectedUser(e.target.value)}
-                        className="px-4 py-2 border rounded-lg"
+                        className="w-full sm:w-auto px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base"
                         style={{borderColor: '#7D3837'}}
                     >
                         <option value="all">Tous les utilisateurs</option>
@@ -344,39 +344,39 @@ export default function PerformanceHistory() {
             )}
 
             <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-                <div className="p-6 border-b border-slate-200">
-                    <h2 className="text-xl font-semibold text-slate-800">
+                <div className="p-4 sm:p-6 border-b border-slate-200">
+                    <h2 className="text-lg sm:text-xl font-semibold text-slate-800">
                         Performances {selectedUser === 'all' ? 'Globales' : `de ${selectedUser}`}
                     </h2>
                 </div>
 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                     {dailyStats.length === 0 ? (
-                        <div className="text-center py-12">
-                            <p className="text-slate-500">Aucune donnée disponible</p>
+                        <div className="text-center py-8 sm:py-12">
+                            <p className="text-slate-500 text-sm sm:text-base">Aucune donnée disponible</p>
                         </div>
                     ) : (
-                        <div className="space-y-4">
+                        <div className="space-y-3 sm:space-y-4">
                             {dailyStats.map(day => (
-                                <div key={day.date} className="bg-slate-50 p-4 rounded-lg">
-                                    <div className="flex items-center justify-between mb-3">
-                                        <h3 className="font-semibold text-slate-800">
+                                <div key={day.date} className="bg-slate-50 p-3 sm:p-4 rounded-lg">
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 mb-3">
+                                        <h3 className="font-semibold text-slate-800 text-sm sm:text-base">
                                             {new Date(day.date).toLocaleDateString('fr-FR')}
                                         </h3>
-                                        <span className="font-bold" style={{color: '#7D3837'}}>
+                                        <span className="font-bold text-sm sm:text-base" style={{color: '#7D3837'}}>
                                             {formatPrice(day.total.toString())}
                                         </span>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="bg-blue-50 p-3 rounded">
-                                            <p className="text-sm font-medium text-blue-800">Nuitées</p>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                        <div className="bg-blue-50 p-2 sm:p-3 rounded">
+                                            <p className="text-xs sm:text-sm font-medium text-blue-800">Nuitées</p>
                                             <p className="text-xs text-blue-600">{day.nuitee.count} chambres</p>
-                                            <p className="font-bold text-blue-600">{formatPrice(day.nuitee.amount.toString())}</p>
+                                            <p className="font-bold text-blue-600 text-sm sm:text-base">{formatPrice(day.nuitee.amount.toString())}</p>
                                         </div>
-                                        <div className="bg-green-50 p-3 rounded">
-                                            <p className="text-sm font-medium text-green-800">Repos</p>
+                                        <div className="bg-green-50 p-2 sm:p-3 rounded">
+                                            <p className="text-xs sm:text-sm font-medium text-green-800">Repos</p>
                                             <p className="text-xs text-green-600">{day.repos.count} chambres</p>
-                                            <p className="font-bold text-green-600">{formatPrice(day.repos.amount.toString())}</p>
+                                            <p className="font-bold text-green-600 text-sm sm:text-base">{formatPrice(day.repos.amount.toString())}</p>
                                         </div>
                                     </div>
                                 </div>

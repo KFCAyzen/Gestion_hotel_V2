@@ -346,17 +346,17 @@ export default function BillingPage() {
     };
 
     return (
-        <div className="p-8">
-            <h1 className="text-3xl font-bold mb-6" style={{color: '#7D3837'}}>Reçus</h1>
-            <div className="mb-4 flex gap-4 items-center">
+        <div className="p-4 sm:p-6 lg:p-8">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Reçus</h1>
+            <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
                 <button 
                     onClick={handleAddBill}
                     style={{backgroundColor: '#7D3837'}} 
-                    className="text-yellow-300 px-4 py-2 rounded hover:bg-opacity-80"
+                    className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
                 >
                     Nouveau Reçu
                 </button>
-                <div className="flex gap-4 flex-1 max-w-2xl">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 flex-1 max-w-2xl">
                     <input
                         type="text"
                         placeholder="Rechercher par ID reçu..."
@@ -395,10 +395,10 @@ export default function BillingPage() {
             </div>
             
             {showForm && (
-                <div className="bg-yellow-50 border rounded p-6 mb-4" style={{borderColor: '#7D3837'}}>
-                    <h3 className="font-bold mb-6 text-xl" style={{color: '#7D3837'}}>Nouveau Reçu</h3>
+                <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
+                    <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouveau Reçu</h3>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
                         <div className="relative">
                             <input 
                                 type="date" 
@@ -440,9 +440,9 @@ export default function BillingPage() {
                         />
                     </div>
                     
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Motif *</h4>
-                        <div className="flex gap-6 mb-4">
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Motif *</h4>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-4">
                             <label className="flex items-center">
                                 <input
                                     type="radio"
@@ -468,7 +468,7 @@ export default function BillingPage() {
                         </div>
                         
                         {formData.motif === 'Repos' ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 <div className="relative">
                                     <input 
                                         type="time" 
@@ -491,7 +491,7 @@ export default function BillingPage() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                                 <div className="relative">
                                     <input 
                                         type="date" 
@@ -516,7 +516,7 @@ export default function BillingPage() {
                         )}
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
                         <input 
                             placeholder="No. de chambre *" 
                             value={formData.roomNumber}
@@ -558,17 +558,17 @@ export default function BillingPage() {
                         />
                     </div>
                     
-                    <div className="mt-4">
+                    <div className="mt-6 flex flex-col sm:flex-row gap-3">
                         <button 
                             onClick={handleSaveBill}
                             style={{backgroundColor: '#7D3837'}} 
-                            className="text-yellow-300 px-4 py-2 rounded mr-2 hover:opacity-80 transition-opacity"
+                            className="text-yellow-300 px-6 py-3 rounded hover:opacity-80 transition-opacity font-medium"
                         >
                             Enregistrer
                         </button>
                         <button 
                             onClick={() => setShowForm(false)} 
-                            className="px-4 py-2 rounded border hover:bg-yellow-100 transition-colors" 
+                            className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 
                             style={{borderColor: '#7D3837', color: '#7D3837'}}
                         >
                             Annuler
@@ -578,16 +578,16 @@ export default function BillingPage() {
             )}
             
             <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-                <div className="p-6 border-b border-slate-200">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-semibold text-slate-800">Liste des Reçus</h2>
+                <div className="p-4 sm:p-6 border-b border-slate-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <h2 className="text-lg sm:text-xl font-semibold text-slate-800">Liste des Reçus</h2>
                         <div className="flex items-center gap-3">
-                            <span className="text-sm text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+                            <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full">
                                 {filteredBills.length} reçu(s)
                             </span>
                             <button 
                                 onClick={loadBills}
-                                className="px-4 py-2 text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
+                                className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
                             >
                                 Actualiser
                             </button>
@@ -595,28 +595,28 @@ export default function BillingPage() {
                     </div>
                 </div>
                 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                     {filteredBills.length === 0 ? (
-                        <div className="text-center py-12">
-                            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="text-center py-8 sm:py-12">
+                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
                             </div>
-                            <p className="text-slate-500 text-lg font-medium">Aucun reçu pour le moment</p>
+                            <p className="text-slate-500 text-base sm:text-lg font-medium">Aucun reçu pour le moment</p>
                             <p className="text-slate-400 text-sm mt-1">Les reçus apparaîtront ici après leur création</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                             {filteredBills.map((bill) => (
-                                <div key={bill.id} className="bg-gradient-to-br from-white to-slate-50 p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-all duration-200 hover:border-slate-300 group">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
-                                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div key={bill.id} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-all duration-200 hover:border-slate-300 group">
+                                    <div className="flex items-start justify-between mb-3 sm:mb-4">
+                                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                             </svg>
                                         </div>
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-col sm:flex-row items-end sm:items-start gap-2">
                                             <button
                                                 onClick={() => {
                                                     printBill(bill);
@@ -650,30 +650,30 @@ export default function BillingPage() {
                                                 </button>
                                             )}
                                         </div>
-                                        <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                                        <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2 sm:px-2.5 py-0.5 rounded-full">
                                             {bill.date}
                                         </span>
                                     </div>
                                     
-                                    <h3 className="font-semibold text-slate-800 text-lg mb-3">{bill.receivedFrom}</h3>
+                                    <h3 className="font-semibold text-slate-800 text-base sm:text-lg mb-3">{bill.receivedFrom}</h3>
                                     
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
-                                            <span className="text-sm text-slate-600">Montant</span>
-                                            <span className="text-lg font-bold text-purple-600">{formatPrice(bill.amount)}</span>
+                                            <span className="text-xs sm:text-sm text-slate-600">Montant</span>
+                                            <span className="text-base sm:text-lg font-bold text-purple-600">{formatPrice(bill.amount)}</span>
                                         </div>
                                         
                                         <div className="pt-3 border-t border-slate-200 space-y-2">
-                                            <div className="flex justify-between text-sm">
+                                            <div className="flex justify-between text-xs sm:text-sm">
                                                 <span className="text-slate-600">Motif:</span>
                                                 <span className="font-medium">{bill.motif}</span>
                                             </div>
-                                            <div className="flex justify-between text-sm">
+                                            <div className="flex justify-between text-xs sm:text-sm">
                                                 <span className="text-slate-600">Chambre:</span>
                                                 <span className="font-medium">{bill.roomNumber}</span>
                                             </div>
                                             {bill.advance && (
-                                                <div className="flex justify-between text-sm">
+                                                <div className="flex justify-between text-xs sm:text-sm">
                                                     <span className="text-slate-600">Avance:</span>
                                                     <span className="font-medium">{formatPrice(bill.advance)}</span>
                                                 </div>

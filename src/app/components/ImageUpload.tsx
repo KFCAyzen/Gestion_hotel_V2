@@ -31,16 +31,16 @@ export default function ImageUpload({ onImageUploaded }: ImageUploadProps) {
     };
 
     return (
-        <div>
+        <div className="w-full">
             <input 
                 type="file" 
                 accept="image/*" 
                 onChange={handleFileUpload}
                 disabled={uploading}
-                className="p-2 border rounded" 
+                className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base" 
                 style={{borderColor: '#7D3837'}}
             />
-            {uploading && <p style={{color: '#7D3837'}}>Upload en cours...</p>}
+            {uploading && <p className="mt-2 text-xs sm:text-sm font-medium" style={{color: '#7D3837'}}>Upload en cours...</p>}
         </div>
     );
 }

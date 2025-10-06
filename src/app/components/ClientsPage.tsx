@@ -556,17 +556,17 @@ export default function ClientsPage() {
     };
 
     return (
-        <div className="p-8">
-            <h1 className="text-3xl font-bold mb-6" style={{color: '#7D3837'}}>Clients</h1>
-            <div className="mb-4 flex gap-4 items-center">
+        <div className="p-4 sm:p-6 lg:p-8">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Clients</h1>
+            <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
                 <button 
                     onClick={handleAddClient}
                     style={{backgroundColor: '#7D3837'}} 
-                    className="text-yellow-300 px-4 py-2 rounded hover:bg-opacity-80"
+                    className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
                 >
                     Nouveau Client
                 </button>
-                <div className="flex gap-4 flex-1 max-w-2xl">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 flex-1 max-w-2xl">
                     <input
                         type="text"
                         placeholder="Rechercher par ID client..."
@@ -617,13 +617,13 @@ export default function ClientsPage() {
             </div>
             
             {showForm && (
-                <div className="bg-yellow-50 border rounded p-6 mb-4" style={{borderColor: '#7D3837'}}>
-                    <h3 className="font-bold mb-6 text-xl" style={{color: '#7D3837'}}>Nouveau Client</h3>
+                <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
+                    <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouveau Client</h3>
                     
                     {/* Informations personnelles */}
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Informations personnelles</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Informations personnelles</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                             <input 
                                 placeholder="Nom complet *" 
                                 value={formData.name}
@@ -693,9 +693,9 @@ export default function ClientsPage() {
                     </div>
 
                     {/* Adresses et lieux */}
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Adresses et lieux</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Adresses et lieux</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             <input 
                                 placeholder="Lieu de naissance *" 
                                 value={formData.birthPlace}
@@ -721,9 +721,9 @@ export default function ClientsPage() {
                     </div>
 
                     {/* Pièce d'identification */}
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Pièce d'identification</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Pièce d'identification</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                             <input 
                                 placeholder="No. Pièce d'identification *" 
                                 value={formData.idNumber}
@@ -762,9 +762,9 @@ export default function ClientsPage() {
                     </div>
 
                     {/* Transport et déplacement */}
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Transport et déplacement</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Transport et déplacement</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2" style={{color: '#7D3837'}}>Mode d'arrivée *</label>
                                 <div className="flex gap-4">
@@ -852,9 +852,9 @@ export default function ClientsPage() {
                     </div>
 
                     {/* Séjour et tarification */}
-                    <div className="mb-6">
-                        <h4 className="font-semibold mb-3 text-lg" style={{color: '#7D3837'}}>Séjour et tarification</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Séjour et tarification</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                             <div>
                                 <label className="block text-sm font-medium mb-2" style={{color: '#7D3837'}}>Type de séjour *</label>
                                 <div className="flex gap-4">
@@ -943,17 +943,17 @@ export default function ClientsPage() {
                             />
                         </div>
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-6 flex flex-col sm:flex-row gap-3">
                         <button 
                             onClick={handleSaveClient}
                             style={{backgroundColor: '#7D3837'}} 
-                            className="text-yellow-300 px-4 py-2 rounded mr-2 hover:opacity-80 transition-opacity"
+                            className="text-yellow-300 px-6 py-3 rounded hover:opacity-80 transition-opacity font-medium"
                         >
                             Enregistrer
                         </button>
                         <button 
                             onClick={() => setShowForm(false)} 
-                            className="px-4 py-2 rounded border hover:bg-yellow-100 transition-colors" 
+                            className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 
                             style={{borderColor: '#7D3837', color: '#7D3837'}}
                         >
                             Annuler
@@ -963,16 +963,16 @@ export default function ClientsPage() {
             )}
             
             <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-                <div className="p-6 border-b border-slate-200">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-semibold text-slate-800">Liste des Clients</h2>
+                <div className="p-4 sm:p-6 border-b border-slate-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <h2 className="text-lg sm:text-xl font-semibold text-slate-800">Liste des Clients</h2>
                         <div className="flex items-center gap-3">
-                            <span className="text-sm text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+                            <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full">
                                 {filteredClients.length} client(s) {searchId && `sur ${clients.length}`}
                             </span>
                             <button 
                                 onClick={loadClients}
-                                className="px-4 py-2 text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
+                                className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
                             >
                                 Actualiser
                             </button>
@@ -980,15 +980,15 @@ export default function ClientsPage() {
                     </div>
                 </div>
                 
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                     {filteredClients.length === 0 ? (
-                        <div className="text-center py-12">
-                            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="text-center py-8 sm:py-12">
+                            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                 </svg>
                             </div>
-                            <p className="text-slate-500 text-lg font-medium">
+                            <p className="text-slate-500 text-base sm:text-lg font-medium">
                                 {searchId ? 'Aucun client trouvé' : 'Aucun client enregistré'}
                             </p>
                             <p className="text-slate-400 text-sm mt-1">
@@ -996,16 +996,16 @@ export default function ClientsPage() {
                             </p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                             {filteredClients.map((client) => (
-                                <div key={client.id} className="bg-gradient-to-br from-white to-slate-50 p-5 rounded-xl border border-slate-200 hover:shadow-md transition-all duration-200 hover:border-slate-300 group">
+                                <div key={client.id} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 hover:shadow-md transition-all duration-200 hover:border-slate-300 group">
                                     <div className="flex items-start justify-between mb-3">
-                                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{backgroundColor: '#fff590'}}>
-                                            <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center" style={{backgroundColor: '#fff590'}}>
+                                            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                             </svg>
                                         </div>
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-col sm:flex-row gap-2">
                                             <button
                                                 onClick={() => {
                                                     printClientForm(client);
@@ -1041,31 +1041,31 @@ export default function ClientsPage() {
                                         </div>
                                     </div>
                                     <div className="mb-3">
-                                        <h3 className="font-semibold text-slate-800 text-lg">{client.name}</h3>
+                                        <h3 className="font-semibold text-slate-800 text-base sm:text-lg">{client.name}</h3>
                                         <p className="text-xs text-slate-500 font-mono">ID: {client.id}</p>
                                     </div>
                                     <div className="space-y-2">
-                                        <div className="flex items-center gap-2 text-sm">
-                                            <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div className="flex items-center gap-2 text-xs sm:text-sm">
+                                            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                             </svg>
-                                            <span className="text-slate-600">{client.phone}</span>
+                                            <span className="text-slate-600 truncate">{client.phone}</span>
                                         </div>
                                         {client.email && (
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <div className="flex items-center gap-2 text-xs sm:text-sm">
+                                                <svg className="w-3 h-3 sm:w-4 sm:h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                                 </svg>
-                                                <span className="text-slate-600">{client.email}</span>
+                                                <span className="text-slate-600 truncate">{client.email}</span>
                                             </div>
                                         )}
                                         {client.address && (
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <div className="flex items-start gap-2 text-xs sm:text-sm">
+                                                <svg className="w-3 h-3 sm:w-4 sm:h-4 text-slate-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
-                                                <span className="text-slate-600">{client.address}</span>
+                                                <span className="text-slate-600 line-clamp-2">{client.address}</span>
                                             </div>
                                         )}
                                     </div>
