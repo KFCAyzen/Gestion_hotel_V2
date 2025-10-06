@@ -20,6 +20,7 @@ const nextConfig = {
     unoptimized: true,
   },
   output: 'standalone',
+  // Force deployment
 }
 
 module.exports = nextConfig
