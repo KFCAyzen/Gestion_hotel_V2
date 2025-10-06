@@ -6,7 +6,7 @@ import ProtectedRoute from './ProtectedRoute';
 import { useActivityLog } from '../context/ActivityLogContext';
 
 export default function UserManagement() {
-    const { user, users, createUser, canCreateRole, deleteUser, canDeleteUser } = useAuth();
+    const { user, users, createUser, canCreateRole, deleteUser, canDeleteUser, resetUserPassword, canResetPassword } = useAuth();
     const { addLog } = useActivityLog();
     const [activeTab, setActiveTab] = useState('permissions');
     const [showCreateForm, setShowCreateForm] = useState(false);
@@ -164,6 +164,29 @@ export default function UserManagement() {
                                                         {u.role === 'super_admin' ? 'Super Admin' :
                                                          u.role === 'admin' ? 'Admin' : 'Utilisateur'}
                                                     </span>
+                                                    {canResetPassword(u) && (
+                                                        <button
+                                                            onClick={async () => {
+                                                                if (confirm(`Réinitialiser le mot de passe de ${u.name} ? Le nouveau mot de passe sera : temp123`)) {
+                                                                    const success = await resetUserPassword(u.id);
+                                                                    if (success) {
+                                                                        addLog('Réinitialisation mot de passe', 'users', `Mot de passe réinitialisé pour: ${u.name} (@${u.username})`);
+                                                                        setSuccess(`Mot de passe réinitialisé pour ${u.name}. Nouveau mot de passe : temp123`);
+                                                                        setError('');
+                                                                    } else {
+                                                                        setError('Erreur lors de la réinitialisation du mot de passe');
+                                                                        setSuccess('');
+                                                                    }
+                                                                }
+                                                            }}
+                                                            className="p-2 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                                                            title="Réinitialiser le mot de passe"
+                                                        >
+                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                                                            </svg>
+                                                        </button>
+                                                    )}
                                                     {canDeleteUser(u) && (
                                                         <button
                                                             onClick={() => setUserToDelete(u.id)}

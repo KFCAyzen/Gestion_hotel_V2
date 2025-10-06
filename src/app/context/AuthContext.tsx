@@ -23,6 +23,8 @@ interface AuthContextType {
     changePassword: (newPassword: string) => Promise<boolean>;
     deleteUser: (userId: string) => Promise<boolean>;
     canDeleteUser: (targetUser: User) => boolean;
+    resetUserPassword: (userId: string) => Promise<boolean>;
+    canResetPassword: (targetUser: User) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -170,8 +172,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return true;
     };
 
+    const canResetPassword = (targetUser: User): boolean => {
+        if (!user) return false;
+        if (user.id === targetUser.id) return false; // Ne peut pas réinitialiser son propre mot de passe
+        
+        if (user.role === 'super_admin') {
+            return targetUser.role !== 'super_admin'; // Super admin peut réinitialiser admin et user
+        }
+        if (user.role === 'admin') {
+            return targetUser.role === 'user'; // Admin peut réinitialiser seulement user
+        }
+        return false;
+    };
+
+    const resetUserPassword = async (userId: string): Promise<boolean> => {
+        const targetUser = users.find(u => u.id === userId);
+        if (!targetUser || !canResetPassword(targetUser)) return false;
+        
+        const updatedUser = { ...targetUser, mustChangePassword: true };
+        const updatedUsers = users.map(u => u.id === userId ? updatedUser : u);
+        const updatedPasswords = { ...passwords, [targetUser.username]: 'temp123' };
+        
+        setUsers(updatedUsers);
+        setPasswords(updatedPasswords);
+        
+        localStorage.setItem('systemUsers', JSON.stringify(updatedUsers));
+        localStorage.setItem('systemPasswords', JSON.stringify(updatedPasswords));
+        
+        return true;
+    };
+
     return (
-        <AuthContext.Provider value={{ user, users, login, logout, hasPermission, createUser, canCreateRole, changePassword, deleteUser, canDeleteUser }}>
+        <AuthContext.Provider value={{ user, users, login, logout, hasPermission, createUser, canCreateRole, changePassword, deleteUser, canDeleteUser, resetUserPassword, canResetPassword }}>
             {children}
         </AuthContext.Provider>
     );

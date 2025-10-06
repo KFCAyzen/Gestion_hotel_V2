@@ -439,12 +439,12 @@ export default function DashBoard() {
                         <h1 className="text-3xl font-bold text-slate-800 mb-2">Tableau de Bord</h1>
                         <p className="text-slate-600">
                             {user?.role === 'user' 
-                                ? 'Vue d&apos;ensemble de vos activités' 
-                                : 'Vue d&apos;ensemble de votre établissement'
+                                ? 'Vue d\'ensemble de vos activités' 
+                                : 'Vue d\'ensemble de votre établissement'
                             }
                         </p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col sm:flex-row gap-2">
                         <button
                             onClick={loadDashboardData}
                             className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm transition-colors"
@@ -452,7 +452,7 @@ export default function DashBoard() {
                             Actualiser
                         </button>
                         {user?.role === 'super_admin' && (
-                            <>
+                            <div className="flex flex-col sm:flex-row gap-2">
                                 <button
                                     onClick={async () => {
                                         if (confirm('Générer des données de test ? Cela ajoutera des clients, réservations et factures fictives.')) {
@@ -465,9 +465,10 @@ export default function DashBoard() {
                                             }
                                         }
                                     }}
-                                    className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors"
+                                    className="px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-xs sm:text-sm transition-colors"
                                 >
-                                    Générer données test
+                                    <span className="hidden sm:inline">Générer données test</span>
+                                    <span className="sm:hidden">Données test</span>
                                 </button>
                                 <button
                                     onClick={() => {
@@ -477,9 +478,10 @@ export default function DashBoard() {
                                             loadDashboardData();
                                         }
                                     }}
-                                    className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm transition-colors"
+                                    className="px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs sm:text-sm transition-colors"
                                 >
-                                    Reset chambres
+                                    <span className="hidden sm:inline">Reset chambres</span>
+                                    <span className="sm:hidden">Reset</span>
                                 </button>
                                 <button
                                     onClick={() => {
@@ -489,11 +491,12 @@ export default function DashBoard() {
                                             loadDashboardData();
                                         }
                                     }}
-                                    className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm transition-colors"
+                                    className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-xs sm:text-sm transition-colors"
                                 >
-                                    Vider données
+                                    <span className="hidden sm:inline">Vider données</span>
+                                    <span className="sm:hidden">Vider</span>
                                 </button>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>
