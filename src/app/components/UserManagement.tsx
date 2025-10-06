@@ -132,7 +132,6 @@ export default function UserManagement() {
                                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4">
                                     <h3 className="font-semibold text-blue-800 mb-2 text-sm sm:text-base">Comptes par Défaut</h3>
                                     <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
-                                        <div><strong>Super Admin:</strong> superadmin / super123</div>
                                         <div><strong>Admin:</strong> admin / admin123</div>
                                         <div><strong>Utilisateur:</strong> user / user123</div>
                                     </div>
@@ -157,9 +156,9 @@ export default function UserManagement() {
                                                 </div>
                                                 <div className="flex items-center gap-2 sm:gap-3">
                                                     <span className={`px-2 py-1 rounded text-xs ${
-                                                        u.role === 'super_admin' ? 'bg-red-100 text-red-800' :
-                                                        u.role === 'admin' ? 'bg-orange-100 text-orange-800' :
-                                                        'bg-green-100 text-green-800'
+                                                        u.role === 'super_admin' ? 'bg-red-100 text-red-800 sm:text-red-800 text-amber-800' :
+                                                        u.role === 'admin' ? 'bg-orange-100 text-orange-800 sm:text-orange-800 text-amber-800' :
+                                                        'bg-green-100 text-green-800 sm:text-green-800 text-amber-800'
                                                     }`}>
                                                         {u.role === 'super_admin' ? 'Super Admin' :
                                                          u.role === 'admin' ? 'Admin' : 'Utilisateur'}
