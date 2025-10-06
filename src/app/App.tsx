@@ -34,7 +34,7 @@ export default function App() {
     // Hooks personnalisés
     const { notifications, showNotification, removeNotification } = useNotification();
     const { user, logout } = useAuth();
-    const { addLog } = useActivityLog();
+    useActivityLog();
     const [showLogin, setShowLogin] = useState(!user);
     const [showPasswordChange, setShowPasswordChange] = useState(false);
     const [showCheckoutAlert, setShowCheckoutAlert] = useState(false);

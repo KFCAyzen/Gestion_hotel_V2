@@ -414,7 +414,7 @@ export default function DashBoard() {
             icon: Images.room
         },
         {
-            title: user?.role === 'user' ? "Mes Réservations" : "Réservations Aujourd'hui",
+            title: user?.role === 'user' ? "Mes Réservations" : "Réservations Aujourd&apos;hui",
             value: dashboardData.todayReservations.toString(),
             subtitle: user?.role === 'user' ? "mes réservations" : "nouvelles réservations",
             color: "from-green-500 to-green-600",
@@ -424,7 +424,7 @@ export default function DashBoard() {
         {
             title: user?.role === 'user' ? "Mes Revenus" : "Revenus du Jour",
             value: formatPrice(dashboardData.todayRevenue.toString()),
-            subtitle: user?.role === 'user' ? "mes revenus" : "chiffre d'affaires",
+            subtitle: user?.role === 'user' ? "mes revenus" : "chiffre d&apos;affaires",
             color: "from-purple-500 to-purple-600",
             bgColor: "bg-purple-50",
             icon: Images.billing
@@ -439,8 +439,8 @@ export default function DashBoard() {
                         <h1 className="text-3xl font-bold text-slate-800 mb-2">Tableau de Bord</h1>
                         <p className="text-slate-600">
                             {user?.role === 'user' 
-                                ? 'Vue d\'ensemble de vos activités' 
-                                : 'Vue d\'ensemble de votre établissement'
+                                ? 'Vue d&apos;ensemble de vos activités' 
+                                : 'Vue d&apos;ensemble de votre établissement'
                             }
                         </p>
                     </div>
@@ -524,7 +524,7 @@ export default function DashBoard() {
                         <h3 className="text-lg font-semibold text-slate-800 mb-4">Aperçu Rapide</h3>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-slate-600">Taux d'occupation</span>
+                                    <span className="text-slate-600">Taux d&apos;occupation</span>
                                     <span className={`font-semibold ${
                                         dashboardData.occupancyRate > 80 ? 'text-red-600' :
                                         dashboardData.occupancyRate > 60 ? 'text-orange-600' :
@@ -557,7 +557,7 @@ export default function DashBoard() {
                                 </div>
                                 <div className="pt-2 border-t border-slate-200">
                                     <div className="flex justify-between items-center text-sm">
-                                        <span className="text-slate-600">Revenus aujourd'hui</span>
+                                        <span className="text-slate-600">Revenus aujourd&apos;hui</span>
                                         <span className="font-semibold" style={{color: '#7D3837'}}>
                                             {formatPrice(dashboardData.todayRevenue.toString())}
                                         </span>
