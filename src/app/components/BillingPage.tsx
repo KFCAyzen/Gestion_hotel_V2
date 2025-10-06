@@ -6,6 +6,7 @@ import { useNotificationContext } from "../context/NotificationContext";
 import { formatPrice } from "../utils/formatPrice";
 import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface Bill {
     id: string;
@@ -28,6 +29,7 @@ export default function BillingPage() {
     const [showForm, setShowForm] = useState(false);
     const [bills, setBills] = useState<Bill[]>([]);
     const [filteredBills, setFilteredBills] = useState<Bill[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const { showNotification } = useNotificationContext();
     const { addLog } = useActivityLog();
     const { user } = useAuth();
@@ -86,6 +88,7 @@ export default function BillingPage() {
     };
 
     const loadBills = async () => {
+        setIsLoading(true);
         try {
             // Prioriser localStorage pour les données récentes
             let billsData = JSON.parse(localStorage.getItem('bills') || '[]');
@@ -102,6 +105,8 @@ export default function BillingPage() {
             console.warn('Error loading bills:', error);
             setBills([]);
             setFilteredBills([]);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -344,6 +349,10 @@ export default function BillingPage() {
         });
         await loadBills();
     };
+
+    if (isLoading) {
+        return <LoadingSpinner size="lg" text="Chargement des reçus..." />;
+    }
 
     return (
         <div className="p-4 sm:p-6 lg:p-8">

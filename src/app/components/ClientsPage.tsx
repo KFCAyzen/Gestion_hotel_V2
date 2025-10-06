@@ -5,6 +5,7 @@ import { saveData, loadFromFirebase } from "../utils/syncData";
 import { useNotificationContext } from "../context/NotificationContext";
 import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface Client {
     id: string;
@@ -40,6 +41,7 @@ export default function ClientsPage() {
     const [filteredClients, setFilteredClients] = useState<Client[]>([]);
     const [searchId, setSearchId] = useState('');
     const [searchName, setSearchName] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
     
     // Générateur d'ID unique
     const generateClientId = () => {
@@ -80,6 +82,7 @@ export default function ClientsPage() {
     };
 
     const loadClients = async () => {
+        setIsLoading(true);
         try {
             // Prioriser localStorage pour les données récentes
             let clientsData = JSON.parse(localStorage.getItem('clients') || '[]');
@@ -168,6 +171,8 @@ export default function ClientsPage() {
             }
             setClients(allClients);
             setFilteredClients(allClients);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -554,6 +559,10 @@ export default function ClientsPage() {
             });
         }
     };
+
+    if (isLoading) {
+        return <LoadingSpinner size="lg" text="Chargement des clients..." />;
+    }
 
     return (
         <div className="p-4 sm:p-6 lg:p-8">

@@ -5,6 +5,7 @@ import { formatPrice } from "../utils/formatPrice";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 import { generateTestData, clearAllData, resetRoomsToDefault } from "../utils/generateTestData";
 
@@ -31,6 +32,7 @@ interface Room {
 
 export default function DashBoard() {
     const { user } = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
 
     const [dashboardData, setDashboardData] = useState(() => {
         if (typeof window === 'undefined') {
@@ -216,6 +218,7 @@ export default function DashBoard() {
     }, []);
 
     const loadDashboardData = useCallback(async () => {
+        setIsLoading(true);
         try {
             // Prioriser localStorage pour les données récentes
             let rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
@@ -342,6 +345,8 @@ export default function DashBoard() {
                 dailyStats: { nuitee: { count: 0, amount: 0 }, repos: { count: 0, amount: 0 } },
                 weeklyStats: { nuitee: { count: 0, amount: 0 }, repos: { count: 0, amount: 0 } }
             });
+        } finally {
+            setIsLoading(false);
         }
     }, [user?.role, user?.username, calculateAllStats, getWeeklyReservations]);
     
@@ -430,6 +435,10 @@ export default function DashBoard() {
             icon: Images.billing
         }
     ], [dashboardData.occupiedRooms, dashboardData.totalRooms, dashboardData.todayReservations, dashboardData.todayRevenue, user?.role]);
+
+    if (isLoading) {
+        return <LoadingSpinner size="lg" text="Chargement du tableau de bord..." />;
+    }
 
     return (
         <div>

@@ -6,6 +6,7 @@ import { useNotificationContext } from "../context/NotificationContext";
 import { formatPrice } from "../utils/formatPrice";
 import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface Room {
     id: string;
@@ -19,6 +20,7 @@ export default function RoomsPage() {
     const [showForm, setShowForm] = useState(false);
     const [editingRoom, setEditingRoom] = useState<Room | null>(null);
     const [rooms, setRooms] = useState<Room[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const { showNotification } = useNotificationContext();
     const { addLog } = useActivityLog();
     const { user } = useAuth();
@@ -87,6 +89,7 @@ export default function RoomsPage() {
     };
 
     const loadRooms = async () => {
+        setIsLoading(true);
         try {
             const roomsData = await loadFromFirebase('rooms');
             if (!Array.isArray(roomsData) || roomsData.length === 0) {
@@ -110,6 +113,8 @@ export default function RoomsPage() {
             } catch (e) {
                 setRooms(predefinedRooms);
             }
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -249,6 +254,10 @@ export default function RoomsPage() {
         
         showNotification(`Statut mis à jour: ${newStatus}`, "success");
     };
+
+    if (isLoading) {
+        return <LoadingSpinner size="lg" text="Chargement des chambres..." />;
+    }
 
     return (
         <div className="p-4 sm:p-6 lg:p-8">
