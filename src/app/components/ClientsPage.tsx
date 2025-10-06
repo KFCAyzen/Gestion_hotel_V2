@@ -1006,8 +1006,8 @@ export default function ClientsPage() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                            {filteredClients.map((client) => (
-                                <div key={client.id} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 hover:shadow-md transition-all duration-200 hover:border-slate-300 group">
+                            {filteredClients.map((client, index) => (
+                                <div key={`${client.id}-${index}-${client.name}`} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 hover:shadow-md transition-all duration-200 hover:border-slate-300 group">
                                     <div className="flex items-start justify-between mb-3">
                                         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center" style={{backgroundColor: '#fff590'}}>
                                             <svg className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
