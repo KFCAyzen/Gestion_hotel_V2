@@ -21,6 +21,7 @@ import LoginPage from "./components/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ChangePasswordModal from "./components/ChangePasswordModal";
 import CheckoutAlertModal from "./components/CheckoutAlertModal";
+import ChangePassword from "./components/ChangePassword";
 
 /**
  * Composant principal de l'application de gestion d'hôtel
@@ -38,6 +39,7 @@ export default function App() {
     const [showLogin, setShowLogin] = useState(!user);
     const [showPasswordChange, setShowPasswordChange] = useState(false);
     const [showCheckoutAlert, setShowCheckoutAlert] = useState(false);
+    const [showUserPasswordChange, setShowUserPasswordChange] = useState(false);
 
     useEffect(() => {
         if (user && user.mustChangePassword) {
@@ -220,6 +222,17 @@ export default function App() {
                                 </span>
                             </div>
                             
+                            {/* Bouton modifier mot de passe - Desktop */}
+                            <button
+                                onClick={() => setShowUserPasswordChange(true)}
+                                className="hidden sm:block p-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg transition-colors cursor-pointer"
+                                title="Modifier mot de passe"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                                </svg>
+                            </button>
+                            
                             {/* Bouton de déconnexion - Desktop */}
                             <button
                                 onClick={() => {logout(); setShowLogin(true);}}
@@ -303,6 +316,17 @@ export default function App() {
                                     </span>
                                 </div>
                                 
+                                {/* Bouton modifier mot de passe mobile */}
+                                <button
+                                    onClick={() => {setShowUserPasswordChange(true); setIsMobileMenuOpen(false);}}
+                                    className="sm:hidden w-full mt-2 px-4 py-3 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg transition-colors font-medium flex items-center justify-center gap-2 cursor-pointer"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                                    </svg>
+                                    Modifier mot de passe
+                                </button>
+                                
                                 {/* Bouton de déconnexion mobile */}
                                 <button
                                     onClick={() => {logout(); setShowLogin(true); setIsMobileMenuOpen(false);}}
@@ -345,6 +369,11 @@ export default function App() {
                 isOpen={showCheckoutAlert} 
                 onClose={() => setShowCheckoutAlert(false)} 
             />
+            
+            {/* Modal de changement de mot de passe utilisateur */}
+            {showUserPasswordChange && (
+                <ChangePassword onClose={() => setShowUserPasswordChange(false)} />
+            )}
         </div>
     );
 }
