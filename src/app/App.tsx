@@ -211,7 +211,6 @@ export default function App() {
                         <div className="flex items-center gap-2">
                             {/* Informations utilisateur */}
                             <div className="hidden md:flex items-center gap-3 text-white text-sm">
-                                <span className="font-medium">{user?.name}</span>
                                 <span className={`px-2 py-1 rounded text-xs ${
                                     user?.role === 'super_admin' ? 'bg-red-100 text-red-800 sm:text-red-800 text-amber-800' :
                                     user?.role === 'admin' ? 'bg-orange-100 text-orange-800 sm:text-orange-800 text-amber-800' :
@@ -305,8 +304,7 @@ export default function App() {
                                 
                                 {/* Informations utilisateur mobile */}
                                 <div className="md:hidden w-full mt-2 px-4 py-2 bg-white bg-opacity-10 rounded-lg text-white text-sm">
-                                    <div className="font-medium">{user?.name}</div>
-                                    <span className={`inline-block mt-1 px-2 py-1 rounded text-xs ${
+                                    <span className={`inline-block px-2 py-1 rounded text-xs ${
                                         user?.role === 'super_admin' ? 'bg-red-100 text-red-800 sm:text-red-800 text-amber-800' :
                                         user?.role === 'admin' ? 'bg-orange-100 text-orange-800 sm:text-orange-800 text-amber-800' :
                                         'bg-green-100 text-green-800 sm:text-green-800 text-amber-800'
