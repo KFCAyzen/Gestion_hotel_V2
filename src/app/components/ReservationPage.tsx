@@ -6,6 +6,7 @@ import { useNotificationContext } from "../context/NotificationContext";
 import { formatPrice } from "../utils/formatPrice";
 import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface Reservation {
     id: string;
@@ -23,6 +24,7 @@ export default function ReservationPage() {
     const [rooms, setRooms] = useState<any[]>([]);
     const [availableRooms, setAvailableRooms] = useState<any[]>([]);
     const [showRoomSuggestions, setShowRoomSuggestions] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const { showNotification } = useNotificationContext();
     const { addLog } = useActivityLog();
     const { user } = useAuth();
@@ -61,6 +63,7 @@ export default function ReservationPage() {
     };
 
     const loadReservations = async () => {
+        setIsLoading(true);
         try {
             // Prioriser localStorage pour les données récentes
             let reservationsData = JSON.parse(localStorage.getItem('reservations') || '[]');
@@ -74,6 +77,8 @@ export default function ReservationPage() {
         } catch (error) {
             console.warn('Error loading reservations:', error);
             setReservations([]);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -584,6 +589,10 @@ export default function ReservationPage() {
         printWindow.focus();
         printWindow.print();
     };
+
+    if (isLoading) {
+        return <LoadingSpinner size="lg" text="Chargement des réservations..." />;
+    }
 
     return (
         <div className="p-4 sm:p-6 lg:p-8">

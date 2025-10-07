@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { loadFromFirebase } from "../utils/syncData";
 import { useAuth } from "../context/AuthContext";
 import { formatPrice } from "../utils/formatPrice";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface Bill {
     id: string;
@@ -26,6 +27,7 @@ export default function PerformanceHistory() {
     const [dailyStats, setDailyStats] = useState<DailyStats[]>([]);
     const [selectedUser, setSelectedUser] = useState<string>('all');
     const [users, setUsers] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -33,6 +35,7 @@ export default function PerformanceHistory() {
     }, [user]);
 
     const loadData = async () => {
+        setIsLoading(true);
         let allBills = await loadFromFirebase('bills') as Bill[];
         
         // Filtrer selon le rôle
@@ -49,6 +52,7 @@ export default function PerformanceHistory() {
         }
         
         calculateDailyStats(allBills);
+        setIsLoading(false);
     };
 
     const calculateDailyStats = (billsData: Bill[]) => {
@@ -351,7 +355,9 @@ export default function PerformanceHistory() {
                 </div>
 
                 <div className="p-4 sm:p-6">
-                    {dailyStats.length === 0 ? (
+                    {isLoading ? (
+                        <LoadingSpinner size="lg" text="Chargement des performances..." />
+                    ) : dailyStats.length === 0 ? (
                         <div className="text-center py-8 sm:py-12">
                             <p className="text-slate-500 text-sm sm:text-base">Aucune donnée disponible</p>
                         </div>

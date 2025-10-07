@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useActivityLog } from '../context/ActivityLogContext';
 import ProtectedRoute from './ProtectedRoute';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function ActivityHistory() {
     const { user, users } = useAuth();
@@ -11,6 +12,7 @@ export default function ActivityHistory() {
     const [activeTab, setActiveTab] = useState('all');
     const [selectedUser, setSelectedUser] = useState('');
     const [selectedModule, setSelectedModule] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const formatTimestamp = (timestamp: string) => {
         return new Date(timestamp).toLocaleString('fr-FR');
@@ -87,7 +89,7 @@ export default function ActivityHistory() {
                     <div className="border-b border-slate-200">
                         <nav className="flex flex-col sm:flex-row">
                             <button
-                                onClick={() => setActiveTab('all')}
+                                onClick={() => {setActiveTab('all'); setIsLoading(true); setTimeout(() => setIsLoading(false), 500);}}
                                 className={`px-4 sm:px-6 py-3 sm:py-4 font-medium text-sm sm:text-base ${
                                     activeTab === 'all'
                                         ? 'border-b-2 text-blue-600'
@@ -98,7 +100,7 @@ export default function ActivityHistory() {
                                 Toutes les activités
                             </button>
                             <button
-                                onClick={() => setActiveTab('user')}
+                                onClick={() => {setActiveTab('user'); setIsLoading(true); setTimeout(() => setIsLoading(false), 500);}}
                                 className={`px-4 sm:px-6 py-3 sm:py-4 font-medium text-sm sm:text-base ${
                                     activeTab === 'user'
                                         ? 'border-b-2 text-blue-600'
@@ -109,7 +111,7 @@ export default function ActivityHistory() {
                                 Par utilisateur
                             </button>
                             <button
-                                onClick={() => setActiveTab('module')}
+                                onClick={() => {setActiveTab('module'); setIsLoading(true); setTimeout(() => setIsLoading(false), 500);}}
                                 className={`px-4 sm:px-6 py-3 sm:py-4 font-medium text-sm sm:text-base ${
                                     activeTab === 'module'
                                         ? 'border-b-2 text-blue-600'
@@ -160,6 +162,9 @@ export default function ActivityHistory() {
                         </div>
 
                         {/* Liste des activités */}
+                        {isLoading ? (
+                            <LoadingSpinner size="md" text="Chargement des activités..." />
+                        ) : (
                         <div className="space-y-2 sm:space-y-3">
                             {getFilteredLogs().length === 0 ? (
                                 <div className="text-center py-8 sm:py-12">
@@ -195,8 +200,9 @@ export default function ActivityHistory() {
                                 ))
                             )}
                         </div>
+                        )}
 
-                        {getFilteredLogs().length >= 100 && (
+                        {!isLoading && getFilteredLogs().length >= 100 && (
                             <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-slate-500">
                                 Affichage des 100 activités les plus récentes
                             </div>
