@@ -23,6 +23,7 @@ import ChangePasswordModal from "./components/ChangePasswordModal";
 import CheckoutAlertModal from "./components/CheckoutAlertModal";
 import ChangePassword from "./components/ChangePassword";
 import NotificationsPage from "./components/NotificationsPage";
+import WelcomeScreen from "./components/WelcomeScreen";
 
 /**
  * Composant principal de l'application de gestion d'hôtel
@@ -41,6 +42,7 @@ export default function App() {
     const [showPasswordChange, setShowPasswordChange] = useState(false);
     const [showCheckoutAlert, setShowCheckoutAlert] = useState(false);
     const [showUserPasswordChange, setShowUserPasswordChange] = useState(false);
+    const [showWelcome, setShowWelcome] = useState(false);
 
     useEffect(() => {
         if (user && user.mustChangePassword) {
@@ -52,7 +54,7 @@ export default function App() {
 
     useEffect(() => {
         if (user && !showPasswordChange) {
-            setShowCheckoutAlert(true);
+            setShowWelcome(true);
         }
     }, [user, showPasswordChange]);
 
@@ -222,14 +224,17 @@ export default function App() {
                         <div className="flex items-center gap-2">
                             {/* Informations utilisateur */}
                             <div className="hidden md:flex items-center gap-3 text-white text-sm">
-                                <span className={`px-2 py-1 rounded text-xs ${
-                                    user?.role === 'super_admin' ? 'bg-red-100 text-red-800 sm:text-red-800 text-amber-800' :
-                                    user?.role === 'admin' ? 'bg-orange-100 text-orange-800 sm:text-orange-800 text-amber-800' :
-                                    'bg-green-100 text-green-800 sm:text-green-800 text-amber-800'
-                                }`}>
-                                    {user?.role === 'super_admin' ? 'Super Admin' :
-                                     user?.role === 'admin' ? 'Admin' : 'Utilisateur'}
-                                </span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-white font-medium">{user?.name}</span>
+                                    <span className={`px-2 py-1 rounded text-xs ${
+                                        user?.role === 'super_admin' ? 'bg-red-100 text-red-800 sm:text-red-800 text-amber-800' :
+                                        user?.role === 'admin' ? 'bg-orange-100 text-orange-800 sm:text-orange-800 text-amber-800' :
+                                        'bg-green-100 text-green-800 sm:text-green-800 text-amber-800'
+                                    }`}>
+                                        {user?.role === 'super_admin' ? 'Super Admin' :
+                                         user?.role === 'admin' ? 'Admin' : 'Utilisateur'}
+                                    </span>
+                                </div>
                             </div>
                             
                             {/* Bouton modifier mot de passe - Desktop */}
@@ -324,14 +329,17 @@ export default function App() {
                                 
                                 {/* Informations utilisateur mobile */}
                                 <div className="md:hidden w-full mt-2 px-4 py-2 bg-white bg-opacity-10 rounded-lg text-white text-sm">
-                                    <span className={`inline-block px-2 py-1 rounded text-xs ${
-                                        user?.role === 'super_admin' ? 'bg-red-100 text-red-800 sm:text-red-800 text-amber-800' :
-                                        user?.role === 'admin' ? 'bg-orange-100 text-orange-800 sm:text-orange-800 text-amber-800' :
-                                        'bg-green-100 text-green-800 sm:text-green-800 text-amber-800'
-                                    }`}>
-                                        {user?.role === 'super_admin' ? 'Super Admin' :
-                                         user?.role === 'admin' ? 'Admin' : 'Utilisateur'}
-                                    </span>
+                                    <div className="flex items-center justify-between">
+                                        <span className="font-medium">{user?.name}</span>
+                                        <span className={`px-2 py-1 rounded text-xs ${
+                                            user?.role === 'super_admin' ? 'bg-red-100 text-red-800 sm:text-red-800 text-amber-800' :
+                                            user?.role === 'admin' ? 'bg-orange-100 text-orange-800 sm:text-orange-800 text-amber-800' :
+                                            'bg-green-100 text-green-800 sm:text-green-800 text-amber-800'
+                                        }`}>
+                                            {user?.role === 'super_admin' ? 'Super Admin' :
+                                             user?.role === 'admin' ? 'Admin' : 'Utilisateur'}
+                                        </span>
+                                    </div>
                                 </div>
                                 
                                 {/* Bouton modifier mot de passe mobile */}
@@ -391,6 +399,14 @@ export default function App() {
             {/* Modal de changement de mot de passe utilisateur */}
             {showUserPasswordChange && (
                 <ChangePassword onClose={() => setShowUserPasswordChange(false)} />
+            )}
+            
+            {/* Écran de bienvenue */}
+            {showWelcome && (
+                <WelcomeScreen onComplete={() => {
+                    setShowWelcome(false);
+                    setShowCheckoutAlert(true);
+                }} />
             )}
         </div>
     );

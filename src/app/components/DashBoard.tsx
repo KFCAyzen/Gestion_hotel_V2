@@ -1,11 +1,13 @@
 import { Images } from "./Images";
 import Image from "next/image";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, memo } from "react";
 import { formatPrice } from "../utils/formatPrice";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "./LoadingSpinner";
+import { dataCache } from "../utils/dataCache";
+import { useOptimizedData } from "../hooks/useOptimizedData";
 
 import { generateTestData, clearAllData, resetRoomsToDefault } from "../utils/generateTestData";
 
@@ -30,7 +32,27 @@ interface Room {
     category: string;
 }
 
-export default function DashBoard() {
+// Memoized stat card component
+const StatCard = memo(({ stat, index }: { stat: any; index: number }) => (
+    <div key={index} className={`${stat.bgColor} rounded-xl p-4 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300`}>
+        <div className="flex items-center justify-between mb-4">
+            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-r ${stat.color} flex items-center justify-center text-white p-2`}>
+                <Image src={stat.icon} alt={stat.title} width={24} height={24} className="filter brightness-0 invert" />
+            </div>
+            <div className="text-right">
+                <div className={`text-xl sm:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                    {stat.value}
+                </div>
+            </div>
+        </div>
+        <h3 className="text-sm sm:text-base font-semibold text-slate-700 mb-1">{stat.title}</h3>
+        <p className="text-xs sm:text-sm text-slate-500">{stat.subtitle}</p>
+    </div>
+));
+
+StatCard.displayName = 'StatCard';
+
+function DashBoard() {
     const { user } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -220,7 +242,16 @@ export default function DashBoard() {
     const loadDashboardData = useCallback(async () => {
         setIsLoading(true);
         try {
-            // Prioriser localStorage pour les données récentes
+            // Check cache first
+            const cacheKey = `dashboard_${user?.username || 'all'}`;
+            const cached = dataCache.get(cacheKey);
+            if (cached) {
+                setDashboardData(cached);
+                setIsLoading(false);
+                return;
+            }
+
+            // Load data with optimized queries
             let rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
             let clients = JSON.parse(localStorage.getItem('clients') || '[]');
             let bills = JSON.parse(localStorage.getItem('bills') || '[]');
@@ -306,7 +337,7 @@ export default function DashBoard() {
                 roomsByCategory[room.category].push(room);
             }
             
-            setDashboardData({
+            const dashboardResult = {
                 occupiedRooms,
                 todayReservations,
                 todayRevenue,
@@ -323,7 +354,11 @@ export default function DashBoard() {
                 totalBills: bills.length,
                 dailyStats: stats.daily,
                 weeklyStats: stats.weekly
-            });
+            };
+            
+            setDashboardData(dashboardResult);
+            // Cache for 2 minutes
+            dataCache.set(cacheKey, dashboardResult, 2 * 60 * 1000);
         } catch (error) {
             console.warn('Error loading data:', error);
             // En cas d'erreur, utiliser les valeurs par défaut
@@ -513,20 +548,7 @@ export default function DashBoard() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
                 {stats.map((stat, index) => (
-                    <div key={index} className={`${stat.bgColor} rounded-xl p-4 sm:p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300`}>
-                        <div className="flex items-center justify-between mb-4">
-                            <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-r ${stat.color} flex items-center justify-center text-white p-2`}>
-                                <Image src={stat.icon} alt={stat.title} width={24} height={24} className="filter brightness-0 invert" />
-                            </div>
-                            <div className="text-right">
-                                <div className={`text-xl sm:text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                                    {stat.value}
-                                </div>
-                            </div>
-                        </div>
-                        <h3 className="text-sm sm:text-base font-semibold text-slate-700 mb-1">{stat.title}</h3>
-                        <p className="text-xs sm:text-sm text-slate-500">{stat.subtitle}</p>
-                    </div>
+                    <StatCard key={index} stat={stat} index={index} />
                 ))}
             </div>
 
@@ -842,3 +864,5 @@ export default function DashBoard() {
         </div>
     );
 }
+
+export default memo(DashBoard);
