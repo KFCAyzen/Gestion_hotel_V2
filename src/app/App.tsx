@@ -148,7 +148,7 @@ export default function App() {
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
             {/* Top Navigation Bar */}
             <header className="bg-gradient-to-r from-[#7D3837] via-[#8B4A49] to-[#7D3837] shadow-xl border-b border-white/10">
-                <div className="px-4 sm:px-6 py-2">
+                <div className="px-4 sm:px-6 py-1">
                     <div className="flex items-center justify-between">
                         {/* Logo et titre */}
                         <button onClick={() => setCurrentPage("home")} className="flex items-center gap-2 sm:gap-3 cursor-pointer">
@@ -162,33 +162,33 @@ export default function App() {
                         <nav className="hidden lg:flex items-center gap-1">
                             {/* Section principale */}
                             <div className="flex items-center gap-1 mr-4">
-                            <button onClick={() => setCurrentPage("home")} className={`px-4 py-3 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
+                            <button onClick={() => setCurrentPage("home")} className={`px-4 py-4 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "home" 
-                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-2 z-10' 
+                                    ? 'bg-white text-[#7D3837] rounded-t-xl shadow-lg border-b-4 border-white -mb-1 z-10' 
                                     : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "home" ? Images.dashboard : Images.dashboardActif} alt="Dashboard" width={16} height={16} />
                                     Dashboard
                                 </button>
-                            <button onClick={() => setCurrentPage("reservations")} className={`px-4 py-3 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
+                            <button onClick={() => setCurrentPage("reservations")} className={`px-4 py-4 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "reservations" 
-                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-2 z-10' 
+                                    ? 'bg-white text-[#7D3837] rounded-t-xl shadow-lg border-b-4 border-white -mb-1 z-10' 
                                     : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "reservations" ? Images.reservation : Images.reservationActif} alt="Reservations" width={16} height={16} />
                                     Réservations
                                 </button>
-                            <button onClick={() => setCurrentPage("chambres")} className={`px-4 py-3 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
+                            <button onClick={() => setCurrentPage("chambres")} className={`px-4 py-4 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "chambres" 
-                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-2 z-10' 
+                                    ? 'bg-white text-[#7D3837] rounded-t-xl shadow-lg border-b-4 border-white -mb-1 z-10' 
                                     : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "chambres" ? Images.room : Images.roomActif} alt="Chambres" width={16} height={16} />
                                     Chambres
                                 </button>
-                            <button onClick={() => setCurrentPage("clients")} className={`px-4 py-3 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
+                            <button onClick={() => setCurrentPage("clients")} className={`px-4 py-4 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "clients" 
-                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-2 z-10' 
+                                    ? 'bg-white text-[#7D3837] rounded-t-xl shadow-lg border-b-4 border-white -mb-1 z-10' 
                                     : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "clients" ? Images.client : Images.clientActif} alt="Clients" width={16} height={16} />
@@ -198,9 +198,9 @@ export default function App() {
                             
                             {/* Section secondaire */}
                             <div className="flex items-center gap-1">
-                            <button onClick={() => setCurrentPage("facturation")} className={`px-4 py-3 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
+                            <button onClick={() => setCurrentPage("facturation")} className={`px-4 py-4 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "facturation" 
-                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-2 z-10' 
+                                    ? 'bg-white text-[#7D3837] rounded-t-xl shadow-lg border-b-4 border-white -mb-1 z-10' 
                                     : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "facturation" ? Images.billing : Images.billingActif} alt="Facturation" width={16} height={16} />
