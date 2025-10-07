@@ -37,11 +37,11 @@ export default function NotificationsPage() {
             const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
             
             // Notifications de checkout
-            reservations.forEach((reservation: any) => {
+            reservations.forEach((reservation: any, index: number) => {
                 if (reservation.checkOut === today || reservation.checkOut === tomorrow) {
                     const isToday = reservation.checkOut === today;
                     allNotifications.push({
-                        id: `checkout_${reservation.id}`,
+                        id: `checkout_${reservation.id}_${index}_${Date.now()}`,
                         type: 'checkout',
                         title: isToday ? 'Checkout Aujourd\'hui' : 'Checkout Demain',
                         message: `${reservation.clientName} - Chambre ${reservation.roomNumber}`,
@@ -59,9 +59,9 @@ export default function NotificationsPage() {
                     .filter((activity: any) => activity.userId !== user.username)
                     .slice(-20);
                 
-                recentActivities.forEach((activity: any) => {
+                recentActivities.forEach((activity: any, index: number) => {
                     allNotifications.push({
-                        id: `activity_${activity.id || Date.now()}`,
+                        id: `activity_${activity.id || Date.now()}_${index}_${Math.random().toString(36).substr(2, 5)}`,
                         type: 'user_action',
                         title: 'Action Utilisateur',
                         message: `${activity.userName || activity.userId}: ${activity.action}`,
@@ -83,9 +83,9 @@ export default function NotificationsPage() {
                     .filter((activity: any) => ['Création client', 'Création facture', 'Création réservation'].includes(activity.action))
                     .slice(-10);
                 
-                userActivities.forEach((activity: any) => {
+                userActivities.forEach((activity: any, index: number) => {
                     allNotifications.push({
-                        id: `user_activity_${activity.id || Date.now()}`,
+                        id: `user_activity_${activity.id || Date.now()}_${index}_${Math.random().toString(36).substr(2, 5)}`,
                         type: 'user_action',
                         title: 'Votre Action',
                         message: activity.action + ': ' + activity.details,
