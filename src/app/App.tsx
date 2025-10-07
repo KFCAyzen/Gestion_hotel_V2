@@ -202,7 +202,7 @@ export default function App() {
                                 </div>
                                 {(user?.role === 'admin' || user?.role === 'super_admin') && (
                                     <>
-                                        <div className="w-px h-6 bg-white bg-opacity-30 mx-1"></div>
+                                        <div className="w-px h-6 bg-white bg-opacity-30 mx-2"></div>
                                         <button onClick={() => setCurrentPage("users")} style={{backgroundColor: currentPage === "users" ? 'white' : 'transparent', color: currentPage === "users" ? '#7D3837' : 'white'}} className="p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-all duration-200 cursor-pointer" title="Utilisateurs">
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
@@ -219,7 +219,7 @@ export default function App() {
                         </nav>
                         
                         {/* Boutons mobile et déconnexion */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-4">
                             {/* Informations utilisateur */}
                             <div className="hidden md:flex items-center gap-3 text-white text-sm">
                                 <div className="flex items-center gap-2">
