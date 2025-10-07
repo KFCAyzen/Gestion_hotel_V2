@@ -78,10 +78,10 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
         }}>
             {/* Particules flottantes */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(30)].map((_, i) => (
+                {[...Array(25)].map((_, i) => (
                     <div
                         key={i}
-                        className="absolute w-1 h-1 bg-white opacity-20 rounded-full animate-float hidden sm:block"
+                        className="absolute w-1 h-1 bg-white opacity-20 rounded-full animate-float"
                         style={{
                             left: `${Math.random() * 100}%`,
                             top: `${Math.random() * 100}%`,
@@ -93,7 +93,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
             </div>
 
             {/* Modal Windows 11 */}
-            <div className={`relative w-[95vw] h-[95vh] sm:w-[85vw] sm:h-[80vh] max-w-4xl transform transition-all duration-800 ${
+            <div className={`relative w-[90vw] h-[85vh] sm:w-[85vw] sm:h-[80vh] max-w-4xl transform transition-all duration-800 ${
                 isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
             }`}>
                 <div className="relative w-full h-full rounded-2xl overflow-hidden" style={{
