@@ -159,22 +159,22 @@ export default function App() {
                         </button>
                         
                         {/* Navigation horizontale - Desktop */}
-                        <nav className="hidden lg:flex items-center gap-1">
+                        <nav className="hidden lg:flex items-center gap-2">
                             {/* Section principale */}
                             <div className="flex items-center gap-1 mr-4">
-                                <button onClick={() => setCurrentPage("home")} style={{backgroundColor: currentPage === "home" ? 'white' : 'transparent', color: currentPage === "home" ? '#7D3837' : 'white'}} className="px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
+                            <button onClick={() => setCurrentPage("home")} style={{backgroundColor: currentPage === "home" ? 'white' : 'transparent', color: currentPage === "home" ? '#7D3837' : 'white'}} className="px-3 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
                                     <Image src={currentPage === "home" ? Images.dashboard : Images.dashboardActif} alt="Dashboard" width={16} height={16} />
                                     Dashboard
                                 </button>
-                                <button onClick={() => setCurrentPage("reservations")} style={{backgroundColor: currentPage === "reservations" ? 'white' : 'transparent', color: currentPage === "reservations" ? '#7D3837' : 'white'}} className="px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
+                            <button onClick={() => setCurrentPage("reservations")} style={{backgroundColor: currentPage === "reservations" ? 'white' : 'transparent', color: currentPage === "reservations" ? '#7D3837' : 'white'}} className="px-3 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
                                     <Image src={currentPage === "reservations" ? Images.reservation : Images.reservationActif} alt="Reservations" width={16} height={16} />
                                     Réservations
                                 </button>
-                                <button onClick={() => setCurrentPage("chambres")} style={{backgroundColor: currentPage === "chambres" ? 'white' : 'transparent', color: currentPage === "chambres" ? '#7D3837' : 'white'}} className="px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
+                            <button onClick={() => setCurrentPage("chambres")} style={{backgroundColor: currentPage === "chambres" ? 'white' : 'transparent', color: currentPage === "chambres" ? '#7D3837' : 'white'}} className="px-3 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
                                     <Image src={currentPage === "chambres" ? Images.room : Images.roomActif} alt="Chambres" width={16} height={16} />
                                     Chambres
                                 </button>
-                                <button onClick={() => setCurrentPage("clients")} style={{backgroundColor: currentPage === "clients" ? 'white' : 'transparent', color: currentPage === "clients" ? '#7D3837' : 'white'}} className="px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
+                            <button onClick={() => setCurrentPage("clients")} style={{backgroundColor: currentPage === "clients" ? 'white' : 'transparent', color: currentPage === "clients" ? '#7D3837' : 'white'}} className="px-3 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
                                     <Image src={currentPage === "clients" ? Images.client : Images.clientActif} alt="Clients" width={16} height={16} />
                                     Clients
                                 </button>
@@ -182,7 +182,7 @@ export default function App() {
                             
                             {/* Section secondaire */}
                             <div className="flex items-center gap-1">
-                                <button onClick={() => setCurrentPage("facturation")} style={{backgroundColor: currentPage === "facturation" ? 'white' : 'transparent', color: currentPage === "facturation" ? '#7D3837' : 'white'}} className="px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
+                            <button onClick={() => setCurrentPage("facturation")} style={{backgroundColor: currentPage === "facturation" ? 'white' : 'transparent', color: currentPage === "facturation" ? '#7D3837' : 'white'}} className="px-3 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
                                     <Image src={currentPage === "facturation" ? Images.billing : Images.billingActif} alt="Facturation" width={16} height={16} />
                                     Facturation
                                 </button>
@@ -202,18 +202,16 @@ export default function App() {
                                 </div>
                                 {(user?.role === 'admin' || user?.role === 'super_admin') && (
                                     <>
-                                        <div className="w-px h-6 bg-white bg-opacity-30 mx-2"></div>
-                                        <button onClick={() => setCurrentPage("users")} style={{backgroundColor: currentPage === "users" ? 'white' : 'transparent', color: currentPage === "users" ? '#7D3837' : 'white'}} className="px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div className="w-px h-6 bg-white bg-opacity-30 mx-1"></div>
+                                        <button onClick={() => setCurrentPage("users")} style={{backgroundColor: currentPage === "users" ? 'white' : 'transparent', color: currentPage === "users" ? '#7D3837' : 'white'}} className="p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-all duration-200 cursor-pointer" title="Utilisateurs">
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
                                             </svg>
-                                            Utilisateurs
                                         </button>
-                                        <button onClick={() => setCurrentPage("history")} style={{backgroundColor: currentPage === "history" ? 'white' : 'transparent', color: currentPage === "history" ? '#7D3837' : 'white'}} className="px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <button onClick={() => setCurrentPage("history")} style={{backgroundColor: currentPage === "history" ? 'white' : 'transparent', color: currentPage === "history" ? '#7D3837' : 'white'}} className="p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-all duration-200 cursor-pointer" title="Historique">
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                             </svg>
-                                            Historique
                                         </button>
                                     </>
                                 )}
