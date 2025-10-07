@@ -22,6 +22,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ChangePasswordModal from "./components/ChangePasswordModal";
 import CheckoutAlertModal from "./components/CheckoutAlertModal";
 import ChangePassword from "./components/ChangePassword";
+import NotificationsPage from "./components/NotificationsPage";
 
 /**
  * Composant principal de l'application de gestion d'hôtel
@@ -100,6 +101,8 @@ export default function App() {
                 return <ActivityHistory />;
             case "performance":
                 return <PerformanceHistory />;
+            case "notifications":
+                return <NotificationsPage />;
             default:
                 return <DashBoard />;
         }
@@ -202,6 +205,12 @@ export default function App() {
                                             </svg>
                                             Historique
                                         </button>
+                                        <button onClick={() => setCurrentPage("notifications")} style={{backgroundColor: currentPage === "notifications" ? 'white' : 'transparent', color: currentPage === "notifications" ? '#7D3837' : 'white'}} className="px-4 py-2 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-2 transition-all duration-200 font-medium text-sm cursor-pointer">
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 015.5-7.21" />
+                                            </svg>
+                                            Notifications
+                                        </button>
                                     </>
                                 )}
                             </div>
@@ -285,6 +294,12 @@ export default function App() {
                                     </svg>
                                     Performances
                                 </button>
+                                <button onClick={() => {setCurrentPage("notifications"); setIsMobileMenuOpen(false);}} style={{backgroundColor: currentPage === "notifications" ? 'white' : 'transparent', color: currentPage === "notifications" ? '#7D3837' : 'white'}} className="w-full px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-3 transition-all duration-200 font-medium text-left cursor-pointer">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 015.5-7.21" />
+                                    </svg>
+                                    Notifications
+                                </button>
                                 {user?.role === 'admin' || user?.role === 'super_admin' ? (
                                     <>
                                         <button onClick={() => {setCurrentPage("users"); setIsMobileMenuOpen(false);}} style={{backgroundColor: currentPage === "users" ? 'white' : 'transparent', color: currentPage === "users" ? '#7D3837' : 'white'}} className="w-full px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-3 transition-all duration-200 font-medium text-left cursor-pointer">
@@ -298,6 +313,12 @@ export default function App() {
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                             </svg>
                                             Historique
+                                        </button>
+                                        <button onClick={() => {setCurrentPage("notifications"); setIsMobileMenuOpen(false);}} style={{backgroundColor: currentPage === "notifications" ? 'white' : 'transparent', color: currentPage === "notifications" ? '#7D3837' : 'white'}} className="w-full px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-3 transition-all duration-200 font-medium text-left cursor-pointer">
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 015.5-7.21" />
+                                            </svg>
+                                            Notifications
                                         </button>
                                     </>
                                 ) : null}
