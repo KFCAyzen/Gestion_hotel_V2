@@ -190,11 +190,14 @@ export default function App() {
                                     </svg>
                                     Performances
                                 </button>
-                                <button onClick={() => setCurrentPage("notifications")} style={{backgroundColor: currentPage === "notifications" ? 'white' : 'transparent', color: currentPage === "notifications" ? '#7D3837' : 'white'}} className="p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-all duration-200 cursor-pointer" title="Notifications">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 515.5-7.21" />
-                                    </svg>
-                                </button>
+                                <div className="relative">
+                                    <button onClick={() => setCurrentPage("notifications")} style={{backgroundColor: currentPage === "notifications" ? 'white' : 'transparent', color: currentPage === "notifications" ? '#7D3837' : 'white'}} className="p-2 rounded-lg hover:bg-white hover:bg-opacity-20 transition-all duration-200 cursor-pointer" title="Notifications">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 515.5-7.21" />
+                                        </svg>
+                                    </button>
+                                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">3</span>
+                                </div>
                                 {(user?.role === 'admin' || user?.role === 'super_admin') && (
                                     <>
                                         <div className="w-px h-6 bg-white bg-opacity-30 mx-2"></div>
@@ -293,12 +296,15 @@ export default function App() {
                                     </svg>
                                     Performances
                                 </button>
-                                <button onClick={() => {setCurrentPage("notifications"); setIsMobileMenuOpen(false);}} style={{backgroundColor: currentPage === "notifications" ? 'white' : 'transparent', color: currentPage === "notifications" ? '#7D3837' : 'white'}} className="w-full px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-3 transition-all duration-200 font-medium text-left cursor-pointer">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 515.5-7.21" />
-                                    </svg>
-                                    Notifications
-                                </button>
+                                <div className="relative">
+                                    <button onClick={() => {setCurrentPage("notifications"); setIsMobileMenuOpen(false);}} style={{backgroundColor: currentPage === "notifications" ? 'white' : 'transparent', color: currentPage === "notifications" ? '#7D3837' : 'white'}} className="w-full px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-3 transition-all duration-200 font-medium text-left cursor-pointer">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 515.5-7.21" />
+                                        </svg>
+                                        Notifications
+                                    </button>
+                                    <span className="absolute top-2 left-8 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">3</span>
+                                </div>
                                 {user?.role === 'admin' || user?.role === 'super_admin' ? (
                                     <>
                                         <button onClick={() => {setCurrentPage("users"); setIsMobileMenuOpen(false);}} style={{backgroundColor: currentPage === "users" ? 'white' : 'transparent', color: currentPage === "users" ? '#7D3837' : 'white'}} className="w-full px-4 py-3 rounded-lg hover:bg-white hover:bg-opacity-20 flex items-center gap-3 transition-all duration-200 font-medium text-left cursor-pointer">
