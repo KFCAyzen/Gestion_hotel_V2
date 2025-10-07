@@ -5,7 +5,11 @@ class IndexedDBManager {
 
     async init(): Promise<void> {
         return new Promise((resolve, reject) => {
-            const request = indexedDB.open(this.dbName, this.version);
+            if (typeof window === 'undefined' || !window.indexedDB) {
+                reject(new Error('IndexedDB not available'));
+                return;
+            }
+            const request = window.indexedDB.open(this.dbName, this.version);
             
             request.onerror = () => reject(request.error);
             request.onsuccess = () => {
