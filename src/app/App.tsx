@@ -162,34 +162,34 @@ export default function App() {
                         <nav className="hidden lg:flex items-center gap-1">
                             {/* Section principale */}
                             <div className="flex items-center gap-1 mr-4">
-                            <button onClick={() => setCurrentPage("home")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
+                            <button onClick={() => setCurrentPage("home")} className={`px-4 py-2 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "home" 
-                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
-                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
+                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-0.5 z-10' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "home" ? Images.dashboard : Images.dashboardActif} alt="Dashboard" width={16} height={16} />
                                     Dashboard
                                 </button>
-                            <button onClick={() => setCurrentPage("reservations")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
+                            <button onClick={() => setCurrentPage("reservations")} className={`px-4 py-2 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "reservations" 
-                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
-                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
+                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-0.5 z-10' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "reservations" ? Images.reservation : Images.reservationActif} alt="Reservations" width={16} height={16} />
                                     Réservations
                                 </button>
-                            <button onClick={() => setCurrentPage("chambres")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
+                            <button onClick={() => setCurrentPage("chambres")} className={`px-4 py-2 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "chambres" 
-                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
-                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
+                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-0.5 z-10' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "chambres" ? Images.room : Images.roomActif} alt="Chambres" width={16} height={16} />
                                     Chambres
                                 </button>
-                            <button onClick={() => setCurrentPage("clients")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
+                            <button onClick={() => setCurrentPage("clients")} className={`px-4 py-2 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "clients" 
-                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
-                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
+                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-0.5 z-10' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "clients" ? Images.client : Images.clientActif} alt="Clients" width={16} height={16} />
                                     Clients
@@ -198,10 +198,10 @@ export default function App() {
                             
                             {/* Section secondaire */}
                             <div className="flex items-center gap-1">
-                            <button onClick={() => setCurrentPage("facturation")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
+                            <button onClick={() => setCurrentPage("facturation")} className={`px-4 py-2 flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative ${
                                 currentPage === "facturation" 
-                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
-                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
+                                    ? 'bg-white text-[#7D3837] rounded-t-lg shadow-lg border-b-2 border-white -mb-0.5 z-10' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 rounded-lg'
                             }`}>
                                     <Image src={currentPage === "facturation" ? Images.billing : Images.billingActif} alt="Facturation" width={16} height={16} />
                                     Facturation
@@ -255,7 +255,7 @@ export default function App() {
                         </nav>
                         
                         {/* Boutons mobile et déconnexion */}
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
                             {/* Informations utilisateur */}
                             <div className="hidden md:flex items-center gap-3 text-white text-sm">
                                 <div className="flex items-center gap-2">
