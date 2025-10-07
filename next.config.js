@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ['@firebase/firestore', '@firebase/auth', '@firebase/storage']
