@@ -804,7 +804,7 @@ export default function ReservationPage() {
                                         {availableRooms.length > 0 ? (
                                             availableRooms.slice(0, 10).map((room) => (
                                                 <div
-                                                    key={`room-${room.id || room.number}`}
+                                                    key={`room-suggestion-${room.id || room.number}-${room.category}-${room.price}`}
                                                     onClick={() => {
                                                         setFormData({...formData, roomNumber: room.number, totalPrice: room.price});
                                                         setShowRoomSuggestions(false);
@@ -940,7 +940,7 @@ export default function ReservationPage() {
                     ) : (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                             {reservations.map((reservation, index) => (
-                                <div key={`reservation-${reservation.id}-${index}`} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 hover:shadow-lg transition-all duration-200 hover:border-slate-300">
+                                <div key={`reservation-${reservation.id}-${index}-${reservation.clientName}-${reservation.roomNumber}`} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 hover:shadow-lg transition-all duration-200 hover:border-slate-300">
                                     <div className="flex items-start justify-between mb-3 sm:mb-4">
                                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center" style={{backgroundColor: '#fff590'}}>
                                             <svg className="w-5 h-5 sm:w-6 sm:h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -617,8 +617,8 @@ export default function BillingPage() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                            {filteredBills.map((bill) => (
-                                <div key={bill.id} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-all duration-200 hover:border-slate-300 group">
+                            {filteredBills.map((bill, index) => (
+                                <div key={`bill-${bill.id}-${index}-${bill.receivedFrom}`} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-all duration-200 hover:border-slate-300 group">
                                     <div className="flex items-start justify-between mb-3 sm:mb-4">
                                         <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
                                             <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

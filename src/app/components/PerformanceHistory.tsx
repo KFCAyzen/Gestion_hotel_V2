@@ -340,8 +340,8 @@ export default function PerformanceHistory() {
                         style={{borderColor: '#7D3837'}}
                     >
                         <option value="all">Tous les utilisateurs</option>
-                        {users.map(user => (
-                            <option key={user} value={user}>{user}</option>
+                        {users.map((user, index) => (
+                            <option key={`user-option-${user}-${index}`} value={user}>{user}</option>
                         ))}
                     </select>
                 </div>
@@ -363,8 +363,8 @@ export default function PerformanceHistory() {
                         </div>
                     ) : (
                         <div className="space-y-3 sm:space-y-4">
-                            {dailyStats.map(day => (
-                                <div key={day.date} className="bg-slate-50 p-3 sm:p-4 rounded-lg">
+                            {dailyStats.map((day, index) => (
+                                <div key={`performance-${day.date}-${index}-${day.total}`} className="bg-slate-50 p-3 sm:p-4 rounded-lg">
                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 mb-3">
                                         <h3 className="font-semibold text-slate-800 text-sm sm:text-base">
                                             {new Date(day.date).toLocaleDateString('fr-FR')}

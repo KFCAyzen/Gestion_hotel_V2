@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface ImageUploadProps {
     onImageUploaded: (url: string) => void;
@@ -40,7 +41,7 @@ export default function ImageUpload({ onImageUploaded }: ImageUploadProps) {
                 className="w-full p-2 sm:p-3 border rounded text-sm sm:text-base" 
                 style={{borderColor: '#7D3837'}}
             />
-            {uploading && <p className="mt-2 text-xs sm:text-sm font-medium" style={{color: '#7D3837'}}>Upload en cours...</p>}
+            {uploading && <LoadingSpinner size="sm" text="Upload en cours..." />}
         </div>
     );
 }

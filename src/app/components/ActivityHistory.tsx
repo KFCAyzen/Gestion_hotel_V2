@@ -176,8 +176,8 @@ export default function ActivityHistory() {
                                     <p className="text-slate-500 text-base sm:text-lg font-medium">Aucune activité trouvée</p>
                                 </div>
                             ) : (
-                                getFilteredLogs().map((log) => (
-                                    <div key={log.id} className="border rounded-lg p-3 sm:p-4 hover:bg-slate-50 transition-colors">
+                                getFilteredLogs().map((log, index) => (
+                                    <div key={`log-${log.id}-${index}-${log.timestamp}`} className="border rounded-lg p-3 sm:p-4 hover:bg-slate-50 transition-colors">
                                         <div className="flex items-start gap-2 sm:gap-3">
                                             <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 flex-shrink-0">
                                                 {getActionIcon(log.module)}

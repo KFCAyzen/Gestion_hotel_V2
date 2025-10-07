@@ -113,9 +113,9 @@ export default function App() {
         return (
             <>
                 <LoginPage onLoginSuccess={() => setShowLogin(false)} />
-                {notifications.map((notification) => (
+                {notifications.map((notification, index) => (
                     <Notification
-                        key={notification.id}
+                        key={`login-notification-${notification.id}-${index}`}
                         message={notification.message}
                         type={notification.type}
                         onClose={() => removeNotification(notification.id)}
@@ -130,9 +130,9 @@ export default function App() {
         return (
             <>
                 <ChangePasswordModal onPasswordChanged={() => setShowPasswordChange(false)} />
-                {notifications.map((notification) => (
+                {notifications.map((notification, index) => (
                     <Notification
-                        key={notification.id}
+                        key={`password-notification-${notification.id}-${index}`}
                         message={notification.message}
                         type={notification.type}
                         onClose={() => removeNotification(notification.id)}
@@ -373,9 +373,9 @@ export default function App() {
             </main>
 
             {/* Notifications */}
-            {notifications.map((notification) => (
+            {notifications.map((notification, index) => (
                 <Notification
-                    key={notification.id}
+                    key={`main-notification-${notification.id}-${index}`}
                     message={notification.message}
                     type={notification.type}
                     onClose={() => removeNotification(notification.id)}

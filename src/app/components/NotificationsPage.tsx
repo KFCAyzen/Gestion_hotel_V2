@@ -225,9 +225,9 @@ export default function NotificationsPage() {
                     </div>
                 ) : (
                     <div className="divide-y divide-slate-200">
-                        {filteredNotifications.map((notification) => (
+                        {filteredNotifications.map((notification, index) => (
                             <div
-                                key={notification.id}
+                                key={`notification-${notification.id}-${index}-${notification.timestamp}`}
                                 className={`p-4 sm:p-6 hover:bg-slate-50 transition-colors cursor-pointer ${
                                     !notification.read ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
                                 }`}

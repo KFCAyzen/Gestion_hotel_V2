@@ -138,8 +138,8 @@ export default function UserManagement() {
                                 </div>
 
                                 <div className="space-y-3 sm:space-y-4">
-                                    {users.map((u) => (
-                                        <div key={u.id} className="border rounded-lg p-3 sm:p-4">
+                                    {users.map((u, index) => (
+                                        <div key={`user-${u.id}-${index}-${u.username}`} className="border rounded-lg p-3 sm:p-4">
                                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                                 <div className="flex-1">
                                                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">

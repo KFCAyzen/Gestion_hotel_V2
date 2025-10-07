@@ -713,7 +713,7 @@ export default function DashBoard() {
                                 };
                                 
                                 return (
-                                    <div key={`activity-${index}-${activity.type}`} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+                                    <div key={`activity-${index}-${activity.type}-${activity.message.slice(0, 10)}-${Date.now()}`} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
                                         <div className={`w-8 h-8 ${getBgColor(activity.type)} rounded-full flex items-center justify-center p-1`}>
                                             <Image src={getIcon(activity.type)} alt={activity.type} width={16} height={16} />
                                         </div>
@@ -744,7 +744,7 @@ export default function DashBoard() {
                             const rate = totalCount > 0 ? Math.round((occupiedCount / totalCount) * 100) : 0;
                             
                             return (
-                                <div key={`category-${category.name}-${index}`} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                <div key={`category-${category.name}-${index}-${totalCount}-${occupiedCount}`} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                                     <div className="flex items-center gap-3">
                                         <div className={`w-3 h-3 rounded-full ${category.color}`}></div>
                                         <span className="text-sm font-medium text-slate-700">{category.name}</span>
@@ -796,7 +796,7 @@ export default function DashBoard() {
                     <h3 className="text-lg font-semibold text-slate-800 mb-4">Derniers Clients</h3>
                     <div className="space-y-3">
                         {dashboardData.recentActivities.filter((a: Activity) => a.type === 'client').slice(0, 4).map((client, index) => (
-                            <div key={`client-${index}-${client.message}`} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                            <div key={`client-${index}-${client.message}-${client.detail}-${Date.now()}`} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
                                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                                     <span className="text-sm font-semibold text-blue-600">
                                         {client.message.split(' - ')[1]?.charAt(0) || 'C'}
@@ -823,7 +823,7 @@ export default function DashBoard() {
                     <h3 className="text-lg font-semibold text-slate-800 mb-4">Réservations par Jour</h3>
                     <div className="space-y-3">
                         {dashboardData.weeklyReservations.map((dayData, index) => (
-                            <div key={`day-${dayData.day}-${index}`} className="flex items-center gap-3">
+                            <div key={`day-${dayData.day}-${index}-${dayData.count}-${dayData.maxCount}`} className="flex items-center gap-3">
                                 <div className="w-8 text-xs text-slate-600">{dayData.day}</div>
                                 <div className="flex-1 bg-slate-200 rounded-full h-2">
                                     <div 
