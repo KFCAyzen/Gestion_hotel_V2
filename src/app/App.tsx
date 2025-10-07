@@ -159,7 +159,7 @@ export default function App() {
                         </button>
                         
                         {/* Navigation horizontale - Desktop */}
-                        <nav className="hidden lg:flex items-center gap-2">
+                        <nav className="hidden lg:flex items-center gap-1">
                             {/* Section principale */}
                             <div className="flex items-center gap-1 mr-4">
                             <button onClick={() => setCurrentPage("home")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
