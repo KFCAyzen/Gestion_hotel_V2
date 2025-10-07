@@ -78,8 +78,8 @@ export class OptimizedQueries {
             orderDirection: 'desc'
         });
 
-        dataCache.set(cacheKey, result.data, 1 * 60 * 1000); // 1 minute cache
-        return result.data;
+        dataCache.set(cacheKey, (result as any).data, 1 * 60 * 1000); // 1 minute cache
+        return (result as any).data;
     }
 
     static async searchData(
@@ -100,7 +100,7 @@ export class OptimizedQueries {
             ]
         });
 
-        dataCache.set(cacheKey, result.data, 30 * 1000); // 30 seconds cache
-        return result.data;
+        dataCache.set(cacheKey, (result as any).data, 30 * 1000); // 30 seconds cache
+        return (result as any).data;
     }
 }
