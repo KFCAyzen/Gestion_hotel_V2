@@ -245,8 +245,8 @@ function DashBoard() {
             // Check cache first
             const cacheKey = `dashboard_${user?.username || 'all'}`;
             const cached = dataCache.get(cacheKey);
-            if (cached) {
-                setDashboardData(cached);
+            if (cached && typeof cached === 'object') {
+                setDashboardData(cached as any);
                 setIsLoading(false);
                 return;
             }
