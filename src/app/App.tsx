@@ -147,7 +147,7 @@ export default function App() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
             {/* Top Navigation Bar */}
-            <header style={{backgroundColor: '#7D3837'}} className="shadow-lg">
+            <header className="bg-gradient-to-r from-[#7D3837] via-[#8B4A49] to-[#7D3837] shadow-xl border-b border-white/10">
                 <div className="px-4 sm:px-6 py-4">
                     <div className="flex items-center justify-between">
                         {/* Logo et titre */}
@@ -164,32 +164,32 @@ export default function App() {
                             <div className="flex items-center gap-1 mr-4">
                             <button onClick={() => setCurrentPage("home")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
                                 currentPage === "home" 
-                                    ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-105' 
-                                    : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-105'
+                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
                             }`}>
                                     <Image src={currentPage === "home" ? Images.dashboard : Images.dashboardActif} alt="Dashboard" width={16} height={16} />
                                     Dashboard
                                 </button>
                             <button onClick={() => setCurrentPage("reservations")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
                                 currentPage === "reservations" 
-                                    ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-105' 
-                                    : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-105'
+                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
                             }`}>
                                     <Image src={currentPage === "reservations" ? Images.reservation : Images.reservationActif} alt="Reservations" width={16} height={16} />
                                     Réservations
                                 </button>
                             <button onClick={() => setCurrentPage("chambres")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
                                 currentPage === "chambres" 
-                                    ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-105' 
-                                    : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-105'
+                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
                             }`}>
                                     <Image src={currentPage === "chambres" ? Images.room : Images.roomActif} alt="Chambres" width={16} height={16} />
                                     Chambres
                                 </button>
                             <button onClick={() => setCurrentPage("clients")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
                                 currentPage === "clients" 
-                                    ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-105' 
-                                    : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-105'
+                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
                             }`}>
                                     <Image src={currentPage === "clients" ? Images.client : Images.clientActif} alt="Clients" width={16} height={16} />
                                     Clients
@@ -200,16 +200,16 @@ export default function App() {
                             <div className="flex items-center gap-1">
                             <button onClick={() => setCurrentPage("facturation")} className={`px-3 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 font-medium text-sm cursor-pointer relative overflow-hidden ${
                                 currentPage === "facturation" 
-                                    ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-105' 
-                                    : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-105'
+                                    ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-105 backdrop-blur-sm' 
+                                    : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:border-b-2 hover:border-amber-300/50'
                             }`}>
                                     <Image src={currentPage === "facturation" ? Images.billing : Images.billingActif} alt="Facturation" width={16} height={16} />
                                     Facturation
                                 </button>
                                 <button onClick={() => setCurrentPage("performance")} className={`p-2 rounded-lg transition-all duration-300 cursor-pointer relative overflow-hidden ${
                                     currentPage === "performance" 
-                                        ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-110' 
-                                        : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-110'
+                                        ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-110 backdrop-blur-sm' 
+                                        : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:scale-105'
                                 }`} title="Performances">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -219,8 +219,8 @@ export default function App() {
                                 <div className="relative">
                                 <button onClick={() => setCurrentPage("notifications")} className={`p-2 rounded-lg transition-all duration-300 cursor-pointer relative overflow-hidden ${
                                     currentPage === "notifications" 
-                                        ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-110' 
-                                        : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-110'
+                                        ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-110 backdrop-blur-sm' 
+                                        : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:scale-105'
                                 }`} title="Notifications">
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5-5-5h5v-5a7.5 7.5 0 515.5-7.21" />
@@ -233,8 +233,8 @@ export default function App() {
                                         <div className="w-px h-6 bg-white bg-opacity-30 mx-2"></div>
                                         <button onClick={() => setCurrentPage("users")} className={`p-2 rounded-lg transition-all duration-300 cursor-pointer relative overflow-hidden ${
                                             currentPage === "users" 
-                                                ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-110' 
-                                                : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-110'
+                                                ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-110 backdrop-blur-sm' 
+                                                : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:scale-105'
                                         }`} title="Utilisateurs">
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
@@ -242,8 +242,8 @@ export default function App() {
                                         </button>
                                         <button onClick={() => setCurrentPage("history")} className={`p-2 rounded-lg transition-all duration-300 cursor-pointer relative overflow-hidden ${
                                             currentPage === "history" 
-                                                ? 'bg-gradient-to-r from-white/90 to-white/80 text-[#7D3837] shadow-lg border-b-2 border-yellow-400 transform scale-110' 
-                                                : 'text-white hover:bg-white hover:bg-opacity-20 hover:scale-110'
+                                                ? 'bg-gradient-to-r from-white/95 to-white/90 text-[#7D3837] shadow-lg border-b-2 border-amber-400 transform scale-110 backdrop-blur-sm' 
+                                                : 'text-white hover:bg-white/15 hover:text-amber-200 hover:shadow-md hover:scale-105'
                                         }`} title="Historique">
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
