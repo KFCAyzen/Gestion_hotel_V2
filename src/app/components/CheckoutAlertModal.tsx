@@ -77,8 +77,8 @@ export default function CheckoutAlertModal({ isOpen, onClose }: CheckoutAlertMod
     if (!isOpen || expiringReservations.length === 0) return null;
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full flex items-start justify-center overflow-hidden pt-20" style={{zIndex: 9999, backdropFilter: 'blur(10px)', background: 'rgba(255, 255, 255, 0.1)'}}>
-            <div className="bg-white/90 backdrop-blur-md rounded-xl p-6 max-w-md w-full shadow-2xl transform transition-all duration-300 scale-100 border border-white/20">
+        <div className="fixed inset-0 flex items-center justify-center p-4 overflow-y-auto" style={{zIndex: 9999, backdropFilter: 'blur(10px)', background: 'rgba(0, 0, 0, 0.5)'}}>
+            <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl transform transition-all duration-300 scale-100 my-8 max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
                         <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +91,7 @@ export default function CheckoutAlertModal({ isOpen, onClose }: CheckoutAlertMod
                     </div>
                 </div>
                 
-                <div className="space-y-3 mb-6">
+                <div className="space-y-3 mb-6 max-h-96 overflow-y-auto">
                     {expiringReservations.map(reservation => (
                         <div key={reservation.id} className="bg-orange-50 p-4 rounded-lg border border-orange-200">
                             <div className="flex items-center justify-between">
