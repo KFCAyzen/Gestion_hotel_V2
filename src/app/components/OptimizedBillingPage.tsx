@@ -35,7 +35,13 @@ export default function OptimizedBillingPage() {
         receivedFrom: '',
         amountInWords: '',
         motif: 'Nuitée' as 'Repos' | 'Nuitée',
+        startTime: '',
+        endTime: '',
+        startDate: '',
+        endDate: '',
         roomNumber: '',
+        advance: '',
+        remaining: '',
         clientSignature: ''
     });
 
@@ -169,14 +175,18 @@ export default function OptimizedBillingPage() {
                 <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
                     <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouveau Reçu</h3>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6">
-                        <input 
-                            type="date" 
-                            value={formData.date}
-                            onChange={(e) => setFormData({...formData, date: e.target.value})}
-                            className="p-3 border rounded-lg" 
-                            style={{borderColor: '#7D3837'}} 
-                        />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                        <div className="relative">
+                            <input 
+                                type="date" 
+                                value={formData.date}
+                                onChange={(e) => setFormData({...formData, date: e.target.value})}
+                                className="p-3 border rounded-lg w-full" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date *</label>
+                        </div>
+                        
                         <input 
                             type="number"
                             placeholder="Montant *" 
@@ -189,6 +199,7 @@ export default function OptimizedBillingPage() {
                             className="p-3 border rounded-lg" 
                             style={{borderColor: '#7D3837'}} 
                         />
+                        
                         <input 
                             placeholder="Reçu de M. *" 
                             value={formData.receivedFrom}
@@ -196,6 +207,93 @@ export default function OptimizedBillingPage() {
                             className="p-3 border rounded-lg" 
                             style={{borderColor: '#7D3837'}} 
                         />
+                        
+                        <input 
+                            placeholder="La somme de (en lettres) *" 
+                            value={formData.amountInWords}
+                            onChange={(e) => setFormData({...formData, amountInWords: e.target.value})}
+                            className="p-3 border rounded-lg col-span-full" 
+                            style={{borderColor: '#7D3837'}} 
+                        />
+                    </div>
+                    
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Motif *</h4>
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-4">
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="motif"
+                                    value="Repos"
+                                    checked={formData.motif === 'Repos'}
+                                    onChange={(e) => setFormData({...formData, motif: e.target.value as 'Repos' | 'Nuitée'})}
+                                    className="mr-2"
+                                />
+                                Repos
+                            </label>
+                            <label className="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="motif"
+                                    value="Nuitée"
+                                    checked={formData.motif === 'Nuitée'}
+                                    onChange={(e) => setFormData({...formData, motif: e.target.value as 'Repos' | 'Nuitée'})}
+                                    className="mr-2"
+                                />
+                                Nuitée
+                            </label>
+                        </div>
+                        
+                        {formData.motif === 'Repos' ? (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                <div className="relative">
+                                    <input 
+                                        type="time" 
+                                        value={formData.startTime}
+                                        onChange={(e) => setFormData({...formData, startTime: e.target.value})}
+                                        className="p-3 border rounded-lg w-full" 
+                                        style={{borderColor: '#7D3837'}} 
+                                    />
+                                    <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Heure de début *</label>
+                                </div>
+                                <div className="relative">
+                                    <input 
+                                        type="time" 
+                                        value={formData.endTime}
+                                        onChange={(e) => setFormData({...formData, endTime: e.target.value})}
+                                        className="p-3 border rounded-lg w-full" 
+                                        style={{borderColor: '#7D3837'}} 
+                                    />
+                                    <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Heure de fin *</label>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                <div className="relative">
+                                    <input 
+                                        type="date" 
+                                        value={formData.startDate}
+                                        onChange={(e) => setFormData({...formData, startDate: e.target.value})}
+                                        className="p-3 border rounded-lg w-full" 
+                                        style={{borderColor: '#7D3837'}} 
+                                    />
+                                    <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date de début *</label>
+                                </div>
+                                <div className="relative">
+                                    <input 
+                                        type="date" 
+                                        value={formData.endDate}
+                                        onChange={(e) => setFormData({...formData, endDate: e.target.value})}
+                                        className="p-3 border rounded-lg w-full" 
+                                        style={{borderColor: '#7D3837'}} 
+                                    />
+                                    <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date de fin *</label>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
                         <input 
                             placeholder="No. de chambre *" 
                             value={formData.roomNumber}
@@ -203,15 +301,31 @@ export default function OptimizedBillingPage() {
                             className="p-3 border rounded-lg" 
                             style={{borderColor: '#7D3837'}} 
                         />
-                        <select
-                            value={formData.motif}
-                            onChange={(e) => setFormData({...formData, motif: e.target.value as 'Repos' | 'Nuitée'})}
-                            className="p-3 border rounded-lg"
-                            style={{borderColor: '#7D3837'}}
-                        >
-                            <option value="Nuitée">Nuitée</option>
-                            <option value="Repos">Repos</option>
-                        </select>
+                        
+                        <input 
+                            type="number"
+                            placeholder="Avance" 
+                            value={formData.advance}
+                            onChange={(e) => {
+                                const value = e.target.value.replace(/[^0-9]/g, '');
+                                const amount = parseInt(formData.amount) || 0;
+                                const advance = parseInt(value) || 0;
+                                const remaining = Math.max(0, amount - advance).toString();
+                                setFormData({...formData, advance: value, remaining});
+                            }}
+                            className="p-3 border rounded-lg" 
+                            style={{borderColor: '#7D3837'}} 
+                        />
+                        
+                        <input 
+                            type="number"
+                            placeholder="Reste" 
+                            value={formData.remaining}
+                            readOnly
+                            className="p-3 border rounded-lg bg-gray-100" 
+                            style={{borderColor: '#7D3837'}} 
+                        />
+                        
                         <input 
                             placeholder="Signature client *" 
                             value={formData.clientSignature}
@@ -220,18 +334,6 @@ export default function OptimizedBillingPage() {
                             style={{borderColor: '#7D3837'}} 
                         />
                     </div>
-                    
-                    {formData.amountInWords && (
-                        <div className="mb-4 p-3 bg-white border rounded-lg">
-                            <label className="block text-sm font-medium mb-2" style={{color: '#7D3837'}}>Montant en lettres</label>
-                            <input 
-                                value={formData.amountInWords}
-                                onChange={(e) => setFormData({...formData, amountInWords: e.target.value})}
-                                className="w-full p-2 border rounded" 
-                                style={{borderColor: '#7D3837'}} 
-                            />
-                        </div>
-                    )}
                     
                     <div className="flex flex-col sm:flex-row gap-3">
                         <button 
@@ -246,7 +348,8 @@ export default function OptimizedBillingPage() {
                                 setShowForm(false);
                                 setFormData({
                                     date: '', amount: '', receivedFrom: '', amountInWords: '', motif: 'Nuitée',
-                                    roomNumber: '', clientSignature: ''
+                                    startTime: '', endTime: '', startDate: '', endDate: '', roomNumber: '',
+                                    advance: '', remaining: '', clientSignature: ''
                                 });
                             }} 
                             className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 

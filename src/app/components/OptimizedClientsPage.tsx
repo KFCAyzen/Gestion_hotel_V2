@@ -32,7 +32,26 @@ export default function OptimizedClientsPage() {
         phone: '',
         email: '',
         address: '',
-        nationality: ''
+        occupation: '',
+        nationality: '',
+        birthPlace: '',
+        residenceCountry: '',
+        idNumber: '',
+        idIssueDate: '',
+        idIssuePlace: '',
+        idExpiryDate: '',
+        arrivalMode: 'A pied',
+        arrivalDate: '',
+        plateNumber: '',
+        departureMode: '',
+        departureDate: '',
+        gender: '',
+        comingFrom: '',
+        goingTo: '',
+        stayType: 'Nuitée',
+        mealPlan: 'RB',
+        price: '',
+        signature: ''
     });
 
     // Cache simple
@@ -116,7 +135,10 @@ export default function OptimizedClientsPage() {
             
             setShowForm(false);
             setFormData({ 
-                name: '', phonePrefix: '+237', phone: '', email: '', address: '', nationality: ''
+                name: '', phonePrefix: '+237', phone: '', email: '', address: '', occupation: '', nationality: '', 
+                birthPlace: '', residenceCountry: '', idNumber: '', idIssueDate: '', idIssuePlace: '',
+                idExpiryDate: '', arrivalMode: 'A pied', arrivalDate: '', plateNumber: '', departureMode: '', 
+                departureDate: '', gender: '', comingFrom: '', goingTo: '', stayType: 'Nuitée', mealPlan: 'RB', price: '', signature: '' 
             });
             
             // Invalider le cache
@@ -157,55 +179,328 @@ export default function OptimizedClientsPage() {
                 <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
                     <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouveau Client</h3>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-6">
-                        <input 
-                            placeholder="Nom complet *" 
-                            value={formData.name}
-                            onChange={(e) => setFormData({...formData, name: e.target.value})}
-                            className="p-3 border rounded-lg" 
-                            style={{borderColor: '#7D3837'}} 
-                        />
-                        <div className="flex gap-2">
+                    {/* Informations personnelles */}
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Informations personnelles</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                            <input 
+                                placeholder="Nom complet *" 
+                                value={formData.name}
+                                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            <div className="flex gap-2">
+                                <select
+                                    value={formData.phonePrefix}
+                                    onChange={(e) => setFormData({...formData, phonePrefix: e.target.value})}
+                                    className="p-3 border rounded-lg w-24"
+                                    style={{borderColor: '#7D3837'}}
+                                >
+                                    <option value="+237">+237</option>
+                                    <option value="+33">+33</option>
+                                    <option value="+1">+1</option>
+                                    <option value="+44">+44</option>
+                                    <option value="+49">+49</option>
+                                    <option value="+234">+234</option>
+                                    <option value="+225">+225</option>
+                                </select>
+                                <input 
+                                    placeholder="Téléphone *" 
+                                    value={formData.phone}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/[^0-9]/g, '');
+                                        setFormData({...formData, phone: value});
+                                    }}
+                                    className="p-3 border rounded-lg flex-1" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                            </div>
+                            <input 
+                                placeholder="Email *" 
+                                type="email"
+                                value={formData.email}
+                                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            <input 
+                                placeholder="Occupation *" 
+                                value={formData.occupation}
+                                onChange={(e) => setFormData({...formData, occupation: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
                             <select
-                                value={formData.phonePrefix}
-                                onChange={(e) => setFormData({...formData, phonePrefix: e.target.value})}
-                                className="p-3 border rounded-lg w-24"
+                                value={formData.gender}
+                                onChange={(e) => setFormData({...formData, gender: e.target.value})}
+                                className="p-3 border rounded-lg"
                                 style={{borderColor: '#7D3837'}}
                             >
-                                <option value="+237">+237</option>
-                                <option value="+33">+33</option>
-                                <option value="+1">+1</option>
+                                <option value="">Sexe *</option>
+                                <option value="Masculin">Masculin</option>
+                                <option value="Féminin">Féminin</option>
                             </select>
                             <input 
-                                placeholder="Téléphone *" 
-                                value={formData.phone}
-                                onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/[^0-9]/g, '')})}
-                                className="p-3 border rounded-lg flex-1" 
+                                placeholder="Nationalité *" 
+                                value={formData.nationality}
+                                onChange={(e) => setFormData({...formData, nationality: e.target.value})}
+                                className="p-3 border rounded-lg" 
                                 style={{borderColor: '#7D3837'}} 
                             />
                         </div>
-                        <input 
-                            placeholder="Email *" 
-                            type="email"
-                            value={formData.email}
-                            onChange={(e) => setFormData({...formData, email: e.target.value})}
-                            className="p-3 border rounded-lg" 
-                            style={{borderColor: '#7D3837'}} 
-                        />
-                        <input 
-                            placeholder="Adresse" 
-                            value={formData.address}
-                            onChange={(e) => setFormData({...formData, address: e.target.value})}
-                            className="p-3 border rounded-lg" 
-                            style={{borderColor: '#7D3837'}} 
-                        />
-                        <input 
-                            placeholder="Nationalité *" 
-                            value={formData.nationality}
-                            onChange={(e) => setFormData({...formData, nationality: e.target.value})}
-                            className="p-3 border rounded-lg" 
-                            style={{borderColor: '#7D3837'}} 
-                        />
+                    </div>
+
+                    {/* Adresses et lieux */}
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Adresses et lieux</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                            <input 
+                                placeholder="Lieu de naissance *" 
+                                value={formData.birthPlace}
+                                onChange={(e) => setFormData({...formData, birthPlace: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            <input 
+                                placeholder="Pays de résidence *" 
+                                value={formData.residenceCountry}
+                                onChange={(e) => setFormData({...formData, residenceCountry: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            <input 
+                                placeholder="Adresse *" 
+                                value={formData.address}
+                                onChange={(e) => setFormData({...formData, address: e.target.value})}
+                                className="p-3 border rounded-lg col-span-full" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                        </div>
+                    </div>
+
+                    {/* Pièce d'identification */}
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Pièce d'identification</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                            <input 
+                                placeholder="No. Pièce d'identification *" 
+                                value={formData.idNumber}
+                                onChange={(e) => setFormData({...formData, idNumber: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            <div className="relative">
+                                <input 
+                                    type="date" 
+                                    value={formData.idIssueDate}
+                                    onChange={(e) => setFormData({...formData, idIssueDate: e.target.value})}
+                                    className="p-3 border rounded-lg w-full" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date de délivrance *</label>
+                            </div>
+                            <input 
+                                placeholder="Lieu de délivrance *" 
+                                value={formData.idIssuePlace}
+                                onChange={(e) => setFormData({...formData, idIssuePlace: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            <div className="relative">
+                                <input 
+                                    type="date" 
+                                    value={formData.idExpiryDate}
+                                    onChange={(e) => setFormData({...formData, idExpiryDate: e.target.value})}
+                                    className="p-3 border rounded-lg w-full" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date d'expiration *</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Transport et déplacement */}
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Transport et déplacement</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-2" style={{color: '#7D3837'}}>Mode d'arrivée *</label>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="arrivalMode"
+                                            value="A pied"
+                                            checked={formData.arrivalMode === 'A pied'}
+                                            onChange={(e) => setFormData({...formData, arrivalMode: e.target.value, plateNumber: ''})}
+                                            className="mr-2"
+                                        />
+                                        A pied
+                                    </label>
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="arrivalMode"
+                                            value="En voiture"
+                                            checked={formData.arrivalMode === 'En voiture'}
+                                            onChange={(e) => setFormData({...formData, arrivalMode: e.target.value})}
+                                            className="mr-2"
+                                        />
+                                        En voiture
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div className="relative">
+                                <input 
+                                    type="date" 
+                                    value={formData.arrivalDate}
+                                    onChange={(e) => setFormData({...formData, arrivalDate: e.target.value})}
+                                    className="p-3 border rounded-lg w-full" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date d'arrivée *</label>
+                            </div>
+                            
+                            {formData.arrivalMode === 'En voiture' && (
+                                <input 
+                                    placeholder="No. plaque d'immatriculation *" 
+                                    value={formData.plateNumber}
+                                    onChange={(e) => setFormData({...formData, plateNumber: e.target.value})}
+                                    className="p-3 border rounded-lg" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                            )}
+                            
+                            <input 
+                                placeholder="Mode de départ *" 
+                                value={formData.departureMode}
+                                onChange={(e) => setFormData({...formData, departureMode: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            
+                            <div className="relative">
+                                <input 
+                                    type="date" 
+                                    value={formData.departureDate}
+                                    onChange={(e) => setFormData({...formData, departureDate: e.target.value})}
+                                    className="p-3 border rounded-lg w-full" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date de départ *</label>
+                            </div>
+                            
+                            <input 
+                                placeholder="Venant de" 
+                                value={formData.comingFrom}
+                                onChange={(e) => setFormData({...formData, comingFrom: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            
+                            <input 
+                                placeholder="Allant à" 
+                                value={formData.goingTo}
+                                onChange={(e) => setFormData({...formData, goingTo: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                        </div>
+                    </div>
+
+                    {/* Séjour et tarification */}
+                    <div className="mb-4 sm:mb-6">
+                        <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Séjour et tarification</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-2" style={{color: '#7D3837'}}>Type de séjour *</label>
+                                <div className="flex gap-4">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="stayType"
+                                            value="Nuitée"
+                                            checked={formData.stayType === 'Nuitée'}
+                                            onChange={(e) => setFormData({...formData, stayType: e.target.value})}
+                                            className="mr-2"
+                                        />
+                                        Nuitée
+                                    </label>
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="stayType"
+                                            value="Sieste"
+                                            checked={formData.stayType === 'Sieste'}
+                                            onChange={(e) => setFormData({...formData, stayType: e.target.value})}
+                                            className="mr-2"
+                                        />
+                                        Sieste
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label className="block text-sm font-medium mb-2" style={{color: '#7D3837'}}>Étage *</label>
+                                <div className="flex gap-2">
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="mealPlan"
+                                            value="RB"
+                                            checked={formData.mealPlan === 'RB'}
+                                            onChange={(e) => setFormData({...formData, mealPlan: e.target.value})}
+                                            className="mr-1"
+                                        />
+                                        RB
+                                    </label>
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="mealPlan"
+                                            value="HB"
+                                            checked={formData.mealPlan === 'HB'}
+                                            onChange={(e) => setFormData({...formData, mealPlan: e.target.value})}
+                                            className="mr-1"
+                                        />
+                                        HB
+                                    </label>
+                                    <label className="flex items-center">
+                                        <input
+                                            type="radio"
+                                            name="mealPlan"
+                                            value="FB"
+                                            checked={formData.mealPlan === 'FB'}
+                                            onChange={(e) => setFormData({...formData, mealPlan: e.target.value})}
+                                            className="mr-1"
+                                        />
+                                        FB
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <input 
+                                type="number"
+                                placeholder="Prix *" 
+                                value={formData.price}
+                                onChange={(e) => {
+                                    const value = e.target.value.replace(/[^0-9]/g, '');
+                                    setFormData({...formData, price: value});
+                                }}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            
+                            <input 
+                                placeholder="Signature" 
+                                value={formData.signature}
+                                onChange={(e) => setFormData({...formData, signature: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                        </div>
                     </div>
                     
                     <div className="flex flex-col sm:flex-row gap-3">
@@ -220,7 +515,10 @@ export default function OptimizedClientsPage() {
                             onClick={() => {
                                 setShowForm(false);
                                 setFormData({ 
-                                    name: '', phonePrefix: '+237', phone: '', email: '', address: '', nationality: ''
+                                    name: '', phonePrefix: '+237', phone: '', email: '', address: '', occupation: '', nationality: '', 
+                                    birthPlace: '', residenceCountry: '', idNumber: '', idIssueDate: '', idIssuePlace: '',
+                                    idExpiryDate: '', arrivalMode: 'A pied', arrivalDate: '', plateNumber: '', departureMode: '', 
+                                    departureDate: '', gender: '', comingFrom: '', goingTo: '', stayType: 'Nuitée', mealPlan: 'RB', price: '', signature: '' 
                                 });
                             }} 
                             className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 
