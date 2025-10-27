@@ -134,7 +134,8 @@ export default function OptimizedBillingPage() {
             setShowForm(false);
             setFormData({
                 date: '', amount: '', receivedFrom: '', amountInWords: '', motif: 'Nuitée',
-                roomNumber: '', clientSignature: ''
+                startTime: '', endTime: '', startDate: '', endDate: '', roomNumber: '',
+                advance: '', remaining: '', clientSignature: ''
             });
             
             // Invalider le cache
