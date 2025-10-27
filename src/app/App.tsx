@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import DashBoard from "./components/DashBoard";
-import ReservationPage from "./components/ReservationPage";
-import RoomsPage from "./components/RoomsPage";
-import ClientsPage from "./components/ClientsPage";
-import BillingPage from "./components/BillingPage";
+import OptimizedReservationPage from "./components/OptimizedReservationPage";
+import OptimizedRoomsPage from "./components/OptimizedRoomsPage";
+import OptimizedClientsPage from "./components/OptimizedClientsPage";
+import OptimizedBillingPage from "./components/OptimizedBillingPage";
 import PageLoader from "./components/PageLoader";
 import AdminPage from "./components/AdminPage";
 import { Images } from "./components/Images";
@@ -21,7 +21,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ChangePasswordModal from "./components/ChangePasswordModal";
 import CheckoutAlertModal from "./components/CheckoutAlertModal";
 import ChangePassword from "./components/ChangePassword";
-import NotificationsPage from "./components/NotificationsPage";
+import OptimizedNotificationsPage from "./components/OptimizedNotificationsPage";
 import WelcomeScreen from "./components/WelcomeScreen";
 
 /**
@@ -94,7 +94,7 @@ export default function App() {
                         loadingSteps={['Chargement des réservations...', 'Vérification des disponibilités...', 'Finalisation...']}
                         minLoadTime={600}
                     >
-                        <ReservationPage />
+                        <OptimizedReservationPage />
                     </PageLoader>
                 );
             case "chambres":
@@ -103,7 +103,7 @@ export default function App() {
                         loadingSteps={['Chargement des chambres...', 'Vérification des statuts...', 'Finalisation...']}
                         minLoadTime={600}
                     >
-                        <RoomsPage />
+                        <OptimizedRoomsPage />
                     </PageLoader>
                 );
             case "clients":
@@ -112,7 +112,7 @@ export default function App() {
                         loadingSteps={['Chargement des clients...', 'Tri des données...', 'Finalisation...']}
                         minLoadTime={600}
                     >
-                        <ClientsPage />
+                        <OptimizedClientsPage />
                     </PageLoader>
                 );
             case "facturation":
@@ -121,7 +121,7 @@ export default function App() {
                         loadingSteps={['Chargement des factures...', 'Calcul des totaux...', 'Finalisation...']}
                         minLoadTime={600}
                     >
-                        <BillingPage />
+                        <OptimizedBillingPage />
                     </PageLoader>
                 );
             case "admin":
@@ -139,7 +139,7 @@ export default function App() {
                         loadingSteps={['Chargement des notifications...', 'Finalisation...']}
                         minLoadTime={400}
                     >
-                        <NotificationsPage />
+                        <OptimizedNotificationsPage />
                     </PageLoader>
                 );
             default:
