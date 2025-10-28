@@ -65,9 +65,10 @@ export const loadFromFirebase = async (collectionName: string) => {
  * Sauvegarde unifiée : localStorage + Firebase
  */
 export const saveData = async (collectionName: string, data: any) => {
-    // Générer un ID si nécessaire
+    // Générer un ID et timestamp si nécessaire
     const id = data.id || Date.now().toString() + '_' + Math.random().toString(36).substr(2, 9);
-    const itemWithId = { ...data, id };
+    const timestamp = data.createdAt || Date.now();
+    const itemWithId = { ...data, id, createdAt: timestamp };
     
     // Sauvegarder immédiatement en local
     const localData = JSON.parse(localStorage.getItem(collectionName) || '[]');

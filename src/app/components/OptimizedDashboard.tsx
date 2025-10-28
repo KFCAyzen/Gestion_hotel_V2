@@ -225,13 +225,23 @@ export default function OptimizedDashboard() {
         const bills = JSON.parse(localStorage.getItem('bills') || '[]');
         const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
 
+        const formatActivityTime = (timestamp: string | number) => {
+            if (!timestamp) return 'Heure inconnue';
+            const date = new Date(timestamp);
+            if (isNaN(date.getTime())) return 'Heure inconnue';
+            return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        };
+
         const recentActivities = [...reservations.slice(-3), ...clients.slice(-2), ...bills.slice(-2)]
             .filter(item => item && typeof item === 'object')
             .slice(-5)
             .map((item: any) => {
-                if (item.clientName) return { type: 'reservation', message: `Nouvelle réservation - ${item.clientName}`, detail: `Chambre ${item.roomNumber || 'N/A'}`, time: 'Il y a quelques minutes' };
-                if (item.name) return { type: 'client', message: `Nouveau client - ${item.name}`, detail: item.phone || 'Téléphone non renseigné', time: 'Il y a quelques minutes' };
-                return { type: 'billing', message: `Nouveau reçu - ${item.receivedFrom || 'Client'}`, detail: formatPrice(item.amount || '0'), time: 'Il y a quelques minutes' };
+                const timestamp = item.createdAt || item.timestamp || Date.now();
+                const time = formatActivityTime(timestamp);
+                
+                if (item.clientName) return { type: 'reservation', message: `Nouvelle réservation - ${item.clientName}`, detail: `Chambre ${item.roomNumber || 'N/A'}`, time };
+                if (item.name) return { type: 'client', message: `Nouveau client - ${item.name}`, detail: item.phone || 'Téléphone non renseigné', time };
+                return { type: 'billing', message: `Nouveau reçu - ${item.receivedFrom || 'Client'}`, detail: formatPrice(item.amount || '0'), time };
             });
 
         const weeklyReservations = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].map((day, index) => ({
