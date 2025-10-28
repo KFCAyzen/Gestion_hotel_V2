@@ -275,13 +275,149 @@ export default function OptimizedReservationPage() {
         }
     }, [formData, rooms, user, showNotification, addLog, loadData]);
 
+    // Affichage pendant le chargement avec bouton accessible
     if (isLoading && reservations.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor: '#7D3837'}}></div>
-                <div className="text-center">
-                    <p className="text-lg font-medium" style={{color: '#7D3837'}}>Chargement des réservations...</p>
-                    {loadingStep && <p className="text-sm text-slate-600 mt-2">{loadingStep}</p>}
+            <div className="p-4 sm:p-6 lg:p-8">
+                <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Réservations</h1>
+                
+                <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                    <button 
+                        onClick={() => setShowForm(true)}
+                        style={{backgroundColor: '#7D3837'}} 
+                        className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
+                    >
+                        Nouvelle Réservation
+                    </button>
+                </div>
+                
+                {showForm && (
+                    <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
+                        <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouvelle Réservation</h3>
+                        
+                        {/* Informations de base */}
+                        <div className="mb-4 sm:mb-6">
+                            <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Informations de base</h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                                <input 
+                                    placeholder="Nom du client *" 
+                                    value={formData.clientName}
+                                    onChange={(e) => setFormData({...formData, clientName: e.target.value})}
+                                    className="p-3 border rounded-lg" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <div className="flex gap-2">
+                                    <select
+                                        value={formData.phonePrefix}
+                                        onChange={(e) => setFormData({...formData, phonePrefix: e.target.value})}
+                                        className="p-3 border rounded-lg w-24"
+                                        style={{borderColor: '#7D3837'}}
+                                    >
+                                        <option value="+237">+237</option>
+                                        <option value="+33">+33</option>
+                                        <option value="+1">+1</option>
+                                        <option value="+44">+44</option>
+                                        <option value="+49">+49</option>
+                                        <option value="+234">+234</option>
+                                        <option value="+225">+225</option>
+                                    </select>
+                                    <input 
+                                        placeholder="Téléphone *" 
+                                        value={formData.clientPhone}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/[^0-9]/g, '');
+                                            setFormData({...formData, clientPhone: value});
+                                        }}
+                                        className="p-3 border rounded-lg flex-1" 
+                                        style={{borderColor: '#7D3837'}} 
+                                    />
+                                </div>
+                                <input 
+                                    placeholder="Email" 
+                                    type="email"
+                                    value={formData.clientEmail}
+                                    onChange={(e) => setFormData({...formData, clientEmail: e.target.value})}
+                                    className="p-3 border rounded-lg" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                            </div>
+                        </div>
+                        
+                        {/* Réservation */}
+                        <div className="mb-4 sm:mb-6">
+                            <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Détails de la réservation</h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                                <input 
+                                    placeholder="Numéro de chambre *" 
+                                    value={formData.roomNumber}
+                                    onChange={(e) => setFormData({...formData, roomNumber: e.target.value})}
+                                    className="p-3 border rounded-lg w-full" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <div className="relative">
+                                    <input 
+                                        type="date" 
+                                        value={formData.checkIn}
+                                        min={new Date().toISOString().split('T')[0]}
+                                        onChange={(e) => setFormData({...formData, checkIn: e.target.value})}
+                                        className="p-3 border rounded-lg w-full" 
+                                        style={{borderColor: '#7D3837'}} 
+                                    />
+                                    <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date d'arrivée *</label>
+                                </div>
+                                <div className="relative">
+                                    <input 
+                                        type="date" 
+                                        value={formData.checkOut}
+                                        min={formData.checkIn || new Date().toISOString().split('T')[0]}
+                                        onChange={(e) => setFormData({...formData, checkOut: e.target.value})}
+                                        className="p-3 border rounded-lg w-full" 
+                                        style={{borderColor: '#7D3837'}} 
+                                    />
+                                    <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date de départ</label>
+                                </div>
+                                <input 
+                                    type="number"
+                                    placeholder="Prix total (FCFA)" 
+                                    value={formData.totalPrice}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/[^0-9]/g, '');
+                                        setFormData({...formData, totalPrice: value});
+                                    }}
+                                    className="p-3 border rounded-lg w-full" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                            </div>
+                        </div>
+                        
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <button 
+                                onClick={handleSaveReservation}
+                                style={{backgroundColor: '#7D3837'}} 
+                                className="text-yellow-300 px-6 py-3 rounded hover:opacity-80 transition-opacity font-medium"
+                            >
+                                Enregistrer
+                            </button>
+                            <button 
+                                onClick={() => {
+                                    setShowForm(false);
+                                    setFormData({ clientName: '', phonePrefix: '+237', clientPhone: '', clientEmail: '', address: '', occupation: '', nationality: '', birthPlace: '', residenceCountry: '', idNumber: '', idIssueDate: '', idIssuePlace: '', idExpiryDate: '', gender: '', arrivalMode: 'A pied', plateNumber: '', departureMode: '', comingFrom: '', goingTo: '', stayType: 'Nuitée', mealPlan: 'RB', signature: '', roomNumber: '', checkIn: '', checkOut: '', duration: '', totalPrice: '' });
+                                }} 
+                                className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 
+                                style={{borderColor: '#7D3837', color: '#7D3837'}}
+                            >
+                                Annuler
+                            </button>
+                        </div>
+                    </div>
+                )}
+                
+                <div className="flex flex-col items-center justify-center min-h-[300px] space-y-4">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor: '#7D3837'}}></div>
+                    <div className="text-center">
+                        <p className="text-lg font-medium" style={{color: '#7D3837'}}>Chargement des réservations...</p>
+                        {loadingStep && <p className="text-sm text-slate-600 mt-2">{loadingStep}</p>}
+                    </div>
                 </div>
             </div>
         );
