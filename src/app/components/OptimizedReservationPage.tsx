@@ -22,6 +22,8 @@ export default function OptimizedReservationPage() {
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [rooms, setRooms] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [loadingStep, setLoadingStep] = useState('');
+    const [isSyncing, setIsSyncing] = useState(false);
     const { showNotification } = useNotificationContext();
     const { addLog } = useActivityLog();
     const { user } = useAuth();
@@ -77,10 +79,25 @@ export default function OptimizedReservationPage() {
         }
 
         setIsLoading(true);
+        
         try {
+            // Charger d'abord depuis localStorage pour un affichage rapide
+            setLoadingStep('Chargement des données locales...');
+            const localReservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+            const localRooms = JSON.parse(localStorage.getItem('rooms') || '[]');
+            
+            if (localReservations.length > 0 || localRooms.length > 0) {
+                setReservations(localReservations);
+                setRooms(localRooms);
+                setIsLoading(false);
+            }
+            
+            // Puis synchroniser avec Firebase en arrière-plan
+            setLoadingStep('Synchronisation avec le serveur...');
+            setIsSyncing(true);
             const [reservationsData, roomsData] = await Promise.all([
-                loadFromFirebase('reservations').catch(() => JSON.parse(localStorage.getItem('reservations') || '[]')),
-                loadFromFirebase('rooms').catch(() => JSON.parse(localStorage.getItem('rooms') || '[]'))
+                loadFromFirebase('reservations').catch(() => localReservations),
+                loadFromFirebase('rooms').catch(() => localRooms)
             ]);
 
             const validReservations = Array.isArray(reservationsData) ? reservationsData : [];
@@ -95,12 +112,19 @@ export default function OptimizedReservationPage() {
                 rooms: validRooms,
                 timestamp: now
             });
+            
+            // Sauvegarder en local pour la prochaine fois
+            localStorage.setItem('reservations', JSON.stringify(validReservations));
+            localStorage.setItem('rooms', JSON.stringify(validRooms));
+            
         } catch (error) {
             console.warn('Error loading data:', error);
             setReservations([]);
             setRooms([]);
         } finally {
             setIsLoading(false);
+            setLoadingStep('');
+            setIsSyncing(false);
         }
     }, [dataCache.timestamp]);
 
@@ -185,8 +209,16 @@ export default function OptimizedReservationPage() {
         }
     }, [formData, rooms, user, showNotification, addLog, loadData]);
 
-    if (isLoading) {
-        return <LoadingSpinner size="lg" text="Chargement des réservations..." />;
+    if (isLoading && reservations.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[400px] space-y-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor: '#7D3837'}}></div>
+                <div className="text-center">
+                    <p className="text-lg font-medium" style={{color: '#7D3837'}}>Chargement des réservations...</p>
+                    {loadingStep && <p className="text-sm text-slate-600 mt-2">{loadingStep}</p>}
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -431,12 +463,19 @@ export default function OptimizedReservationPage() {
                             <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full">
                                 {reservations.length} réservation(s)
                             </span>
+                            {isSyncing && (
+                                <div className="flex items-center gap-2 text-xs text-slate-600">
+                                    <div className="animate-spin rounded-full h-3 w-3 border border-slate-400 border-t-transparent"></div>
+                                    <span>Synchronisation...</span>
+                                </div>
+                            )}
                             <button 
                                 onClick={() => {
                                     setDataCache({});
                                     loadData();
                                 }}
-                                className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
+                                disabled={isSyncing}
+                                className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors disabled:opacity-50"
                             >
                                 Actualiser
                             </button>
