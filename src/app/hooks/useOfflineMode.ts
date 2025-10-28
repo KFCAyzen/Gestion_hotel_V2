@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
+import { PersistentStorage } from '../utils/persistentStorage';
 
 interface OfflineData {
     type: string;
@@ -33,11 +34,11 @@ export function useOfflineMode() {
 
     // Charger les données en attente de synchronisation
     useEffect(() => {
-        const loadPendingSync = () => {
+        const loadPendingSync = async () => {
             try {
-                const pending = localStorage.getItem('pendingSync');
-                if (pending) {
-                    setPendingSync(JSON.parse(pending));
+                const pending = await PersistentStorage.load('pendingSync');
+                if (pending && Array.isArray(pending)) {
+                    setPendingSync(pending);
                 }
             } catch (error) {
                 console.warn('Erreur lors du chargement des données en attente:', error);
@@ -47,13 +48,16 @@ export function useOfflineMode() {
         loadPendingSync();
     }, []);
 
-    // Sauvegarder les données en attente
-    const savePendingSync = useCallback((data: OfflineData[]) => {
+    // Sauvegarder les données en attente avec double protection
+    const savePendingSync = useCallback(async (data: OfflineData[]) => {
         try {
-            localStorage.setItem('pendingSync', JSON.stringify(data));
+            await PersistentStorage.save('pendingSync', data);
             setPendingSync(data);
         } catch (error) {
             console.warn('Erreur lors de la sauvegarde des données en attente:', error);
+            // Fallback localStorage
+            localStorage.setItem('pendingSync', JSON.stringify(data));
+            setPendingSync(data);
         }
     }, []);
 
@@ -99,11 +103,11 @@ export function useOfflineMode() {
         }
     }, [isOnline, syncPendingData]);
 
-    // Sauvegarder les données localement (mode hors ligne)
-    const saveOfflineData = useCallback((type: string, data: any, action: 'create' | 'update' | 'delete' = 'create') => {
+    // Sauvegarder les données localement avec double protection
+    const saveOfflineData = useCallback(async (type: string, data: any, action: 'create' | 'update' | 'delete' = 'create') => {
         try {
-            // Sauvegarder dans localStorage
-            const existingData = JSON.parse(localStorage.getItem(type) || '[]');
+            // Charger les données existantes
+            const existingData = await PersistentStorage.load(type) || [];
             
             let updatedData;
             if (action === 'create') {
@@ -116,7 +120,8 @@ export function useOfflineMode() {
                 updatedData = existingData.filter((item: any) => item.id !== data.id);
             }
 
-            localStorage.setItem(type, JSON.stringify(updatedData));
+            // Sauvegarder avec double protection
+            await PersistentStorage.save(type, updatedData);
 
             // Ajouter à la file d'attente de synchronisation si hors ligne
             if (!isOnline) {
@@ -130,11 +135,11 @@ export function useOfflineMode() {
         }
     }, [isOnline, addPendingOperation]);
 
-    // Charger les données (priorité localStorage si hors ligne)
-    const loadOfflineData = useCallback((type: string) => {
+    // Charger les données avec fallback automatique
+    const loadOfflineData = useCallback(async (type: string) => {
         try {
-            const data = localStorage.getItem(type);
-            return data ? JSON.parse(data) : [];
+            const data = await PersistentStorage.load(type);
+            return data || [];
         } catch (error) {
             console.warn('Erreur lors du chargement des données hors ligne:', error);
             return [];
