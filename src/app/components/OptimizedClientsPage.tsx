@@ -14,6 +14,7 @@ interface Client {
     email: string;
     address: string;
     nationality: string;
+    createdAt?: number;
 }
 
 export default function OptimizedClientsPage() {
