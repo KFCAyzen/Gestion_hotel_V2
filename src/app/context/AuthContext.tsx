@@ -45,28 +45,66 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [users, setUsers] = useState<User[]>(defaultUsers);
     const [passwords, setPasswords] = useState<Record<string, string>>(defaultPasswords);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const savedUser = localStorage.getItem('currentUser');
-        const savedUsers = localStorage.getItem('systemUsers');
-        const savedPasswords = localStorage.getItem('systemPasswords');
+        const restoreSession = () => {
+            try {
+                const savedUser = localStorage.getItem('currentUser');
+                const sessionToken = localStorage.getItem('sessionToken');
+                const sessionExpiry = localStorage.getItem('sessionExpiry');
+                const savedUsers = localStorage.getItem('systemUsers');
+                const savedPasswords = localStorage.getItem('systemPasswords');
+                
+                // Vérifier si la session est valide
+                if (savedUser && sessionToken && sessionExpiry) {
+                    const expiryTime = parseInt(sessionExpiry);
+                    const currentTime = Date.now();
+                    
+                    if (currentTime < expiryTime) {
+                        // Session valide, restaurer l'utilisateur
+                        setUser(JSON.parse(savedUser));
+                    } else {
+                        // Session expirée, nettoyer
+                        localStorage.removeItem('currentUser');
+                        localStorage.removeItem('sessionToken');
+                        localStorage.removeItem('sessionExpiry');
+                    }
+                }
+                
+                if (savedUsers) {
+                    setUsers(JSON.parse(savedUsers));
+                }
+                if (savedPasswords) {
+                    setPasswords(JSON.parse(savedPasswords));
+                }
+            } catch (error) {
+                console.error('Erreur lors de la restauration de session:', error);
+                // En cas d'erreur, nettoyer le localStorage
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('sessionToken');
+                localStorage.removeItem('sessionExpiry');
+            } finally {
+                setIsLoading(false);
+            }
+        };
         
-        if (savedUser) {
-            setUser(JSON.parse(savedUser));
-        }
-        if (savedUsers) {
-            setUsers(JSON.parse(savedUsers));
-        }
-        if (savedPasswords) {
-            setPasswords(JSON.parse(savedPasswords));
-        }
+        restoreSession();
     }, []);
 
     const login = async (username: string, password: string): Promise<boolean> => {
         const foundUser = users.find(u => u.username === username);
         if (foundUser && passwords[username] === password) {
             setUser(foundUser);
+            
+            // Créer une session avec token et expiration (24 heures)
+            const sessionToken = btoa(Math.random().toString(36).substring(2) + Date.now().toString());
+            const sessionExpiry = Date.now() + (24 * 60 * 60 * 1000); // 24 heures
+            
             localStorage.setItem('currentUser', JSON.stringify(foundUser));
+            localStorage.setItem('sessionToken', sessionToken);
+            localStorage.setItem('sessionExpiry', sessionExpiry.toString());
+            
             return true;
         }
         return false;
@@ -75,6 +113,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const logout = () => {
         setUser(null);
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('sessionToken');
+        localStorage.removeItem('sessionExpiry');
     };
 
     const hasPermission = (requiredRole: UserRole): boolean => {
@@ -201,6 +241,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         return true;
     };
+
+    // Afficher un loader pendant la vérification de session
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            </div>
+        );
+    }
 
     return (
         <AuthContext.Provider value={{ user, users, login, logout, hasPermission, createUser, canCreateRole, changePassword, deleteUser, canDeleteUser, resetUserPassword, canResetPassword }}>
