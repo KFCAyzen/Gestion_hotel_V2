@@ -178,8 +178,103 @@ export default function OptimizedClientsPage() {
         }
     }, [formData, user, showNotification, addLog, loadClients]);
 
-    if (isLoading) {
-        return <LoadingSpinner size="lg" text="Chargement des clients..." />;
+    // Affichage pendant le chargement avec bouton accessible
+    if (isLoading && clients.length === 0) {
+        return (
+            <div className="p-4 sm:p-6 lg:p-8">
+                <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Clients</h1>
+                
+                <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                    <button 
+                        onClick={() => setShowForm(true)}
+                        style={{backgroundColor: '#7D3837'}} 
+                        className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
+                    >
+                        Nouveau Client
+                    </button>
+                </div>
+                
+                {showForm && (
+                    <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
+                        <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouveau Client</h3>
+                        
+                        <div className="mb-4 sm:mb-6">
+                            <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Informations personnelles</h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                                <input 
+                                    placeholder="Nom complet *" 
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                    className="p-3 border rounded-lg" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <div className="flex gap-2">
+                                    <select
+                                        value={formData.phonePrefix}
+                                        onChange={(e) => setFormData({...formData, phonePrefix: e.target.value})}
+                                        className="p-3 border rounded-lg w-24"
+                                        style={{borderColor: '#7D3837'}}
+                                    >
+                                        <option value="+237">+237</option>
+                                        <option value="+33">+33</option>
+                                        <option value="+1">+1</option>
+                                    </select>
+                                    <input 
+                                        placeholder="Téléphone *" 
+                                        value={formData.phone}
+                                        onChange={(e) => {
+                                            const value = e.target.value.replace(/[^0-9]/g, '');
+                                            setFormData({...formData, phone: value});
+                                        }}
+                                        className="p-3 border rounded-lg flex-1" 
+                                        style={{borderColor: '#7D3837'}} 
+                                    />
+                                </div>
+                                <input 
+                                    placeholder="Email *" 
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                                    className="p-3 border rounded-lg" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <input 
+                                    placeholder="Nationalité *" 
+                                    value={formData.nationality}
+                                    onChange={(e) => setFormData({...formData, nationality: e.target.value})}
+                                    className="p-3 border rounded-lg" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                            </div>
+                        </div>
+                        
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <button 
+                                onClick={handleSaveClient}
+                                style={{backgroundColor: '#7D3837'}} 
+                                className="text-yellow-300 px-6 py-3 rounded hover:opacity-80 transition-opacity font-medium"
+                            >
+                                Enregistrer
+                            </button>
+                            <button 
+                                onClick={() => setShowForm(false)} 
+                                className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 
+                                style={{borderColor: '#7D3837', color: '#7D3837'}}
+                            >
+                                Annuler
+                            </button>
+                        </div>
+                    </div>
+                )}
+                
+                <div className="flex flex-col items-center justify-center min-h-[300px] space-y-4">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor: '#7D3837'}}></div>
+                    <div className="text-center">
+                        <p className="text-lg font-medium" style={{color: '#7D3837'}}>Chargement des clients...</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (

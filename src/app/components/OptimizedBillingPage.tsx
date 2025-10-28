@@ -173,8 +173,94 @@ export default function OptimizedBillingPage() {
         }
     }, [formData, user, showNotification, addLog, loadBills]);
 
-    if (isLoading) {
-        return <LoadingSpinner size="lg" text="Chargement des reçus..." />;
+    // Affichage pendant le chargement avec bouton accessible
+    if (isLoading && bills.length === 0) {
+        return (
+            <div className="p-4 sm:p-6 lg:p-8">
+                <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Reçus</h1>
+                
+                <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                    <button 
+                        onClick={() => setShowForm(true)}
+                        style={{backgroundColor: '#7D3837'}} 
+                        className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
+                    >
+                        Nouveau Reçu
+                    </button>
+                </div>
+                
+                {showForm && (
+                    <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
+                        <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouveau Reçu</h3>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                            <div className="relative">
+                                <input 
+                                    type="date" 
+                                    value={formData.date}
+                                    onChange={(e) => setFormData({...formData, date: e.target.value})}
+                                    className="p-3 border rounded-lg w-full" 
+                                    style={{borderColor: '#7D3837'}} 
+                                />
+                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date *</label>
+                            </div>
+                            
+                            <input 
+                                type="number"
+                                placeholder="Montant *" 
+                                value={formData.amount}
+                                onChange={(e) => {
+                                    const value = e.target.value.replace(/[^0-9]/g, '');
+                                    setFormData({...formData, amount: value});
+                                }}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            
+                            <input 
+                                placeholder="Reçu de M. *" 
+                                value={formData.receivedFrom}
+                                onChange={(e) => setFormData({...formData, receivedFrom: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                            
+                            <input 
+                                placeholder="No. de chambre *" 
+                                value={formData.roomNumber}
+                                onChange={(e) => setFormData({...formData, roomNumber: e.target.value})}
+                                className="p-3 border rounded-lg" 
+                                style={{borderColor: '#7D3837'}} 
+                            />
+                        </div>
+                        
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <button 
+                                onClick={handleSaveBill}
+                                style={{backgroundColor: '#7D3837'}} 
+                                className="text-yellow-300 px-6 py-3 rounded hover:opacity-80 transition-opacity font-medium"
+                            >
+                                Enregistrer
+                            </button>
+                            <button 
+                                onClick={() => setShowForm(false)} 
+                                className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 
+                                style={{borderColor: '#7D3837', color: '#7D3837'}}
+                            >
+                                Annuler
+                            </button>
+                        </div>
+                    </div>
+                )}
+                
+                <div className="flex flex-col items-center justify-center min-h-[300px] space-y-4">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor: '#7D3837'}}></div>
+                    <div className="text-center">
+                        <p className="text-lg font-medium" style={{color: '#7D3837'}}>Chargement des reçus...</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -458,6 +544,39 @@ export default function OptimizedBillingPage() {
                                     </div>
                                     
                                     <h3 className="font-semibold text-slate-800 text-base sm:text-lg mb-3">{bill.receivedFrom}</h3>
+                                    
+                                    {/* Boutons d'action */}
+                                    <div className="flex gap-2 mb-3">
+                                        <button
+                                            onClick={() => window.print()}
+                                            className="px-3 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded text-xs transition-colors"
+                                            title="Imprimer"
+                                        >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                            </svg>
+                                        </button>
+                                        {(user?.role === 'admin' || user?.role === 'super_admin') && (
+                                            <>
+                                                <button
+                                                    className="px-3 py-1 bg-green-100 hover:bg-green-200 text-green-700 rounded text-xs transition-colors"
+                                                    title="Modifier"
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                    </svg>
+                                                </button>
+                                                <button
+                                                    className="px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded text-xs transition-colors"
+                                                    title="Supprimer"
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
                                     
                                     <div className="space-y-3">
                                         <div className="flex items-center justify-between">
