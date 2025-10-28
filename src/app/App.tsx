@@ -23,6 +23,7 @@ import CheckoutAlertModal from "./components/CheckoutAlertModal";
 import ChangePassword from "./components/ChangePassword";
 import OptimizedNotificationsPage from "./components/OptimizedNotificationsPage";
 import WelcomeScreen from "./components/WelcomeScreen";
+import OfflineIndicator from "./components/OfflineIndicator";
 
 /**
  * Composant principal de l'application de gestion d'hôtel
@@ -450,6 +451,9 @@ export default function App() {
                     setShowCheckoutAlert(true);
                 }} />
             )}
+            
+            {/* Indicateur de mode hors ligne */}
+            <OfflineIndicator />
         </div>
     );
 }

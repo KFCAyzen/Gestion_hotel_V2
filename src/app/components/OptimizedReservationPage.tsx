@@ -7,6 +7,7 @@ import { formatPrice } from "../utils/formatPrice";
 import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "./LoadingSpinner";
+import { useOfflineMode } from "../hooks/useOfflineMode";
 
 interface Reservation {
     id: string;
@@ -27,6 +28,7 @@ export default function OptimizedReservationPage() {
     const { showNotification } = useNotificationContext();
     const { addLog } = useActivityLog();
     const { user } = useAuth();
+    const { isOnline, saveOfflineData, loadOfflineData } = useOfflineMode();
     
     const [formData, setFormData] = useState({
         clientName: '',
@@ -179,24 +181,45 @@ export default function OptimizedReservationPage() {
         };
 
         try {
-            await Promise.all([
-                saveData('reservations', reservationData),
-                saveData('clients', {
+            if (isOnline) {
+                await Promise.all([
+                    saveData('reservations', reservationData),
+                    saveData('clients', {
+                        name: formData.clientName,
+                        phone: reservationData.phone,
+                        email: formData.clientEmail || '',
+                        createdBy: user?.username || 'system'
+                    })
+                ]);
+
+                // Mettre à jour le statut de la chambre
+                const room = rooms.find(r => r.number === formData.roomNumber);
+                if (room) {
+                    await saveData('rooms', { ...room, status: 'Occupée' });
+                }
+            } else {
+                // Mode hors ligne
+                saveOfflineData('reservations', reservationData);
+                saveOfflineData('clients', {
                     name: formData.clientName,
                     phone: reservationData.phone,
                     email: formData.clientEmail || '',
                     createdBy: user?.username || 'system'
-                })
-            ]);
-
-            // Mettre à jour le statut de la chambre
-            const room = rooms.find(r => r.number === formData.roomNumber);
-            if (room) {
-                await saveData('rooms', { ...room, status: 'Occupée' });
+                });
+                
+                const room = rooms.find(r => r.number === formData.roomNumber);
+                if (room) {
+                    saveOfflineData('rooms', { ...room, status: 'Occupée' }, 'update');
+                }
             }
 
             addLog('Création réservation', 'reservations', `Réservation: ${formData.clientName} - Chambre ${formData.roomNumber}`, reservationData);
-            showNotification("Réservation enregistrée avec succès!", "success");
+            showNotification(
+                isOnline 
+                    ? "Réservation enregistrée avec succès!" 
+                    : "Réservation sauvegardée hors ligne. Sera synchronisée à la reconnexion.", 
+                "success"
+            );
             
             setShowForm(false);
             setFormData({ clientName: '', phonePrefix: '+237', clientPhone: '', clientEmail: '', address: '', occupation: '', nationality: '', birthPlace: '', residenceCountry: '', idNumber: '', idIssueDate: '', idIssuePlace: '', idExpiryDate: '', gender: '', arrivalMode: 'A pied', plateNumber: '', departureMode: '', comingFrom: '', goingTo: '', stayType: 'Nuitée', mealPlan: 'RB', signature: '', roomNumber: '', checkIn: '', checkOut: '', duration: '', totalPrice: '' });
