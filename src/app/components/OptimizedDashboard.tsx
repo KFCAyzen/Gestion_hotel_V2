@@ -58,7 +58,11 @@ const StatCard = memo(({ stat, index }: { stat: any; index: number }) => (
 
 StatCard.displayName = 'StatCard';
 
-export default function OptimizedDashboard() {
+interface OptimizedDashboardProps {
+    onNavigate?: (page: string) => void;
+}
+
+export default function OptimizedDashboard({ onNavigate }: OptimizedDashboardProps = {}) {
     const { user } = useAuth();
     const { isLoading, currentStep, steps, error, isComplete, executeSteps } = useProgressiveLoading();
     
@@ -378,9 +382,19 @@ export default function OptimizedDashboard() {
             {/* Statistiques principales */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {loadedSections.basicStats ? (
-                    stats.map((stat, index) => (
-                        <StatCard key={index} stat={stat} index={index} />
-                    ))
+                    stats.map((stat, index) => {
+                        const getNavigationPage = () => {
+                            if (stat.title.includes('Réservations')) return 'reservations';
+                            if (stat.title.includes('Revenus')) return 'admin';
+                            return 'chambres';
+                        };
+                        
+                        return (
+                            <div key={index} onClick={() => onNavigate?.(getNavigationPage())} className="cursor-pointer">
+                                <StatCard stat={stat} index={index} />
+                            </div>
+                        );
+                    })
                 ) : (
                     <SkeletonLoader type="card" count={3} />
                 )}
@@ -418,7 +432,7 @@ export default function OptimizedDashboard() {
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm cursor-pointer hover:shadow-md transition-shadow" onClick={() => onNavigate?.('chambres')}>
                             <h3 className="text-lg font-semibold text-slate-800 mb-4">Statut des Chambres</h3>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="text-center p-4 bg-green-50 rounded-lg">
@@ -449,7 +463,7 @@ export default function OptimizedDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {loadedSections.revenueStats ? (
                     <>
-                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm cursor-pointer hover:shadow-md transition-shadow" onClick={() => onNavigate?.('admin')}>
                             <h3 className="text-lg font-semibold text-slate-800 mb-4">Rendement Journalier</h3>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
@@ -469,7 +483,7 @@ export default function OptimizedDashboard() {
                             </div>
                         </div>
 
-                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm cursor-pointer hover:shadow-md transition-shadow" onClick={() => onNavigate?.('admin')}>
                             <h3 className="text-lg font-semibold text-slate-800 mb-4">Revenus du Mois</h3>
                             <div className="text-center">
                                 <div className="text-3xl font-bold" style={{color: '#7D3837'}}>
@@ -488,7 +502,7 @@ export default function OptimizedDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {loadedSections.activityData ? (
                     <>
-                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                        <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm cursor-pointer hover:shadow-md transition-shadow" onClick={() => onNavigate?.('admin')}>
                             <h3 className="text-lg font-semibold text-slate-800 mb-4">Activités Récentes</h3>
                             <div className="space-y-3">
                                 {dashboardData.activityData.recentActivities.length === 0 ? (

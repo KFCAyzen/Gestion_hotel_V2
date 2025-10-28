@@ -25,6 +25,7 @@ export default function OptimizedReservationPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [loadingStep, setLoadingStep] = useState('');
     const [isSyncing, setIsSyncing] = useState(false);
+    const [periodFilter, setPeriodFilter] = useState('all');
     const { showNotification } = useNotificationContext();
     const { addLog } = useActivityLog();
     const { user } = useAuth();
@@ -161,6 +162,35 @@ export default function OptimizedReservationPage() {
         });
     }, [rooms, reservations, formData.checkIn, formData.checkOut, formData.roomNumber]);
 
+    // Filtrage des réservations par période
+    const filteredReservations = useMemo(() => {
+        if (periodFilter === 'all') return reservations;
+        
+        const now = new Date();
+        const today = now.toISOString().split('T')[0];
+        
+        switch (periodFilter) {
+            case 'today':
+                return reservations.filter(r => r.checkIn === today);
+            case 'week':
+                const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+                const weekEnd = new Date(weekStart.getTime() + 6 * 24 * 60 * 60 * 1000);
+                return reservations.filter(r => {
+                    const checkIn = new Date(r.checkIn);
+                    return checkIn >= weekStart && checkIn <= weekEnd;
+                });
+            case 'month':
+                const currentMonth = now.getMonth();
+                const currentYear = now.getFullYear();
+                return reservations.filter(r => {
+                    const checkIn = new Date(r.checkIn);
+                    return checkIn.getMonth() === currentMonth && checkIn.getFullYear() === currentYear;
+                });
+            default:
+                return reservations;
+        }
+    }, [reservations, periodFilter]);
+
     useEffect(() => {
         loadData();
     }, []);
@@ -256,6 +286,20 @@ export default function OptimizedReservationPage() {
                 >
                     Nouvelle Réservation
                 </button>
+                
+                <div className="flex gap-2">
+                    <select
+                        value={periodFilter}
+                        onChange={(e) => setPeriodFilter(e.target.value)}
+                        className="px-3 py-2 border rounded-lg text-sm"
+                        style={{borderColor: '#7D3837'}}
+                    >
+                        <option value="all">Toutes les périodes</option>
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month">Ce mois</option>
+                    </select>
+                </div>
             </div>
             
             {showForm && (
@@ -484,7 +528,14 @@ export default function OptimizedReservationPage() {
                         <h2 className="text-lg sm:text-xl font-semibold text-slate-800">Liste des Réservations</h2>
                         <div className="flex items-center gap-3">
                             <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full">
-                                {reservations.length} réservation(s)
+                                {filteredReservations.length} réservation(s)
+                                {periodFilter !== 'all' && (
+                                    <span className="ml-1 text-slate-500">(
+                                        {periodFilter === 'today' ? "aujourd'hui" :
+                                         periodFilter === 'week' ? 'cette semaine' :
+                                         periodFilter === 'month' ? 'ce mois' : ''}
+                                    )</span>
+                                )}
                             </span>
                             {isSyncing && (
                                 <div className="flex items-center gap-2 text-xs text-slate-600">
@@ -507,7 +558,7 @@ export default function OptimizedReservationPage() {
                 </div>
                 
                 <div className="p-4 sm:p-6">
-                    {reservations.length === 0 ? (
+                    {filteredReservations.length === 0 ? (
                         <div className="text-center py-8 sm:py-12">
                             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <svg className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -518,7 +569,7 @@ export default function OptimizedReservationPage() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                            {reservations.map((reservation, index) => (
+                            {filteredReservations.map((reservation, index) => (
                                 <div key={`${reservation.id}-${index}`} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 hover:shadow-lg transition-all">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center" style={{backgroundColor: '#fff590'}}>

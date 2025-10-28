@@ -72,12 +72,19 @@ export default function App() {
             syncLocalStorageToFirebase();
         };
         
+        // Écouter les événements de navigation depuis le dashboard
+        const handleNavigate = (event: CustomEvent) => {
+            setCurrentPage(event.detail.page);
+        };
+        
         window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener('navigate', handleNavigate as EventListener);
         
         // Nettoyer les listeners au démontage
         return () => {
             clearInterval(syncInterval);
             window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('navigate', handleNavigate as EventListener);
         };
     }, []);
 
@@ -88,7 +95,7 @@ export default function App() {
     const renderPage = () => {
         switch (currentPage) {
             case "home":
-                return <DashBoard />;
+                return <DashBoard onNavigate={setCurrentPage} />;
             case "reservations":
                 return (
                     <PageLoader

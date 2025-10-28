@@ -2,8 +2,11 @@ import OptimizedDashboard from './OptimizedDashboard';
 import PageLoader from './PageLoader';
 import { useAuth } from '../context/AuthContext';
 
+interface DashBoardProps {
+    onNavigate?: (page: string) => void;
+}
 
-function DashBoard() {
+function DashBoard({ onNavigate }: DashBoardProps) {
     const { user } = useAuth();
 
     if (user?.role !== 'admin' && user?.role !== 'super_admin') {
@@ -30,7 +33,7 @@ function DashBoard() {
             ]}
             minLoadTime={800}
         >
-            <OptimizedDashboard />
+            <OptimizedDashboard onNavigate={onNavigate} />
         </PageLoader>
     );
 }
