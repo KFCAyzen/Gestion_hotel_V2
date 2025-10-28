@@ -5,32 +5,21 @@ export class PersistentStorage {
     private static dbName = 'HotelGestionDB';
     private static version = 1;
 
-    // Sauvegarder avec double protection (localStorage + IndexedDB)
+    // Sauvegarder avec localStorage (IndexedDB désactivé temporairement)
     static async save(key: string, data: any): Promise<void> {
         try {
             // Sauvegarde principale : localStorage
             localStorage.setItem(key, JSON.stringify(data));
-            
-            // Sauvegarde de sécurité : IndexedDB
-            await this.saveToIndexedDB(key, data);
         } catch (error) {
             console.warn('Erreur sauvegarde persistante:', error);
-            // Au minimum, localStorage fonctionne toujours
-            localStorage.setItem(key, JSON.stringify(data));
         }
     }
 
-    // Charger avec fallback automatique
+    // Charger depuis localStorage uniquement
     static async load(key: string): Promise<any> {
         try {
-            // Essayer localStorage d'abord (plus rapide)
             const localData = localStorage.getItem(key);
-            if (localData) {
-                return JSON.parse(localData);
-            }
-
-            // Fallback : IndexedDB
-            return await this.loadFromIndexedDB(key);
+            return localData ? JSON.parse(localData) : null;
         } catch (error) {
             console.warn('Erreur chargement persistant:', error);
             return null;
