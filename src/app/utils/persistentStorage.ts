@@ -46,12 +46,20 @@ export class PersistentStorage {
             
             request.onsuccess = () => {
                 const db = request.result;
-                const transaction = db.transaction(['data'], 'readwrite');
-                const store = transaction.objectStore('data');
-                
-                store.put({ key, data, timestamp: Date.now() });
-                transaction.oncomplete = () => resolve();
-                transaction.onerror = () => reject(transaction.error);
+                try {
+                    if (!db.objectStoreNames.contains('data')) {
+                        reject(new Error('Object store not found'));
+                        return;
+                    }
+                    const transaction = db.transaction(['data'], 'readwrite');
+                    const store = transaction.objectStore('data');
+                    
+                    store.put({ key, data, timestamp: Date.now() });
+                    transaction.oncomplete = () => resolve();
+                    transaction.onerror = () => reject(transaction.error);
+                } catch (error) {
+                    reject(error);
+                }
             };
             
             request.onupgradeneeded = () => {
@@ -72,14 +80,22 @@ export class PersistentStorage {
             
             request.onsuccess = () => {
                 const db = request.result;
-                const transaction = db.transaction(['data'], 'readonly');
-                const store = transaction.objectStore('data');
-                const getRequest = store.get(key);
-                
-                getRequest.onsuccess = () => {
-                    resolve(getRequest.result?.data || null);
-                };
-                getRequest.onerror = () => reject(getRequest.error);
+                try {
+                    if (!db.objectStoreNames.contains('data')) {
+                        resolve(null);
+                        return;
+                    }
+                    const transaction = db.transaction(['data'], 'readonly');
+                    const store = transaction.objectStore('data');
+                    const getRequest = store.get(key);
+                    
+                    getRequest.onsuccess = () => {
+                        resolve(getRequest.result?.data || null);
+                    };
+                    getRequest.onerror = () => reject(getRequest.error);
+                } catch (error) {
+                    resolve(null);
+                }
             };
         });
     }
