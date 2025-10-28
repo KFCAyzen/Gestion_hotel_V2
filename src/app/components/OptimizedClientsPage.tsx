@@ -123,13 +123,14 @@ export default function OptimizedClientsPage() {
         });
     }, [clients, periodFilter]);
 
-    // Filtrage par recherche
+    // Filtrage par recherche (nom, ID, téléphone, email)
     const filteredClients = useMemo(() => {
         if (!searchTerm.trim()) return periodFilteredClients;
         
         const term = searchTerm.toLowerCase();
         return periodFilteredClients.filter(client => 
             client.name.toLowerCase().includes(term) ||
+            client.id.toLowerCase().includes(term) ||
             client.phone.toLowerCase().includes(term) ||
             client.email.toLowerCase().includes(term)
         );
@@ -208,7 +209,7 @@ export default function OptimizedClientsPage() {
                     
                     <input
                         type="text"
-                        placeholder="Rechercher un client..."
+                        placeholder="Rechercher par nom, ID, téléphone ou email..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="flex-1 max-w-md px-4 py-2 border rounded-lg"

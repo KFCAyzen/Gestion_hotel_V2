@@ -122,7 +122,7 @@ export default function OptimizedBillingPage() {
         });
     }, [bills, periodFilter]);
 
-    // Filtrage par recherche
+    // Filtrage par recherche (nom, ID, chambre)
     const filteredBills = useMemo(() => {
         if (!searchTerm.trim()) return periodFilteredBills;
         
@@ -205,7 +205,7 @@ export default function OptimizedBillingPage() {
                     
                     <input
                         type="text"
-                        placeholder="Rechercher un reçu..."
+                        placeholder="Rechercher par nom, ID ou chambre..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="flex-1 max-w-md px-4 py-2 border rounded-lg"

@@ -26,6 +26,7 @@ export default function OptimizedReservationPage() {
     const [loadingStep, setLoadingStep] = useState('');
     const [isSyncing, setIsSyncing] = useState(false);
     const [periodFilter, setPeriodFilter] = useState('all');
+    const [searchTerm, setSearchTerm] = useState('');
     const { showNotification } = useNotificationContext();
     const { addLog } = useActivityLog();
     const { user } = useAuth();
@@ -163,7 +164,7 @@ export default function OptimizedReservationPage() {
     }, [rooms, reservations, formData.checkIn, formData.checkOut, formData.roomNumber]);
 
     // Filtrage des réservations par période
-    const filteredReservations = useMemo(() => {
+    const periodFilteredReservations = useMemo(() => {
         if (periodFilter === 'all') return reservations;
         
         const now = new Date();
@@ -190,6 +191,18 @@ export default function OptimizedReservationPage() {
                 return reservations;
         }
     }, [reservations, periodFilter]);
+
+    // Filtrage par recherche (nom, ID, chambre)
+    const filteredReservations = useMemo(() => {
+        if (!searchTerm.trim()) return periodFilteredReservations;
+        
+        const term = searchTerm.toLowerCase();
+        return periodFilteredReservations.filter(reservation => 
+            reservation.clientName.toLowerCase().includes(term) ||
+            reservation.id.toLowerCase().includes(term) ||
+            reservation.roomNumber.toLowerCase().includes(term)
+        );
+    }, [periodFilteredReservations, searchTerm]);
 
     useEffect(() => {
         loadData();
@@ -287,7 +300,7 @@ export default function OptimizedReservationPage() {
                     Nouvelle Réservation
                 </button>
                 
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-1">
                     <select
                         value={periodFilter}
                         onChange={(e) => setPeriodFilter(e.target.value)}
@@ -299,6 +312,15 @@ export default function OptimizedReservationPage() {
                         <option value="week">Cette semaine</option>
                         <option value="month">Ce mois</option>
                     </select>
+                    
+                    <input
+                        type="text"
+                        placeholder="Rechercher par nom, ID ou chambre..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="flex-1 max-w-md px-4 py-2 border rounded-lg"
+                        style={{borderColor: '#7D3837'}}
+                    />
                 </div>
             </div>
             
