@@ -24,6 +24,7 @@ export default function OptimizedBillingPage() {
     const [bills, setBills] = useState<Bill[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [isLoading, setIsLoading] = useState(true);
+    const [periodFilter, setPeriodFilter] = useState('all');
     
     const { showNotification } = useNotificationContext();
     const { addLog } = useActivityLog();
@@ -95,17 +96,43 @@ export default function OptimizedBillingPage() {
         }
     }, [dataCache.timestamp]);
 
-    // Filtrage optimisé
+    // Filtrage par période
+    const periodFilteredBills = useMemo(() => {
+        if (periodFilter === 'all') return bills;
+        
+        const now = new Date();
+        const today = now.toISOString().split('T')[0];
+        
+        return bills.filter(bill => {
+            if (!bill.date) return false;
+            const billDate = new Date(bill.date);
+            
+            switch (periodFilter) {
+                case 'today':
+                    return bill.date === today;
+                case 'week':
+                    const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+                    const weekEnd = new Date(weekStart.getTime() + 6 * 24 * 60 * 60 * 1000);
+                    return billDate >= weekStart && billDate <= weekEnd;
+                case 'month':
+                    return billDate.getMonth() === now.getMonth() && billDate.getFullYear() === now.getFullYear();
+                default:
+                    return true;
+            }
+        });
+    }, [bills, periodFilter]);
+
+    // Filtrage par recherche
     const filteredBills = useMemo(() => {
-        if (!searchTerm.trim()) return bills;
+        if (!searchTerm.trim()) return periodFilteredBills;
         
         const term = searchTerm.toLowerCase();
-        return bills.filter(bill => 
+        return periodFilteredBills.filter(bill => 
             bill.receivedFrom.toLowerCase().includes(term) ||
             bill.id.toLowerCase().includes(term) ||
             bill.roomNumber.toLowerCase().includes(term)
         );
-    }, [bills, searchTerm]);
+    }, [periodFilteredBills, searchTerm]);
 
     useEffect(() => {
         loadBills();
@@ -162,14 +189,29 @@ export default function OptimizedBillingPage() {
                 >
                     Nouveau Reçu
                 </button>
-                <input
-                    type="text"
-                    placeholder="Rechercher un reçu..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="flex-1 max-w-md px-4 py-2 border rounded-lg"
-                    style={{borderColor: '#7D3837'}}
-                />
+                
+                <div className="flex gap-2 flex-1">
+                    <select
+                        value={periodFilter}
+                        onChange={(e) => setPeriodFilter(e.target.value)}
+                        className="px-3 py-2 border rounded-lg text-sm"
+                        style={{borderColor: '#7D3837'}}
+                    >
+                        <option value="all">Toutes les périodes</option>
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month">Ce mois</option>
+                    </select>
+                    
+                    <input
+                        type="text"
+                        placeholder="Rechercher un reçu..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="flex-1 max-w-md px-4 py-2 border rounded-lg"
+                        style={{borderColor: '#7D3837'}}
+                    />
+                </div>
             </div>
             
             {showForm && (
@@ -369,6 +411,13 @@ export default function OptimizedBillingPage() {
                         <div className="flex items-center gap-3">
                             <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full">
                                 {filteredBills.length} reçu(s)
+                                {periodFilter !== 'all' && (
+                                    <span className="ml-1 text-slate-500">(
+                                        {periodFilter === 'today' ? "aujourd'hui" :
+                                         periodFilter === 'week' ? 'cette semaine' :
+                                         periodFilter === 'month' ? 'ce mois' : ''}
+                                    )</span>
+                                )}
                             </span>
                             <button 
                                 onClick={() => {
