@@ -229,7 +229,16 @@ export default function OptimizedDashboard() {
             if (!timestamp) return 'Heure inconnue';
             const date = new Date(timestamp);
             if (isNaN(date.getTime())) return 'Heure inconnue';
-            return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            
+            const today = new Date();
+            const isToday = date.toDateString() === today.toDateString();
+            
+            if (isToday) {
+                return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            } else {
+                return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) + ' ' + 
+                       date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            }
         };
 
         const recentActivities = [...reservations.slice(-3), ...clients.slice(-2), ...bills.slice(-2)]
