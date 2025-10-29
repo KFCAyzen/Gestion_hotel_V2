@@ -162,31 +162,32 @@ export default function OptimizedNotificationsPage() {
 
     return (
         <div className="p-4 sm:p-6 lg:p-8">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-                <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-0" style={{color: '#7D3837'}}>
-                    Notifications
-                </h1>
-                <div className="flex flex-col sm:flex-row gap-3">
-                    <button
-                        onClick={markAllAsRead}
-                        className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm transition-colors"
-                    >
-                        Tout marquer comme lu
-                    </button>
-                    <button
-                        onClick={() => {
-                            setDataCache({});
-                            loadNotifications();
-                        }}
-                        className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors"
-                    >
-                        Actualiser
-                    </button>
+            <div className="flex flex-col gap-4 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <h1 className="text-2xl sm:text-3xl font-bold" style={{color: '#7D3837'}}>
+                        Notifications
+                    </h1>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                        <button
+                            onClick={markAllAsRead}
+                            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm transition-colors whitespace-nowrap"
+                        >
+                            Tout marquer comme lu
+                        </button>
+                        <button
+                            onClick={() => {
+                                setDataCache({});
+                                loadNotifications();
+                            }}
+                            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors whitespace-nowrap"
+                        >
+                            Actualiser
+                        </button>
+                    </div>
                 </div>
-            </div>
-
-            {/* Filtres */}
-            <div className="flex flex-wrap gap-2 mb-6">
+                
+                {/* Filtres */}
+                <div className="flex flex-wrap gap-2">
                 {[
                     { key: 'all', label: 'Toutes' },
                     { key: 'unread', label: 'Non lues' },
@@ -211,6 +212,7 @@ export default function OptimizedNotificationsPage() {
                         )}
                     </button>
                 ))}
+                </div>
             </div>
 
             {/* Liste des notifications */}

@@ -8,6 +8,7 @@ import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "./LoadingSpinner";
 import { useOfflineMode } from "../hooks/useOfflineMode";
+import { printInvoice } from "../utils/printInvoice";
 
 interface Reservation {
     id: string;
@@ -412,11 +413,11 @@ export default function OptimizedReservationPage() {
                     </div>
                 )}
                 
-                <div className="flex flex-col items-center justify-center min-h-[300px] space-y-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor: '#7D3837'}}></div>
-                    <div className="text-center">
-                        <p className="text-lg font-medium" style={{color: '#7D3837'}}>Chargement des réservations...</p>
-                        {loadingStep && <p className="text-sm text-slate-600 mt-2">{loadingStep}</p>}
+                <div className="flex flex-col items-center justify-center min-h-[250px] sm:min-h-[300px] space-y-3 sm:space-y-4 p-4">
+                    <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 border-2 sm:border-3 lg:border-4 border-slate-200 border-t-4" style={{borderTopColor: '#7D3837'}}></div>
+                    <div className="text-center max-w-xs sm:max-w-sm">
+                        <p className="text-sm sm:text-base lg:text-lg font-medium px-2" style={{color: '#7D3837'}}>Chargement des réservations...</p>
+                        {loadingStep && <p className="text-xs sm:text-sm text-slate-600 mt-2 px-2">{loadingStep}</p>}
                     </div>
                 </div>
             </div>
@@ -700,10 +701,10 @@ export default function OptimizedReservationPage() {
                                 </span>
                                 <div className="flex items-center gap-3">
                                     {isSyncing && (
-                                        <div className="flex items-center gap-2 text-xs text-slate-600 whitespace-nowrap">
-                                            <div className="animate-spin rounded-full h-3 w-3 border border-slate-400 border-t-transparent"></div>
-                                            <span className="hidden sm:inline">Synchronisation...</span>
-                                            <span className="sm:hidden">Sync...</span>
+                                        <div className="flex items-center gap-1 sm:gap-2 text-xs text-slate-600 whitespace-nowrap">
+                                            <div className="animate-spin rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 border border-slate-400 border-t-transparent"></div>
+                                            <span className="hidden sm:inline text-xs">Synchronisation...</span>
+                                            <span className="sm:hidden text-xs">Sync...</span>
                                         </div>
                                     )}
                                     <button 
@@ -752,9 +753,9 @@ export default function OptimizedReservationPage() {
                                     {/* Boutons d'action */}
                                     <div className="flex gap-2 mb-3">
                                         <button
-                                            onClick={() => window.print()}
+                                            onClick={() => printInvoice(reservation)}
                                             className="px-3 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded text-xs transition-colors"
-                                            title="Imprimer"
+                                            title="Imprimer la facture"
                                         >
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />

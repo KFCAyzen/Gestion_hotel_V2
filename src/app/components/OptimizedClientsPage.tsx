@@ -6,6 +6,7 @@ import { useNotificationContext } from "../context/NotificationContext";
 import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "./LoadingSpinner";
+import { printClientCard } from "../utils/printClientCard";
 
 interface Client {
     id: string;
@@ -141,6 +142,8 @@ export default function OptimizedClientsPage() {
         loadClients();
     }, []);
 
+    const [editingClient, setEditingClient] = useState<Client | null>(null);
+
     const handleSaveClient = useCallback(async () => {
         const requiredFields = ['name', 'phone', 'email', 'nationality'];
         const missingFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
@@ -151,18 +154,36 @@ export default function OptimizedClientsPage() {
         }
         
         try {
-            const clientWithId = { 
-                ...formData, 
-                id: generateClientId(),
-                phone: `${formData.phonePrefix} ${formData.phone}`,
-                createdBy: user?.username || 'system'
-            };
-            
-            await saveData('clients', clientWithId);
-            addLog('Création client', 'clients', `Client créé: ${formData.name}`, clientWithId);
-            showNotification("Client enregistré avec succès!", "success");
+            if (editingClient) {
+                // Modification d'un client existant
+                const updatedClient = {
+                    ...editingClient,
+                    ...formData,
+                    phone: `${formData.phonePrefix} ${formData.phone}`,
+                    modifiedBy: user?.username || 'system',
+                    modifiedAt: Date.now()
+                };
+                
+                await saveData('clients', updatedClient);
+                addLog('Modification client', 'clients', `Client modifié: ${formData.name}`, updatedClient);
+                showNotification("Client modifié avec succès!", "success");
+            } else {
+                // Création d'un nouveau client
+                const clientWithId = { 
+                    ...formData, 
+                    id: generateClientId(),
+                    phone: `${formData.phonePrefix} ${formData.phone}`,
+                    createdBy: user?.username || 'system',
+                    createdAt: Date.now()
+                };
+                
+                await saveData('clients', clientWithId);
+                addLog('Création client', 'clients', `Client créé: ${formData.name}`, clientWithId);
+                showNotification("Client enregistré avec succès!", "success");
+            }
             
             setShowForm(false);
+            setEditingClient(null);
             setFormData({ 
                 name: '', phonePrefix: '+237', phone: '', email: '', address: '', occupation: '', nationality: '', 
                 birthPlace: '', residenceCountry: '', idNumber: '', idIssueDate: '', idIssuePlace: '',
@@ -176,7 +197,76 @@ export default function OptimizedClientsPage() {
         } catch (error) {
             showNotification("Erreur lors de l'enregistrement", "error");
         }
-    }, [formData, user, showNotification, addLog, loadClients]);
+    }, [formData, editingClient, user, showNotification, addLog, loadClients]);
+
+    const handleEditClient = useCallback((client: Client) => {
+        setEditingClient(client);
+        const phoneParts = client.phone.split(' ');
+        const prefix = phoneParts[0] || '+237';
+        const number = phoneParts.slice(1).join(' ') || '';
+        
+        setFormData({
+            name: client.name || '',
+            phonePrefix: prefix,
+            phone: number,
+            email: client.email || '',
+            address: client.address || '',
+            occupation: client.occupation || '',
+            nationality: client.nationality || '',
+            birthPlace: client.birthPlace || '',
+            residenceCountry: client.residenceCountry || '',
+            idNumber: client.idNumber || '',
+            idIssueDate: client.idIssueDate || '',
+            idIssuePlace: client.idIssuePlace || '',
+            idExpiryDate: client.idExpiryDate || '',
+            arrivalMode: client.arrivalMode || 'A pied',
+            arrivalDate: client.arrivalDate || '',
+            plateNumber: client.plateNumber || '',
+            departureMode: client.departureMode || '',
+            departureDate: client.departureDate || '',
+            gender: client.gender || '',
+            comingFrom: client.comingFrom || '',
+            goingTo: client.goingTo || '',
+            stayType: client.stayType || 'Nuitée',
+            mealPlan: client.mealPlan || 'RB',
+            price: client.price || '',
+            signature: client.signature || ''
+        });
+        setShowForm(true);
+    }, []);
+
+    const handleDeleteClient = useCallback(async (clientId: string) => {
+        const clientToDelete = clients.find(c => c.id === clientId);
+        if (!clientToDelete) return;
+        
+        if (confirm(`Voulez-vous vraiment supprimer le client "${clientToDelete.name}" ?`)) {
+            try {
+                // Supprimer de la liste locale
+                const updatedClients = clients.filter(client => client.id !== clientId);
+                setClients(updatedClients);
+                localStorage.setItem('clients', JSON.stringify(updatedClients));
+                
+                // Supprimer de Firebase (si en ligne)
+                const deletedClient = {
+                    ...clientToDelete,
+                    deleted: true,
+                    deletedBy: user?.username || 'system',
+                    deletedAt: Date.now()
+                };
+                
+                await saveData('clients', deletedClient);
+                addLog('Suppression client', 'clients', `Client supprimé: ${clientToDelete.name}`);
+                showNotification("Client supprimé avec succès!", "success");
+                
+                // Invalider le cache
+                setDataCache({});
+            } catch (error) {
+                showNotification("Erreur lors de la suppression", "error");
+                // Restaurer la liste en cas d'erreur
+                await loadClients();
+            }
+        }
+    }, [clients, user, showNotification, addLog, loadClients]);
 
     // Affichage pendant le chargement avec bouton accessible
     if (isLoading && clients.length === 0) {
@@ -196,7 +286,9 @@ export default function OptimizedClientsPage() {
                 
                 {showForm && (
                     <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
-                        <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouveau Client</h3>
+                        <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>
+                            {editingClient ? 'Modifier Client' : 'Nouveau Client'}
+                        </h3>
                         
                         <div className="mb-4 sm:mb-6">
                             <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Informations personnelles</h4>
@@ -254,10 +346,19 @@ export default function OptimizedClientsPage() {
                                 style={{backgroundColor: '#7D3837'}} 
                                 className="text-yellow-300 px-6 py-3 rounded hover:opacity-80 transition-opacity font-medium"
                             >
-                                Enregistrer
+                                {editingClient ? 'Modifier' : 'Enregistrer'}
                             </button>
                             <button 
-                                onClick={() => setShowForm(false)} 
+                                onClick={() => {
+                                    setShowForm(false);
+                                    setEditingClient(null);
+                                    setFormData({ 
+                                        name: '', phonePrefix: '+237', phone: '', email: '', address: '', occupation: '', nationality: '', 
+                                        birthPlace: '', residenceCountry: '', idNumber: '', idIssueDate: '', idIssuePlace: '',
+                                        idExpiryDate: '', arrivalMode: 'A pied', arrivalDate: '', plateNumber: '', departureMode: '', 
+                                        departureDate: '', gender: '', comingFrom: '', goingTo: '', stayType: 'Nuitée', mealPlan: 'RB', price: '', signature: '' 
+                                    });
+                                }} 
                                 className="px-6 py-3 rounded border hover:bg-yellow-100 transition-colors font-medium" 
                                 style={{borderColor: '#7D3837', color: '#7D3837'}}
                             >
@@ -267,10 +368,10 @@ export default function OptimizedClientsPage() {
                     </div>
                 )}
                 
-                <div className="flex flex-col items-center justify-center min-h-[300px] space-y-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor: '#7D3837'}}></div>
-                    <div className="text-center">
-                        <p className="text-lg font-medium" style={{color: '#7D3837'}}>Chargement des clients...</p>
+                <div className="flex flex-col items-center justify-center min-h-[250px] sm:min-h-[300px] space-y-3 sm:space-y-4 p-4">
+                    <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 border-2 sm:border-3 lg:border-4 border-slate-200 border-t-4" style={{borderTopColor: '#7D3837'}}></div>
+                    <div className="text-center max-w-xs sm:max-w-sm">
+                        <p className="text-sm sm:text-base lg:text-lg font-medium px-2" style={{color: '#7D3837'}}>Chargement des clients...</p>
                     </div>
                 </div>
             </div>
@@ -281,42 +382,46 @@ export default function OptimizedClientsPage() {
         <div className="p-4 sm:p-6 lg:p-8">
             <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Clients</h1>
             
-            <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
-                <button 
-                    onClick={() => setShowForm(true)}
-                    style={{backgroundColor: '#7D3837'}} 
-                    className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
-                >
-                    Nouveau Client
-                </button>
-                
-                <div className="flex gap-2 flex-1">
-                    <select
-                        value={periodFilter}
-                        onChange={(e) => setPeriodFilter(e.target.value)}
-                        className="px-3 py-2 border rounded-lg text-sm"
-                        style={{borderColor: '#7D3837'}}
+            <div className="mb-4 flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                    <button 
+                        onClick={() => setShowForm(true)}
+                        style={{backgroundColor: '#7D3837'}} 
+                        className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium whitespace-nowrap"
                     >
-                        <option value="all">Toutes les périodes</option>
-                        <option value="today">Aujourd'hui</option>
-                        <option value="week">Cette semaine</option>
-                        <option value="month">Ce mois</option>
-                    </select>
+                        Nouveau Client
+                    </button>
                     
-                    <input
-                        type="text"
-                        placeholder="Rechercher par nom, ID, téléphone ou email..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="flex-1 max-w-md px-4 py-2 border rounded-lg"
-                        style={{borderColor: '#7D3837'}}
-                    />
+                    <div className="flex flex-col sm:flex-row gap-2 flex-1">
+                        <select
+                            value={periodFilter}
+                            onChange={(e) => setPeriodFilter(e.target.value)}
+                            className="px-3 py-2 border rounded-lg text-sm min-w-0"
+                            style={{borderColor: '#7D3837'}}
+                        >
+                            <option value="all">Toutes les périodes</option>
+                            <option value="today">Aujourd'hui</option>
+                            <option value="week">Cette semaine</option>
+                            <option value="month">Ce mois</option>
+                        </select>
+                        
+                        <input
+                            type="text"
+                            placeholder="Rechercher..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="flex-1 px-4 py-2 border rounded-lg min-w-0"
+                            style={{borderColor: '#7D3837'}}
+                        />
+                    </div>
                 </div>
             </div>
             
             {showForm && (
                 <div className="bg-yellow-50 border rounded p-4 sm:p-6 mb-4" style={{borderColor: '#7D3837'}}>
-                    <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>Nouveau Client</h3>
+                    <h3 className="font-bold mb-4 sm:mb-6 text-lg sm:text-xl" style={{color: '#7D3837'}}>
+                        {editingClient ? 'Modifier Client' : 'Nouveau Client'}
+                    </h3>
                     
                     {/* Informations personnelles */}
                     <div className="mb-4 sm:mb-6">
@@ -648,11 +753,12 @@ export default function OptimizedClientsPage() {
                             style={{backgroundColor: '#7D3837'}} 
                             className="text-yellow-300 px-6 py-3 rounded hover:opacity-80 transition-opacity font-medium"
                         >
-                            Enregistrer
+                            {editingClient ? 'Modifier' : 'Enregistrer'}
                         </button>
                         <button 
                             onClick={() => {
                                 setShowForm(false);
+                                setEditingClient(null);
                                 setFormData({ 
                                     name: '', phonePrefix: '+237', phone: '', email: '', address: '', occupation: '', nationality: '', 
                                     birthPlace: '', residenceCountry: '', idNumber: '', idIssueDate: '', idIssuePlace: '',
@@ -724,6 +830,41 @@ export default function OptimizedClientsPage() {
                                     <div className="mb-3">
                                         <h3 className="font-semibold text-slate-800 text-base sm:text-lg">{client.name}</h3>
                                         <p className="text-xs text-slate-500 font-mono">ID: {client.id}</p>
+                                    </div>
+                                    
+                                    {/* Boutons d'action */}
+                                    <div className="flex gap-2 mb-3">
+                                        <button
+                                            onClick={() => printClientCard(client)}
+                                            className="px-3 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded text-xs transition-colors"
+                                            title="Imprimer la fiche client"
+                                        >
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                                            </svg>
+                                        </button>
+                                        {(user?.role === 'admin' || user?.role === 'super_admin') && (
+                                            <>
+                                                <button
+                                                    onClick={() => handleEditClient(client)}
+                                                    className="px-3 py-1 bg-green-100 hover:bg-green-200 text-green-700 rounded text-xs transition-colors"
+                                                    title="Modifier le client"
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                    </svg>
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteClient(client.id)}
+                                                    className="px-3 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded text-xs transition-colors"
+                                                    title="Supprimer le client"
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </>
+                                        )}
                                     </div>
                                     
                                     <div className="space-y-2">

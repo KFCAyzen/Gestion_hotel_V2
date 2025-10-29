@@ -191,28 +191,30 @@ const OptimizedAnalyticsPage = () => {
 
     return (
         <div className="p-4 sm:p-6 space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <h1 className="text-2xl font-bold text-slate-800">Rapports & Analytics</h1>
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => {
-                            setDataCache({});
-                            fetchAnalyticsData();
-                        }}
-                        className="px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg transition-colors text-sm"
-                    >
-                        Actualiser
-                    </button>
-                    <select 
-                        value={selectedPeriod}
-                        onChange={(e) => setSelectedPeriod(e.target.value)}
-                        className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    >
-                        <option value="daily">Aujourd'hui</option>
-                        <option value="weekly">Cette semaine</option>
-                        <option value="monthly">Ce mois</option>
-                        <option value="yearly">Cette année</option>
-                    </select>
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h1 className="text-2xl font-bold text-slate-800">Rapports & Analytics</h1>
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+                        <button
+                            onClick={() => {
+                                setDataCache({});
+                                fetchAnalyticsData();
+                            }}
+                            className="px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg transition-colors text-sm whitespace-nowrap"
+                        >
+                            Actualiser
+                        </button>
+                        <select 
+                            value={selectedPeriod}
+                            onChange={(e) => setSelectedPeriod(e.target.value)}
+                            className="px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 min-w-0"
+                        >
+                            <option value="daily">Aujourd'hui</option>
+                            <option value="weekly">Cette semaine</option>
+                            <option value="monthly">Ce mois</option>
+                            <option value="yearly">Cette année</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 

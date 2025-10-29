@@ -253,10 +253,10 @@ export default function OptimizedBillingPage() {
                     </div>
                 )}
                 
-                <div className="flex flex-col items-center justify-center min-h-[300px] space-y-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor: '#7D3837'}}></div>
-                    <div className="text-center">
-                        <p className="text-lg font-medium" style={{color: '#7D3837'}}>Chargement des reçus...</p>
+                <div className="flex flex-col items-center justify-center min-h-[250px] sm:min-h-[300px] space-y-3 sm:space-y-4 p-4">
+                    <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 border-2 sm:border-3 lg:border-4 border-slate-200 border-t-4" style={{borderTopColor: '#7D3837'}}></div>
+                    <div className="text-center max-w-xs sm:max-w-sm">
+                        <p className="text-sm sm:text-base lg:text-lg font-medium px-2" style={{color: '#7D3837'}}>Chargement des reçus...</p>
                     </div>
                 </div>
             </div>
@@ -267,36 +267,38 @@ export default function OptimizedBillingPage() {
         <div className="p-4 sm:p-6 lg:p-8">
             <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Reçus</h1>
             
-            <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
-                <button 
-                    onClick={() => setShowForm(true)}
-                    style={{backgroundColor: '#7D3837'}} 
-                    className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
-                >
-                    Nouveau Reçu
-                </button>
-                
-                <div className="flex gap-2 flex-1">
-                    <select
-                        value={periodFilter}
-                        onChange={(e) => setPeriodFilter(e.target.value)}
-                        className="px-3 py-2 border rounded-lg text-sm"
-                        style={{borderColor: '#7D3837'}}
+            <div className="mb-4 flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                    <button 
+                        onClick={() => setShowForm(true)}
+                        style={{backgroundColor: '#7D3837'}} 
+                        className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium whitespace-nowrap"
                     >
-                        <option value="all">Toutes les périodes</option>
-                        <option value="today">Aujourd'hui</option>
-                        <option value="week">Cette semaine</option>
-                        <option value="month">Ce mois</option>
-                    </select>
+                        Nouveau Reçu
+                    </button>
                     
-                    <input
-                        type="text"
-                        placeholder="Rechercher par nom, ID ou chambre..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="flex-1 max-w-md px-4 py-2 border rounded-lg"
-                        style={{borderColor: '#7D3837'}}
-                    />
+                    <div className="flex flex-col sm:flex-row gap-2 flex-1">
+                        <select
+                            value={periodFilter}
+                            onChange={(e) => setPeriodFilter(e.target.value)}
+                            className="px-3 py-2 border rounded-lg text-sm min-w-0"
+                            style={{borderColor: '#7D3837'}}
+                        >
+                            <option value="all">Toutes les périodes</option>
+                            <option value="today">Aujourd'hui</option>
+                            <option value="week">Cette semaine</option>
+                            <option value="month">Ce mois</option>
+                        </select>
+                        
+                        <input
+                            type="text"
+                            placeholder="Rechercher..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="flex-1 px-4 py-2 border rounded-lg min-w-0"
+                            style={{borderColor: '#7D3837'}}
+                        />
+                    </div>
                 </div>
             </div>
             
