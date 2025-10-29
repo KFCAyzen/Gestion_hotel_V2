@@ -9,6 +9,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import { dataCache } from "../utils/dataCache";
 import { useProgressiveLoading } from "../hooks/useProgressiveLoading";
+import { getRelativeTime } from "../utils/timeUtils";
 import ProgressiveLoader from "./ProgressiveLoader";
 import SkeletonLoader from "./SkeletonLoader";
 
@@ -229,28 +230,12 @@ export default function OptimizedDashboard({ onNavigate }: OptimizedDashboardPro
         const bills = JSON.parse(localStorage.getItem('bills') || '[]');
         const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
 
-        const formatActivityTime = (timestamp: string | number) => {
-            if (!timestamp) return 'Heure inconnue';
-            const date = new Date(timestamp);
-            if (isNaN(date.getTime())) return 'Heure inconnue';
-            
-            const today = new Date();
-            const isToday = date.toDateString() === today.toDateString();
-            
-            if (isToday) {
-                return date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-            } else {
-                return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }) + ' ' + 
-                       date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-            }
-        };
-
         const recentActivities = [...reservations.slice(-3), ...clients.slice(-2), ...bills.slice(-2)]
             .filter(item => item && typeof item === 'object')
             .slice(-5)
             .map((item: any) => {
                 const timestamp = item.createdAt || item.timestamp || Date.now();
-                const time = formatActivityTime(timestamp);
+                const time = getRelativeTime(timestamp);
                 
                 if (item.clientName) return { type: 'reservation', message: `Nouvelle réservation - ${item.clientName}`, detail: `Chambre ${item.roomNumber || 'N/A'}`, time };
                 if (item.name) return { type: 'client', message: `Nouveau client - ${item.name}`, detail: item.phone || 'Téléphone non renseigné', time };

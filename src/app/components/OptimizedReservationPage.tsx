@@ -427,36 +427,38 @@ export default function OptimizedReservationPage() {
         <div className="p-4 sm:p-6 lg:p-8">
             <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6" style={{color: '#7D3837'}}>Réservations</h1>
             
-            <div className="mb-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
-                <button 
-                    onClick={() => setShowForm(true)}
-                    style={{backgroundColor: '#7D3837'}} 
-                    className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium"
-                >
-                    Nouvelle Réservation
-                </button>
-                
-                <div className="flex gap-2 flex-1">
-                    <select
-                        value={periodFilter}
-                        onChange={(e) => setPeriodFilter(e.target.value)}
-                        className="px-3 py-2 border rounded-lg text-sm"
-                        style={{borderColor: '#7D3837'}}
+            <div className="mb-4 flex flex-col gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                    <button 
+                        onClick={() => setShowForm(true)}
+                        style={{backgroundColor: '#7D3837'}} 
+                        className="text-yellow-300 px-4 py-3 sm:py-2 rounded hover:bg-opacity-80 font-medium whitespace-nowrap"
                     >
-                        <option value="all">Toutes les périodes</option>
-                        <option value="today">Aujourd'hui</option>
-                        <option value="week">Cette semaine</option>
-                        <option value="month">Ce mois</option>
-                    </select>
+                        Nouvelle Réservation
+                    </button>
                     
-                    <input
-                        type="text"
-                        placeholder="Rechercher par nom, ID ou chambre..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="flex-1 max-w-md px-4 py-2 border rounded-lg"
-                        style={{borderColor: '#7D3837'}}
-                    />
+                    <div className="flex flex-col sm:flex-row gap-2 flex-1">
+                        <select
+                            value={periodFilter}
+                            onChange={(e) => setPeriodFilter(e.target.value)}
+                            className="px-3 py-2 border rounded-lg text-sm min-w-0"
+                            style={{borderColor: '#7D3837'}}
+                        >
+                            <option value="all">Toutes les périodes</option>
+                            <option value="today">Aujourd'hui</option>
+                            <option value="week">Cette semaine</option>
+                            <option value="month">Ce mois</option>
+                        </select>
+                        
+                        <input
+                            type="text"
+                            placeholder="Rechercher..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="flex-1 px-4 py-2 border rounded-lg min-w-0"
+                            style={{borderColor: '#7D3837'}}
+                        />
+                    </div>
                 </div>
             </div>
             
@@ -472,14 +474,14 @@ export default function OptimizedReservationPage() {
                                 placeholder="Nom du client *" 
                                 value={formData.clientName}
                                 onChange={(e) => setFormData({...formData, clientName: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 min-w-0">
                                 <select
                                     value={formData.phonePrefix}
                                     onChange={(e) => setFormData({...formData, phonePrefix: e.target.value})}
-                                    className="p-3 border rounded-lg w-24"
+                                    className="p-3 border rounded-lg w-20 flex-shrink-0"
                                     style={{borderColor: '#7D3837'}}
                                 >
                                     <option value="+237">+237</option>
@@ -497,7 +499,7 @@ export default function OptimizedReservationPage() {
                                         const value = e.target.value.replace(/[^0-9]/g, '');
                                         setFormData({...formData, clientPhone: value});
                                     }}
-                                    className="p-3 border rounded-lg flex-1" 
+                                    className="p-3 border rounded-lg flex-1 min-w-0" 
                                     style={{borderColor: '#7D3837'}} 
                                 />
                             </div>
@@ -506,27 +508,27 @@ export default function OptimizedReservationPage() {
                                 type="email"
                                 value={formData.clientEmail}
                                 onChange={(e) => setFormData({...formData, clientEmail: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
                             <input 
                                 placeholder="Adresse" 
                                 value={formData.address}
                                 onChange={(e) => setFormData({...formData, address: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
                             <input 
                                 placeholder="Occupation" 
                                 value={formData.occupation}
                                 onChange={(e) => setFormData({...formData, occupation: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
                             <select
                                 value={formData.gender}
                                 onChange={(e) => setFormData({...formData, gender: e.target.value})}
-                                className="p-3 border rounded-lg"
+                                className="p-3 border rounded-lg w-full min-w-0"
                                 style={{borderColor: '#7D3837'}}
                             >
                                 <option value="">Sexe</option>
@@ -544,45 +546,45 @@ export default function OptimizedReservationPage() {
                                 placeholder="Nationalité" 
                                 value={formData.nationality}
                                 onChange={(e) => setFormData({...formData, nationality: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
                             <input 
                                 placeholder="Lieu de naissance" 
                                 value={formData.birthPlace}
                                 onChange={(e) => setFormData({...formData, birthPlace: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
                             <input 
                                 placeholder="Pays de résidence" 
                                 value={formData.residenceCountry}
                                 onChange={(e) => setFormData({...formData, residenceCountry: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
                             <input 
                                 placeholder="No. pièce d'identité" 
                                 value={formData.idNumber}
                                 onChange={(e) => setFormData({...formData, idNumber: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
-                            <div className="relative">
+                            <div className="relative min-w-0">
                                 <input 
                                     type="date" 
                                     value={formData.idIssueDate}
                                     onChange={(e) => setFormData({...formData, idIssueDate: e.target.value})}
-                                    className="p-3 border rounded-lg w-full" 
+                                    className="p-3 border rounded-lg w-full min-w-0" 
                                     style={{borderColor: '#7D3837'}} 
                                 />
-                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date délivrance ID</label>
+                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs whitespace-nowrap" style={{color: '#7D3837'}}>Date délivrance ID</label>
                             </div>
                             <input 
                                 placeholder="Lieu délivrance ID" 
                                 value={formData.idIssuePlace}
                                 onChange={(e) => setFormData({...formData, idIssuePlace: e.target.value})}
-                                className="p-3 border rounded-lg" 
+                                className="p-3 border rounded-lg w-full min-w-0" 
                                 style={{borderColor: '#7D3837'}} 
                             />
                         </div>
@@ -592,12 +594,12 @@ export default function OptimizedReservationPage() {
                     <div className="mb-4 sm:mb-6">
                         <h4 className="font-semibold mb-3 text-base sm:text-lg" style={{color: '#7D3837'}}>Détails de la réservation</h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                            <div className="relative">
+                            <div className="relative min-w-0">
                                 <input 
                                     placeholder="Numéro de chambre *" 
                                     value={formData.roomNumber}
                                     onChange={(e) => setFormData({...formData, roomNumber: e.target.value})}
-                                    className="p-3 border rounded-lg w-full" 
+                                    className="p-3 border rounded-lg w-full min-w-0" 
                                     style={{borderColor: '#7D3837'}} 
                                 />
                                 {availableRooms.length > 0 && formData.roomNumber && (
@@ -606,38 +608,38 @@ export default function OptimizedReservationPage() {
                                             <div
                                                 key={room.id}
                                                 onClick={() => setFormData({...formData, roomNumber: room.number, totalPrice: room.price})}
-                                                className="p-3 hover:bg-yellow-50 cursor-pointer border-b border-slate-100 flex justify-between"
+                                                className="p-3 hover:bg-yellow-50 cursor-pointer border-b border-slate-100 flex flex-col sm:flex-row sm:justify-between gap-1"
                                             >
-                                                <span>Chambre {room.number} ({room.category})</span>
-                                                <span className="font-medium">{room.price} FCFA</span>
+                                                <span className="text-sm">Chambre {room.number} ({room.category})</span>
+                                                <span className="font-medium text-sm">{room.price} FCFA</span>
                                             </div>
                                         ))}
                                     </div>
                                 )}
                             </div>
-                            <div className="relative">
+                            <div className="relative min-w-0">
                                 <input 
                                     type="date" 
                                     value={formData.checkIn}
                                     min={new Date().toISOString().split('T')[0]}
                                     onChange={(e) => setFormData({...formData, checkIn: e.target.value})}
-                                    className="p-3 border rounded-lg w-full" 
+                                    className="p-3 border rounded-lg w-full min-w-0" 
                                     style={{borderColor: '#7D3837'}} 
                                 />
-                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date d'arrivée *</label>
+                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs whitespace-nowrap" style={{color: '#7D3837'}}>Date d'arrivée *</label>
                             </div>
-                            <div className="relative">
+                            <div className="relative min-w-0">
                                 <input 
                                     type="date" 
                                     value={formData.checkOut}
                                     min={formData.checkIn || new Date().toISOString().split('T')[0]}
                                     onChange={(e) => setFormData({...formData, checkOut: e.target.value})}
-                                    className="p-3 border rounded-lg w-full" 
+                                    className="p-3 border rounded-lg w-full min-w-0" 
                                     style={{borderColor: '#7D3837'}} 
                                 />
-                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs" style={{color: '#7D3837'}}>Date de départ</label>
+                                <label className="absolute -top-2 left-3 bg-yellow-50 px-1 text-xs whitespace-nowrap" style={{color: '#7D3837'}}>Date de départ</label>
                             </div>
-                            <div className="relative">
+                            <div className="relative min-w-0">
                                 <input 
                                     type="number"
                                     placeholder="Prix total (FCFA)" 
@@ -646,11 +648,11 @@ export default function OptimizedReservationPage() {
                                         const value = e.target.value.replace(/[^0-9]/g, '');
                                         setFormData({...formData, totalPrice: value});
                                     }}
-                                    className="p-3 border rounded-lg w-full" 
+                                    className="p-3 border rounded-lg w-full min-w-0" 
                                     style={{borderColor: '#7D3837'}} 
                                 />
                                 {formData.roomNumber && formData.checkIn && formData.checkOut && (
-                                    <div className="absolute -top-2 right-3 bg-yellow-50 px-2 py-1 text-xs rounded" style={{color: '#7D3837'}}>
+                                    <div className="absolute -top-2 right-3 bg-yellow-50 px-2 py-1 text-xs rounded whitespace-nowrap" style={{color: '#7D3837'}}>
                                         {Math.ceil((new Date(formData.checkOut).getTime() - new Date(formData.checkIn).getTime()) / (1000 * 60 * 60 * 24))} nuit(s)
                                     </div>
                                 )}
@@ -682,35 +684,40 @@ export default function OptimizedReservationPage() {
             
             <div className="bg-white rounded-xl shadow-sm border border-slate-200">
                 <div className="p-4 sm:p-6 border-b border-slate-200">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <h2 className="text-lg sm:text-xl font-semibold text-slate-800">Liste des Réservations</h2>
-                        <div className="flex items-center gap-3">
-                            <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full">
-                                {filteredReservations.length} réservation(s)
-                                {periodFilter !== 'all' && (
-                                    <span className="ml-1 text-slate-500">(
-                                        {periodFilter === 'today' ? "aujourd'hui" :
-                                         periodFilter === 'week' ? 'cette semaine' :
-                                         periodFilter === 'month' ? 'ce mois' : ''}
-                                    )</span>
-                                )}
-                            </span>
-                            {isSyncing && (
-                                <div className="flex items-center gap-2 text-xs text-slate-600">
-                                    <div className="animate-spin rounded-full h-3 w-3 border border-slate-400 border-t-transparent"></div>
-                                    <span>Synchronisation...</span>
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <h2 className="text-lg sm:text-xl font-semibold text-slate-800">Liste des Réservations</h2>
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                                <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full whitespace-nowrap">
+                                    {filteredReservations.length} réservation(s)
+                                    {periodFilter !== 'all' && (
+                                        <span className="ml-1 text-slate-500">(
+                                            {periodFilter === 'today' ? "aujourd'hui" :
+                                             periodFilter === 'week' ? 'cette semaine' :
+                                             periodFilter === 'month' ? 'ce mois' : ''}
+                                        )</span>
+                                    )}
+                                </span>
+                                <div className="flex items-center gap-3">
+                                    {isSyncing && (
+                                        <div className="flex items-center gap-2 text-xs text-slate-600 whitespace-nowrap">
+                                            <div className="animate-spin rounded-full h-3 w-3 border border-slate-400 border-t-transparent"></div>
+                                            <span className="hidden sm:inline">Synchronisation...</span>
+                                            <span className="sm:hidden">Sync...</span>
+                                        </div>
+                                    )}
+                                    <button 
+                                        onClick={() => {
+                                            setDataCache({});
+                                            loadData();
+                                        }}
+                                        disabled={isSyncing}
+                                        className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors disabled:opacity-50 whitespace-nowrap"
+                                    >
+                                        Actualiser
+                                    </button>
                                 </div>
-                            )}
-                            <button 
-                                onClick={() => {
-                                    setDataCache({});
-                                    loadData();
-                                }}
-                                disabled={isSyncing}
-                                className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors disabled:opacity-50"
-                            >
-                                Actualiser
-                            </button>
+                            </div>
                         </div>
                     </div>
                 </div>
