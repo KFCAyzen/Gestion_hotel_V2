@@ -9,6 +9,8 @@ import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "./LoadingSpinner";
 import { useOfflineMode } from "../hooks/useOfflineMode";
 import { printInvoice } from "../utils/printInvoice";
+import { usePagination } from "../hooks/usePagination";
+import { DataOptimizer } from "../utils/dataOptimizer";
 
 interface Reservation {
     id: string;
@@ -193,17 +195,24 @@ export default function OptimizedReservationPage() {
         }
     }, [reservations, periodFilter]);
 
-    // Filtrage par recherche (nom, ID, chambre)
+    // Filtrage par recherche optimisé
     const filteredReservations = useMemo(() => {
-        if (!searchTerm.trim()) return periodFilteredReservations;
-        
-        const term = searchTerm.toLowerCase();
-        return periodFilteredReservations.filter(reservation => 
-            reservation.clientName.toLowerCase().includes(term) ||
-            reservation.id.toLowerCase().includes(term) ||
-            reservation.roomNumber.toLowerCase().includes(term)
+        const limitedData = DataOptimizer.limitData(periodFilteredReservations);
+        return DataOptimizer.searchOptimized(
+            limitedData,
+            searchTerm,
+            ['clientName', 'id', 'roomNumber']
         );
     }, [periodFilteredReservations, searchTerm]);
+
+    // Pagination
+    const {
+        currentPage,
+        setCurrentPage,
+        paginatedData: paginatedReservations,
+        totalPages,
+        totalItems
+    } = usePagination({ data: filteredReservations, itemsPerPage: 10 });
 
     useEffect(() => {
         loadData();
@@ -690,7 +699,7 @@ export default function OptimizedReservationPage() {
                             <h2 className="text-lg sm:text-xl font-semibold text-slate-800">Liste des Réservations</h2>
                             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                                 <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full whitespace-nowrap">
-                                    {filteredReservations.length} réservation(s)
+                                    {totalItems} réservation(s) {totalPages > 1 && `(page ${currentPage}/${totalPages})`}
                                     {periodFilter !== 'all' && (
                                         <span className="ml-1 text-slate-500">(
                                             {periodFilter === 'today' ? "aujourd'hui" :
@@ -724,7 +733,30 @@ export default function OptimizedReservationPage() {
                 </div>
                 
                 <div className="p-4 sm:p-6">
-                    {filteredReservations.length === 0 ? (
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="flex justify-center items-center gap-2 mb-4 pb-4 border-b">
+                            <button
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="px-3 py-1 text-sm border rounded disabled:opacity-50"
+                            >
+                                Précédent
+                            </button>
+                            <span className="text-sm text-slate-600">
+                                {currentPage} / {totalPages}
+                            </span>
+                            <button
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="px-3 py-1 text-sm border rounded disabled:opacity-50"
+                            >
+                                Suivant
+                            </button>
+                        </div>
+                    )}
+                    
+                    {paginatedReservations.length === 0 ? (
                         <div className="text-center py-8 sm:py-12">
                             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <svg className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -735,7 +767,7 @@ export default function OptimizedReservationPage() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                            {filteredReservations.map((reservation, index) => (
+                            {paginatedReservations.map((reservation, index) => (
                                 <div key={`${reservation.id}-${index}`} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-6 rounded-xl border border-slate-200 hover:shadow-lg transition-all">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center" style={{backgroundColor: '#fff590'}}>

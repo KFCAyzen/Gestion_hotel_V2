@@ -7,6 +7,8 @@ import { formatPrice } from "../utils/formatPrice";
 import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "./LoadingSpinner";
+import { usePagination } from "../hooks/usePagination";
+import { DataOptimizer } from "../utils/dataOptimizer";
 
 interface Bill {
     id: string;
@@ -122,17 +124,24 @@ export default function OptimizedBillingPage() {
         });
     }, [bills, periodFilter]);
 
-    // Filtrage par recherche (nom, ID, chambre)
+    // Filtrage par recherche optimisé
     const filteredBills = useMemo(() => {
-        if (!searchTerm.trim()) return periodFilteredBills;
-        
-        const term = searchTerm.toLowerCase();
-        return periodFilteredBills.filter(bill => 
-            bill.receivedFrom.toLowerCase().includes(term) ||
-            bill.id.toLowerCase().includes(term) ||
-            bill.roomNumber.toLowerCase().includes(term)
+        const limitedData = DataOptimizer.limitData(periodFilteredBills);
+        return DataOptimizer.searchOptimized(
+            limitedData,
+            searchTerm,
+            ['receivedFrom', 'id', 'roomNumber']
         );
     }, [periodFilteredBills, searchTerm]);
+
+    // Pagination
+    const {
+        currentPage,
+        setCurrentPage,
+        paginatedData: paginatedBills,
+        totalPages,
+        totalItems
+    } = usePagination({ data: filteredBills, itemsPerPage: 12 });
 
     useEffect(() => {
         loadBills();
@@ -498,7 +507,7 @@ export default function OptimizedBillingPage() {
                         <h2 className="text-lg sm:text-xl font-semibold text-slate-800">Liste des Reçus</h2>
                         <div className="flex items-center gap-3">
                             <span className="text-xs sm:text-sm text-slate-600 bg-slate-100 px-2 sm:px-3 py-1 rounded-full">
-                                {filteredBills.length} reçu(s)
+                                {totalItems} reçu(s) {totalPages > 1 && `(page ${currentPage}/${totalPages})`}
                                 {periodFilter !== 'all' && (
                                     <span className="ml-1 text-slate-500">(
                                         {periodFilter === 'today' ? "aujourd'hui" :
@@ -521,7 +530,30 @@ export default function OptimizedBillingPage() {
                 </div>
                 
                 <div className="p-4 sm:p-6">
-                    {filteredBills.length === 0 ? (
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="flex justify-center items-center gap-2 mb-4 pb-4 border-b">
+                            <button
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                className="px-3 py-1 text-sm border rounded disabled:opacity-50"
+                            >
+                                Précédent
+                            </button>
+                            <span className="text-sm text-slate-600">
+                                {currentPage} / {totalPages}
+                            </span>
+                            <button
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                className="px-3 py-1 text-sm border rounded disabled:opacity-50"
+                            >
+                                Suivant
+                            </button>
+                        </div>
+                    )}
+                    
+                    {paginatedBills.length === 0 ? (
                         <div className="text-center py-8 sm:py-12">
                             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <svg className="w-6 h-6 sm:w-8 sm:h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -532,7 +564,7 @@ export default function OptimizedBillingPage() {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-                            {filteredBills.map((bill, index) => (
+                            {paginatedBills.map((bill, index) => (
                                 <div key={`${bill.id}-${index}`} className="bg-gradient-to-br from-white to-slate-50 p-4 sm:p-5 rounded-xl border border-slate-200 hover:shadow-lg transition-all">
                                     <div className="flex items-start justify-between mb-4">
                                         <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
