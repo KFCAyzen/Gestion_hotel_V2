@@ -13,8 +13,27 @@ interface Client {
     name: string;
     phone: string;
     email: string;
-    address: string;
-    nationality: string;
+    address?: string;
+    nationality?: string;
+    occupation?: string;
+    birthPlace?: string;
+    residenceCountry?: string;
+    idNumber?: string;
+    idIssueDate?: string;
+    idIssuePlace?: string;
+    idExpiryDate?: string;
+    arrivalMode?: string;
+    arrivalDate?: string;
+    plateNumber?: string;
+    departureMode?: string;
+    departureDate?: string;
+    gender?: string;
+    comingFrom?: string;
+    goingTo?: string;
+    stayType?: string;
+    mealPlan?: string;
+    price?: string;
+    signature?: string;
     createdAt?: number;
 }
 
