@@ -8,7 +8,7 @@ import { useActivityLog } from "../context/ActivityLogContext";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "./LoadingSpinner";
 import { useOfflineMode } from "../hooks/useOfflineMode";
-import { printInvoice } from "../utils/printInvoice";
+import { printReservation } from "../utils/printReservation";
 import { usePagination } from "../hooks/usePagination";
 import { DataOptimizer } from "../utils/dataOptimizer";
 
@@ -785,9 +785,9 @@ export default function OptimizedReservationPage() {
                                     {/* Boutons d'action */}
                                     <div className="flex gap-2 mb-3">
                                         <button
-                                            onClick={() => printInvoice(reservation)}
+                                            onClick={() => printReservation(reservation)}
                                             className="px-3 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded text-xs transition-colors"
-                                            title="Imprimer la facture"
+                                            title="Imprimer la fiche de réservation"
                                         >
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />

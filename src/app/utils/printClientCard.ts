@@ -59,8 +59,7 @@ export const printClientCard = (client: ClientData) => {
         </head>
         <body>
             <div class="header">
-                <div class="hotel-name">HÔTEL GESTION</div>
-                <div>Système de Gestion Hôtelière</div>
+                <div class="hotel-name">PAULINA HÔTEL</div>
                 <div class="card-title">FICHE CLIENT</div>
             </div>
 
@@ -78,60 +77,53 @@ export const printClientCard = (client: ClientData) => {
                     </div>
                 </div>
 
-                ${client.address || client.birthPlace || client.residenceCountry ? `
                 <div class="section">
                     <div class="section-title">Adresses et Lieux</div>
                     <div class="info-grid">
-                        ${client.address ? `<div class="info-row"><span class="label">Adresse:</span> <span class="value">${client.address}</span></div>` : ''}
-                        ${client.birthPlace ? `<div class="info-row"><span class="label">Lieu de naissance:</span> <span class="value">${client.birthPlace}</span></div>` : ''}
-                        ${client.residenceCountry ? `<div class="info-row"><span class="label">Pays de résidence:</span> <span class="value">${client.residenceCountry}</span></div>` : ''}
+                        <div class="info-row"><span class="label">Adresse:</span> <span class="value">${client.address || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Lieu de naissance:</span> <span class="value">${client.birthPlace || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Pays de résidence:</span> <span class="value">${client.residenceCountry || 'Non renseigné'}</span></div>
                     </div>
                 </div>
-                ` : ''}
 
-                ${client.idNumber || client.idIssueDate || client.idIssuePlace || client.idExpiryDate ? `
                 <div class="section">
                     <div class="section-title">Pièce d'Identification</div>
                     <div class="info-grid">
-                        ${client.idNumber ? `<div class="info-row"><span class="label">Numéro:</span> <span class="value">${client.idNumber}</span></div>` : ''}
-                        ${client.idIssueDate ? `<div class="info-row"><span class="label">Date de délivrance:</span> <span class="value">${new Date(client.idIssueDate).toLocaleDateString('fr-FR')}</span></div>` : ''}
-                        ${client.idIssuePlace ? `<div class="info-row"><span class="label">Lieu de délivrance:</span> <span class="value">${client.idIssuePlace}</span></div>` : ''}
-                        ${client.idExpiryDate ? `<div class="info-row"><span class="label">Date d'expiration:</span> <span class="value">${new Date(client.idExpiryDate).toLocaleDateString('fr-FR')}</span></div>` : ''}
+                        <div class="info-row"><span class="label">Numéro:</span> <span class="value">${client.idNumber || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Date de délivrance:</span> <span class="value">${client.idIssueDate ? new Date(client.idIssueDate).toLocaleDateString('fr-FR') : 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Lieu de délivrance:</span> <span class="value">${client.idIssuePlace || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Date d'expiration:</span> <span class="value">${client.idExpiryDate ? new Date(client.idExpiryDate).toLocaleDateString('fr-FR') : 'Non renseigné'}</span></div>
                     </div>
                 </div>
-                ` : ''}
 
-                ${client.arrivalMode || client.arrivalDate || client.departureMode || client.departureDate || client.plateNumber || client.comingFrom || client.goingTo ? `
                 <div class="section">
                     <div class="section-title">Transport et Déplacement</div>
                     <div class="info-grid">
-                        ${client.arrivalMode ? `<div class="info-row"><span class="label">Mode d'arrivée:</span> <span class="value">${client.arrivalMode}</span></div>` : ''}
-                        ${client.arrivalDate ? `<div class="info-row"><span class="label">Date d'arrivée:</span> <span class="value">${new Date(client.arrivalDate).toLocaleDateString('fr-FR')}</span></div>` : ''}
-                        ${client.plateNumber ? `<div class="info-row"><span class="label">Plaque d'immatriculation:</span> <span class="value">${client.plateNumber}</span></div>` : ''}
-                        ${client.departureMode ? `<div class="info-row"><span class="label">Mode de départ:</span> <span class="value">${client.departureMode}</span></div>` : ''}
-                        ${client.departureDate ? `<div class="info-row"><span class="label">Date de départ:</span> <span class="value">${new Date(client.departureDate).toLocaleDateString('fr-FR')}</span></div>` : ''}
-                        ${client.comingFrom ? `<div class="info-row"><span class="label">Venant de:</span> <span class="value">${client.comingFrom}</span></div>` : ''}
-                        ${client.goingTo ? `<div class="info-row"><span class="label">Allant à:</span> <span class="value">${client.goingTo}</span></div>` : ''}
+                        <div class="info-row"><span class="label">Mode d'arrivée:</span> <span class="value">${client.arrivalMode || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Date d'arrivée:</span> <span class="value">${client.arrivalDate ? new Date(client.arrivalDate).toLocaleDateString('fr-FR') : 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Plaque d'immatriculation:</span> <span class="value">${client.plateNumber || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Mode de départ:</span> <span class="value">${client.departureMode || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Date de départ:</span> <span class="value">${client.departureDate ? new Date(client.departureDate).toLocaleDateString('fr-FR') : 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Venant de:</span> <span class="value">${client.comingFrom || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Allant à:</span> <span class="value">${client.goingTo || 'Non renseigné'}</span></div>
                     </div>
                 </div>
-                ` : ''}
 
-                ${client.stayType || client.mealPlan || client.price || client.signature ? `
                 <div class="section">
                     <div class="section-title">Séjour et Tarification</div>
                     <div class="info-grid">
-                        ${client.stayType ? `<div class="info-row"><span class="label">Type de séjour:</span> <span class="value">${client.stayType}</span></div>` : ''}
-                        ${client.mealPlan ? `<div class="info-row"><span class="label">Étage:</span> <span class="value">${client.mealPlan}</span></div>` : ''}
-                        ${client.price ? `<div class="info-row"><span class="label">Prix:</span> <span class="value">${parseInt(client.price).toLocaleString('fr-FR')} FCFA</span></div>` : ''}
-                        ${client.signature ? `<div class="info-row"><span class="label">Signature:</span> <span class="value">${client.signature}</span></div>` : ''}
+                        <div class="info-row"><span class="label">Type de séjour:</span> <span class="value">${client.stayType || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Étage:</span> <span class="value">${client.mealPlan || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Prix:</span> <span class="value">${client.price ? parseInt(client.price).toLocaleString('fr-FR') + ' FCFA' : 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Signature:</span> <span class="value">${client.signature || 'Non renseigné'}</span></div>
+                        <div class="info-row"><span class="label">Occupation:</span> <span class="value">${client.occupation || 'Non renseigné'}</span></div>
                     </div>
                 </div>
-                ` : ''}
             </div>
 
             <div class="footer">
                 <p>Fiche client générée automatiquement le ${currentDate}</p>
-                <p>HÔTEL GESTION - Système de Gestion Hôtelière</p>
+                <p>PAULINA HÔTEL</p>
             </div>
 
             <div class="no-print" style="margin-top: 30px; text-align: center;">
